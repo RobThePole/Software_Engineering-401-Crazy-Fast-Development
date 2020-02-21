@@ -87,9 +87,7 @@ function Uml(canvas) {
 	this.canvasHeight = canvas.height;
 
     this.labels = [];
-    this.vertices = [];
-    this.edges = [];
-	this.loops = [];
+    
 	this.controlPoints = [];
 	
 	this.config = new UmlConfiguration(canvas);
@@ -126,19 +124,6 @@ uml.constructFromJSON = function(uml, canvas){
 				return new Vertex.constructFromJSON(me, vertex); 
 			} 
 	);
-	
-    this.edges = uml.edges.map( 
-			function(edge) { 
-				return new Edge.constructFromJSON(me, edge); 
-			} 
-	);
-	
-    this.loops = uml.loops.map( 
-			function(loop) { 
-				return new Loop.constructFromJSON(me, loop); 
-			} 
-	);
-	
 	
 	
 }
@@ -196,34 +181,6 @@ uml.prototype.createVertex = function (x, y) {
     this.vertices.push(vertex);
 	return vertex;
 };
-
-/**
- * Create an Edge in this uml.
- * @method createEdge
- * @memberof uml.prototype
- * @param {!Vertex} p
- * @param {!Vertex} q
- * @return {Edge}
- */
-uml.prototype.createEdge = function (p, q) {
-	var edge = new Edge(this, p, q);
-    this.edges.push(edge);
-	return edge;
-};
-
-/**
- * Create a Loop in this uml.
- * @method createLoop
- * @memberof uml.prototype
- * @param {Vertex} v
- * @return {Loop}
- */
-uml.prototype.createLoop = function (v) {
-	var loop = new Loop(this, v);
-    this.loops.push(loop);
-	return loop;
-};
-
 /**
  * Create a ControlPoint in this uml.
  * @method createControlPoint
@@ -254,34 +211,6 @@ uml.prototype.removeVertexFromuml = function(vertex){
         this.vertices.splice(i, 1);
     }
 	
-};
-
-/**
- * Remove an Edge from this uml.
- * @method removeEdgeFromuml
- * @memberof uml.prototype
- * @param {!Edge} edge
- */
-uml.prototype.removeEdgeFromuml = function(edge){
-    var i = this.edges.indexOf(edge);
-
-    if (i >= 0) {
-        this.edges.splice(i, 1);
-    }
-};
-
-/**
- * Remove a Loop from this uml. 
- * @method removeLoopFromuml
- * @memberof uml.prototype
- * @param {!Loop} loop
- */
-uml.prototype.removeLoopFromuml = function(loop){
-    var i = this.loops.indexOf(loop);
-
-    if (i >= 0) {
-        this.loops.splice(i, 1);
-    }
 };
 	
 /**
@@ -337,28 +266,6 @@ uml.prototype.getVertexByIndex = function (index) {
 };
 
 /**
- * Get an Edge by its index in this uml.  Used when processing JSON.
- * @method getEdgeByIndex
- * @memberof uml.prototype
- * @param {int} index
- * @return {Edge}
- */
-uml.prototype.getEdgeByIndex = function (index) {
-    return this.edges[index];
-};
-
-/**
- * Get a Loop by its index in this uml.  Used when processing JSON.
- * @method getLoopByIndex
- * @memberof uml.prototype
- * @param {int} index
- * @return {Loop}
- */
-uml.prototype.getLoopByIndex = function (index) {
-    return this.loops[index];
-};
-
-/**
  * Get a ControlPoint by its index in this uml.  Used when processing JSON.
  * @method getControlPointByIndex
  * @memberof uml.prototype
@@ -378,28 +285,6 @@ uml.prototype.getControlPointByIndex = function (index) {
  */
 uml.prototype.getVertexIndex = function(vertex) {
 	return this.vertices.indexOf(vertex);
-}
-
-/**
- * Get the index of an Edge in this uml.  Used when creating JSON data.
- * @method getEdgeIndex
- * @memberof uml.prototype
- * @param {!Edge} edge
- * @return {int}
- */
-uml.prototype.getEdgeIndex = function(edge) {
-	return this.edges.indexOf(edge);
-}
-
-/**
- * Get the index of a Loop in this uml.  Used when creating JSON data.
- * @method getLoopIndex
- * @memberof uml.prototype
- * @param {!Loop} loop
- * @return {int}
- */
-uml.prototype.getLoopIndex = function(loop) {
-	return this.loops.indexOf(loop);
 }
 
 /**
@@ -444,25 +329,6 @@ uml.prototype.getLabelSetSize = function () {
     return this.labels.length;
 };
 
-/**
- * Get the number of Loop objects in this uml.
- * @method getLoopSetSize
- * @memberof uml.prototype
- * @return {int}
- */
-uml.prototype.getLoopSetSize = function () {
-    return this.edges.length;
-};
-
-/**
- * Get the number of Edge objects in this uml.
- * @method getEdgeSetSize
- * @memberof uml.prototype
- * @return {int}
- */
-uml.prototype.getEdgeSetSize = function () {
-    return this.edges.length;
-};
 
 /**
  * Get the number of ControlPoint objects in this uml.
@@ -507,39 +373,6 @@ uml.prototype.getVertexIterator = function(){
 	return result;
 }
 
-/**
- * Description
- * @method getEdgeLoopIterator
- * @memberof uml.prototype
- * @return {Iterator}
- */
-uml.prototype.getEdgeLoopIterator = function(){
-	var temp = [];
-	temp = temp.concat(this.edges).concat(this.loops);
-	console.log('temp size is ' + temp.length);
-	var result = 
-		(function(vList){
-			var list=vList, i=0, n = vList.length;
-			return {
-				/*
-				 * Description
-				 * @method more
-				 * @return BinaryExpression
-				 */
-				more : function(){ return i < n ;},
-				/*
-				 * Description
-				 * @method next
-				 * @return MemberExpression
-				 */
-				next : function(){ return list[i++]; }
-			};
-	
-		}(temp));
-	return result;
-}
-
-
 
 /**
  * Draw this uml.
@@ -551,15 +384,6 @@ uml.prototype.getEdgeLoopIterator = function(){
 uml.prototype.newDraw = function (context, selection, showCP) {
 	var i, n;
 	
-	n = this.edges.length;
-	for (i=0; i<n; i++){
-		this.edges[i].drawHighlight(context);
-	}
-	
-	n = this.loops.length;
-	for (i=0; i<n; i++){n
-		this.loops[i].drawHighlight(context);
-	}
 	
 	n = this.vertices.length;
 	for (i=0; i<n; i++){
@@ -576,15 +400,6 @@ uml.prototype.newDraw = function (context, selection, showCP) {
 		selection.drawSelect(context);
 	}
 	
-	n = this.edges.length;
-	for (i=0; i<n; i++){
-		this.edges[i].draw(context);
-	}
-	
-	n = this.loops.length;
-	for (i=0; i<n; i++){
-		this.loops[i].draw(context);
-	}
 	
 	n = this.vertices.length;
 	for (i=0; i<n; i++){
@@ -622,46 +437,6 @@ uml.prototype.hitVertex = function (x, y) {
 		}
 	}
 	
-	return null;
-};
-
-/**
- * Test for a hit on an Edge.
- * @method hitEdge
- * @memberof uml.prototype
- * @param {int} x
- * @param {int} y
- * @return {Edge}
- */
-uml.prototype.hitEdge = function (x, y) {
-	var i;
-	
-	for (i=0; i< this.edges.length; i++){
-		if (this.edges[i].hit(x, y)) {
-			return this.edges[i];
-		}
-	}
-
-	return null;
-};
-
-/**
- * Test for a hit on a loop.
- * @memberof uml.prototype
- * @method hitLoop
- * @param {int} x
- * @param {int} y
- * @return {Loop}
- */
-uml.prototype.hitLoop = function (x, y) {
-	var i;
-	
-	for (i=0; i< this.loops.length; i++){
-		if (this.loops[i].hit(x, y)) {
-			return this.loops[i];
-		}
-	}
-
 	return null;
 };
 
@@ -722,14 +497,10 @@ uml.prototype.hit = function(){
 		return 	  this.hitLabel(x,y) 
 				||this.hitControlPoint(x,y) 
 				||this.hitVertex(x,y) 
-				||this.hitEdge(x,y) 
-				||this.hitLoop(x,y)
 	}
 	
 	return 	  this.hitLabel(x,y) 
 			||this.hitVertex(x,y) 
-			||this.hitEdge(x,y) 
-			||this.hitLoop(x,y)
 	;
 };
 
