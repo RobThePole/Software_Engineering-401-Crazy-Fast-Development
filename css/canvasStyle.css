@@ -1,0 +1,407 @@
+/*
+ * style for main title bar
+ *
+ */
+
+ .main-title-bar {
+	/*display: inline-block;*/
+	margin: 0px;
+	padding: 6px;
+	background-color: #428bca;
+}
+
+.main-title-bar h1 {
+	margin : 0px;
+	padding: 0px;
+    font-size: 24px;
+	color: #ffffff;
+}
+
+/*
+ * style for main menu bar. 
+ *
+ * Menu content should be enclosed in div of class menu-toolbar
+ * (menu-toolbar allows vertical alignment between content of the main menu bar)
+ *
+ * This should appear right below the title bar
+ *
+ * a main-secondary-menu floats to the right within the main menu bar
+ *
+ */
+ 
+.main-menu-bar {
+	/*display: inline-block;*/
+	margin: 0;
+	padding: 10px;
+	background-color: #ffffff;
+	border-bottom: solid 1px #428bca;
+}
+
+.main-secondary-menu {
+    float: right;
+}
+
+.menu-toolbar {
+	display: inline-block;
+}
+
+.primary-button.radio-active {
+	border:1px solid black;
+}
+
+.sub-menu-toolbar{
+	display: inline-block;
+	position: relative;
+}
+
+span.button-file {
+    overflow: hidden;
+	/*
+    position: relative;
+	display: inline-block;
+	*/
+	/*
+	padding: .4em 1em;
+	top: 15px;
+	margin-top: -15px;
+	*/
+}
+
+.button-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 999px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+
+}
+
+.option-menu-bar {
+	position: relative;
+	top: 0px;
+	left: 0px;
+	padding-top: 20px;
+}
+
+.menu-bar-container {
+	position: relative;
+}
+
+.option-group{
+	padding-left: .5em;
+	padding-right: .5em;
+}
+
+.toolbar-overlay{
+	display: none;
+	width: 100%;
+	position: absolute;
+	left: 0px;
+	top: 0px;
+}
+
+
+.center-content{
+	text-align: center;
+}
+
+.center-float {
+	position: relative;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+.left-align{
+	/* display: none;*/
+	position: absolute;
+	left: 0px;
+	top: 0px;
+}
+
+.right-align{
+	/* display: none; */
+	position: absolute;
+	right: 0px;
+	top: 0px;
+	padding-right: 20px;
+}
+
+.my-ui-label {
+	margin-right: .2em;
+}
+
+span.my-ui-label span.ui-button-text{
+	padding: .4em;
+	padding-bottom: .2em;
+}
+
+/*
+label.color-button{
+	border-radius: 4px;
+}
+*/
+
+/*
+.color-button span{
+	display: inline-block;  
+	width: 1.2em; 
+	margin-left: 1x;
+	margin-right: 1px;
+}
+*/
+
+.color-button{
+	padding-left:0; 
+	padding-right:0;
+}
+
+.color-button div.color-block{
+	text-align: center;
+	display: block;  
+	width: 1.2em; 
+	margin: 0px;
+	padding: 0px;
+}
+
+
+label.color-button span.ui-button-text{
+	padding: .4em;
+	margin: 0px;
+}
+
+input[type='radio'] + label.ui-button{
+	margin-left: 1.3px;
+}
+
+label.ui-state-focus div.color-block{
+	text-decoration: underline;
+}
+
+
+/*
+input[type='radio']  +label  span.color-block{
+	padding-bottom: 0px;
+}
+*/
+
+input[type='text']{
+	font-size: 1.1em;
+	position: relative;
+	top: .2em;
+	left: 0px;
+}
+
+.canvas-div {
+	margin-top: 30px;
+	position: static;
+    margin-left: auto;
+    margin-right: auto;
+    overflow: hidden;
+}
+
+canvas  {
+    /*display: inline-block;*/
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    border-width: 3px;
+    border-style: groove;
+    /*background: #F2F2F2;*/
+    background: #FFFFFF;
+}
+
+.color-black{
+	background-color: #000000;
+}
+
+.color-red{
+	background-color: #ff0000;
+}
+
+.color-green{
+	background-color: #00ff00;
+}
+
+.color-yellow{
+	background-color: #ffff00;
+}
+
+.color-blue{
+	background-color: #0000ff;
+}
+
+.color-magenta{
+	background-color: #ff00ff;
+}
+
+.color-cyan{
+	background-color: #00ffff;
+}
+
+.color-white{
+	background-color: #ffffff;
+}
+
+.color-gray{
+	background-color: #888888;
+}
+
+.color-highlight-white {
+    background-color: #FFFFFF;
+}
+
+.color-highlight-clear {
+    background-color: transparent;
+}
+
+
+.color-highlight-blue {
+    background-color: #96E6FA;
+}
+
+.color-highlight-yellow {
+	background-color: #FFFF0D;
+}
+
+.color-highlight-green {
+    background-color: #5cb85c;
+	/*background-color: #D0FA5A;*/
+}
+
+.color-highlight-orange {
+   /*  background-color: #f0ad4e; */
+   background-color: #FF8C50
+}
+
+.color-highlight-pink {
+	background-color: #FF96DC;
+}
+
+body {
+    background: #FFFFFF;
+	margin: 0px;
+}
+
+
+/*
+#color-toolbar {
+	display: none;
+    position: relative;
+	float: right;
+    top: -5px;
+    right: 40%;
+    text-align: center;
+}
+*/
+
+#defaultMenu {
+	display: inline-block;
+}
+
+#defaultMenu .btn:focus {
+    outline: 0;
+}
+
+
+.color-swatch {
+    width: 35px;
+    height: 35px;
+}
+
+.color-swatch:focus {
+    background-color: #FFFFFF;
+}
+
+#clear:focus{
+    /*background: transparent;*/
+    
+}
+
+#color-toolbar{
+	text-align: center;
+}
+
+#color-swatch-blue {
+    /*background-color: #428bca;*/
+    background-color: #96E6FA;
+    /*background-color: #009999;*/
+}
+
+#color-swatch-red {
+    background-color: #d9534f;
+}
+#color-swatch-yellow {
+	background-color: #FFFF0D;
+}
+
+#color-swatch-green {
+    background-color: #5cb85c;
+	/*background-color: #D0FA5A;*/
+}
+
+#color-swatch-orange {
+   /*  background-color: #f0ad4e; */
+   background-color: #FF8C50
+}
+
+#color-swatch-pink {
+	background-color: #FF96DC;
+}
+
+#color-swatch-black {
+    background-color: #000000;
+}
+
+/*
+#showCPOption {
+	top: -5px;
+    left: 20px;
+}
+*/
+
+.context-menu {
+    display: none;
+    z-index:1000;
+    position: absolute;
+    background-color:#EEE;
+    border: 1px solid #888;
+    overflow: hidden;
+    width: 120px;
+    white-space:nowrap;
+    font-family: sans-serif;
+}
+
+.contextMenu li {
+    padding: 5px;
+}
+
+.contextMenu li:hover {
+    background-color: #DDD;
+    cursor: pointer;
+}
+
+/*
+.button-file:hover{
+	border: 1px solid #fbcb09;
+	background: #fdf5ce url("images/ui-bg_glass_100_fdf5ce_1x400.png") 50% 50% repeat-x;
+	font-weight: bold;
+	color: #c77405;
+
+}
+
+.button-file:active{
+	border: 1px solid #fbd850;
+	background: #ffffff url("images/ui-bg_glass_65_ffffff_1x400.png") 50% 50% repeat-x;
+	font-weight: bold;
+	color: #eb8f00;
+
+}
+*/
