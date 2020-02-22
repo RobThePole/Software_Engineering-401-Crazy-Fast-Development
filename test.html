@@ -15,6 +15,7 @@
 
 
 
+
 	
 	<style type="text/css">
 	
@@ -32,6 +33,14 @@
 button {
   padding: 10px 20px;
 }
+body,textarea
+{
+	font-size: 25px;
+}
+textarea
+{
+	width: 100%;
+}
 
 	</style>
 	
@@ -47,14 +56,23 @@ button {
 	<button id="addmore" class="btn btn-info">Add more shapes</button><br>
 	<button id="discard" class="btn btn-info">Discard selection</button><br>
 	<button id="save" class="btn btn-info">Save</button><br>
-	<button id="load" class="btn btn-info">Load</button><br>
 	<button id="newProject" class="btn btn-info">New</button><br>
 
-
+		<form>
+		<input type = "file" id = "fileInputControl" accept = "text/plain" />
+	</form>
 	</div>
 	<canvas id="c" width="450" height="400"></canvas>
 		
 	<script src="test.js"></script>
+
+	
+	<script src="http://cdn.jsdelivr.net/g/filesaver.js"></script>
+<script>
+      
+</script>
+
+
 
 		
 	</body>
