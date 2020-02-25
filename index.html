@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="External CSS/bootstrap-min.css">
+    <!--Custom CSS-->
+    <link rel="stylesheet" href="style.css">
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/3.6.2/fabric.min.js"></script>
+
+    <title>UMLset</title>
+
+</head>
+<body>
+    <!--Navigation Bar-->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light"
+    style="background-color: #e3f2fd;border-bottom: 1px solid #dadce0;">
+    <a class="navbar-brand" href="#"><img src="images/UMLlogo.png" alt="" height="60" width="100"></a>
+    <a class="navbar-brand" href="#">UML Editor</a>
+	<!-- Dropdown nav bar menu --> 
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto pl-5">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="FilenavbarDropdown" role="button"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                File
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <div class="dropdown-divider"></div>
+                <button id="newProject" class="dropdown-item">New</button><br>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Save As</a>
+                <button id="save" class="dropdown-item">Save</button><br>
+                <form>
+                    <input type = "file" id = "fileInputControl" accept = "text/plain" />
+                </form>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Close</a>
+            </div>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="EditnavbarDropdown" role="button"
+            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Edit
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">Find</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">Edit Data
+                <else></else>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">Select All</a>
+        </div>
+    </li>
+</ul>
+</div>
+</nav>
+<!--Navigation Bar END-->
+
+<!--Main Div-->
+<div class="row row_margin" style="height: 100%;">
+    <!--Left Panel-->
+    <div class="col-md-2" style="border-right: 2px solid #dadce0 ">
+        <div style="overflow: auto;height: 80%;">
+            <h6 class="text-success text-center p-4">Diagram Type</h6>
+            <!--Class Accordion-->
+            <div id="classaccordion" class="d-none mt-2">
+                <div class="card">
+                    <div class="card-header clsTab outline-primary" id="classTab">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link text-primary" data-toggle="collapse"
+                            data-target="#classTabCollapse"
+                            aria-expanded="true" aria-controls="classTabCollapse">
+                            Class
+                        </button>
+                    </h5>
+                </div>
+				<!-- Class button pictures --> 
+                <div id="classTabCollapse" class="collapse show" aria-labelledby="classTab"
+                data-parent="#classaccordion">
+                <div class="card-body cardBody">
+                    <button type="button" class="btn btn-outline-secondary leftPanelBtnCls" id = "save"><img
+                        src="images/class.png" alt="image">
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary leftPanelBtnCls"><img
+                        src="images/class.png" alt="image">
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary leftPanelBtnCls"><img
+                        src="images/class.png" alt="image">
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary leftPanelBtnCls"><img
+                        src="images/class.png" alt="image">
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary leftPanelBtnCls"><img
+                        src="images/class.png" alt="image">
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Object Accordion-->
+    <div id="Objectaccordion" class="d-none mt-2">
+        <div class="card">
+            <div class="card-header clsTab" id="objectTab" data-toggle="collapse"
+            data-target="#objectTabCollapse"
+            aria-expanded="true" aria-controls="objectTabCollapse">
+            <h5 class="mb-0">
+                <button class="btn btn-link text-secondary">
+                    Object
+                </button>
+            </h5>
+        </div>
+		<!-- Object button pictures ADDED BASIC BUTTONS HERE --> 
+        <div id="objectTabCollapse" class="collapse show" aria-labelledby="objectTab"
+        data-parent="#Objectaccordion">
+        <div class="card-body cardBody">
+            <div class="card-body cardBody">
+                <button type="button" class="btn btn-outline-secondary leftPanelBtnCls" id = "addmore"><img
+                    src="images/object.png" alt="image">
+                </button>
+                <button type="button" class="btn btn-outline-secondary leftPanelBtnCls" id= "multiselect"><img
+                    src="images/object.png" alt="image">
+                </button>
+                <button type="button" class="btn btn-outline-secondary leftPanelBtnCls" id = "group"><img
+                    src="images/object.png" alt="image">
+                </button>
+                <button type="button" class="btn btn-outline-secondary leftPanelBtnCls" id = "ungroup"><img
+                    src="images/object.png" alt="image">
+                </button>
+                <button type="button" class="btn btn-outline-secondary leftPanelBtnCls" id = "discard"><img
+                    src="images/object.png" alt="image">
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<!--Use case Accordion-->
+<div id="usecaseaccordion" class="d-none mt-2">
+    <div class="card">
+        <div class="card-header clsTab" id="usecaseTab" data-toggle="collapse"
+        data-target="#usecaseTabCollapse"
+        aria-expanded="true" aria-controls="usecaseTabCollapse">
+        <h5 class="mb-0">
+            <button class="btn btn-link text-success">
+                Use case
+            </button>
+        </h5>
+    </div>
+	<!-- Use case button pictures --> 
+    <div id="usecaseTabCollapse" class="collapse show" aria-labelledby="usecaseTab"
+    data-parent="#usecaseaccordion">
+    <div class="card-body cardBody">
+        <div class="card-body cardBody">
+            <button type="button" class="btn btn-outline-secondary leftPanelBtnCls"><img
+                src="images/use.png" alt="image">
+            </button>
+            <button type="button" class="btn btn-outline-secondary leftPanelBtnCls"><img
+                src="images/use.png" alt="image">
+            </button>
+            <button type="button" class="btn btn-outline-secondary leftPanelBtnCls"><img
+                src="images/use.png" alt="image">
+            </button>
+            <button type="button" class="btn btn-outline-secondary leftPanelBtnCls"><img
+                src="images/use.png" alt="image">
+            </button>
+            <button type="button" class="btn btn-outline-secondary leftPanelBtnCls"><img
+                src="images/use.png" alt="image">
+            </button>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+<!--Activity Accordion-->
+<div id="activityaccordion" class="d-none mt-2">
+    <div class="card">
+        <div class="card-header clsTab" id="activityTab" data-toggle="collapse"
+        data-target="#activityTabCollapse"
+        aria-expanded="true" aria-controls="activityTabCollapse">
+        <h5 class="mb-0">
+            <button class="btn btn-link text-dark">
+                Activity
+            </button>
+        </h5>
+    </div>
+	<!-- Activity button pictures --> 
+    <div id="activityTabCollapse" class="collapse show" aria-labelledby="activityTab"
+    data-parent="#activityaccordion">
+    <div class="card-body cardBody">
+        <div class="card-body cardBody">
+            <button type="button" class="btn btn-outline-secondary leftPanelBtnCls"><img
+                src="images/activity.png" alt="image">
+            </button>
+            <button type="button" class="btn btn-outline-secondary leftPanelBtnCls"><img
+                src="images/activity.png" alt="image">
+            </button>
+            <button type="button" class="btn btn-outline-secondary leftPanelBtnCls"><img
+                src="images/activity.png" alt="image">
+            </button>
+            <button type="button" class="btn btn-outline-secondary leftPanelBtnCls"><img
+                src="images/activity.png" alt="image">
+            </button>
+            <button type="button" class="btn btn-outline-secondary leftPanelBtnCls"><img
+                src="images/activity.png" alt="image">
+            </button>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+<!--Sequence Accordion-->
+<div id="sequenceaccordion" class="d-none mt-2">
+    <div class="card">
+        <div class="card-header clsTab" id="sequenceTab" data-toggle="collapse"
+        data-target="#sequenceTabCollapse"
+        aria-expanded="true" aria-controls="sequenceTabCollapse">
+        <h5 class="mb-0">
+            <button class="btn btn-link text-info">
+                Sequence
+            </button>
+        </h5>
+    </div>
+	<!-- Sequence button pictures --> 
+    <div id="sequenceTabCollapse" class="collapse show" aria-labelledby="sequenceTab"
+    data-parent="#sequenceaccordion">
+    <div class="card-body cardBody">
+        <div class="card-body cardBody">
+            <button type="button" class="btn btn-outline-secondary leftPanelBtnCls"><img
+                src="images/sequence.png" alt="image">
+            </button>
+            <button type="button" class="btn btn-outline-secondary leftPanelBtnCls"><img
+                src="images/sequence.png" alt="image">
+            </button>
+            <button type="button" class="btn btn-outline-secondary leftPanelBtnCls"><img
+                src="images/sequence.png" alt="image">
+            </button>
+            <button type="button" class="btn btn-outline-secondary leftPanelBtnCls"><img
+                src="images/sequence.png" alt="image">
+            </button>
+            <button type="button" class="btn btn-outline-secondary leftPanelBtnCls"><img
+                src="images/sequence.png" alt="image">
+            </button>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+</div>
+
+
+<!--Action Buttons-->
+<div class="row justify-content-md-center">
+    <button class="btn btn-sm mt-2 mb-2 btn-danger mr-1" type="button" style="">Reset
+    </button>
+    <button class="btn btn-sm mt-2 mb-2 btn-info" type="button" style="">Undo
+    </button>
+</div>
+<div class="row justify-content-md-center">
+    <button class="btn btn-lg mt-1 mb-1 btn-success" type="button" style="height: 50px" id="btn_getStarted">Get
+        Started
+    </button>
+</div>
+
+</div>
+<!--Left Panel END-->
+
+<!--Right Panel Needs to fix something here?? -->
+<div class="col-md-10">
+    <!--Type Buttons-->
+    <div class="container mt-2 mb-2">
+        <div class="row justify-content-md-center">
+            <div class="pl-1">
+                <button type="button" class="btn btn-outline-primary" id="btnClass">Class</button>
+            </div>
+            <div class="pl-1">
+                <button type="button" class="btn btn-outline-secondary" id="btnObject">Object</button>
+            </div>
+            <div class="pl-1">
+                <button type="button" class="btn btn-outline-success" id="btnUseCase">Use Case</button>
+            </div>
+            <div class="pl-1">
+                <button type="button" class="btn btn-outline-dark" id="btnActivity">Activity</button>
+            </div>
+            <div class="pl-1">
+                <button type="button" class="btn btn-outline-info" id="btnSequence">Sequence</button>
+            </div>
+        </div>
+    </div>
+    <!--Canvas Area-->
+    <div class="card" style="height:95%">
+        <canvas id="c" class="lower-canvas" width="1920" height="1080"></canvas>
+
+    </div>
+</div>
+<!--Right Panel END-->
+</div>
+
+<!-- Slide Show Modal -->
+<div class="modal fade" id="myModal" role="dialog" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="demo" class="carousel slide" data-ride="carousel">
+
+                    <!-- Indicators -->
+                    <ul class="carousel-indicators">
+                        <li data-target="#demo" data-slide-to="0" class="active"></li>
+                        <li data-target="#demo" data-slide-to="1"></li>
+                        <li data-target="#demo" data-slide-to="2"></li>
+                    </ul>
+
+                    <!-- The slideshow -->
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <img src="images/UMLlogo.png" alt="Los Angeles" width="650" height="400"
+                            style="margin-left: 20%;">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="images/UMLlogo.png" alt="Chicago" width="650" height="400" style="margin-left: 20%;">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="images/UMLlogo.png" alt="New York" width="650" height="400 style="margin-left: 20%;">
+                        </div>
+                        
+                    </div>
+
+                    <!-- Left and right controls -->
+                    <a class="carousel-control-prev" href="#demo" data-slide="prev">
+                        <span class="carousel-control-prev-icon"></span>
+                    </a>
+                    <a class="carousel-control-next" href="#demo" data-slide="next">
+                        <span class="carousel-control-next-icon"></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script type="text/javascript" src="External JS/jquery-3.2.1.js"></script>
+<script type="text/javascript" src="External JS/bootstrap-4.0.js"></script>
+<!-- Main Javascript File --> 
+<script type="text/javascript" src="script.js"></script>
+<!-- Code for load save system and canvas  SHOULD BE MOVED TO SEPERATE FILES LATER --> 
+<script src="test.js"></script>
+<script src="http://cdn.jsdelivr.net/g/filesaver.js"></script>
+
+</body>
+</html>
