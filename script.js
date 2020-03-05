@@ -5,9 +5,9 @@
 */
 
  $(document).ready(function () {
-        //<!--On page load-->
+        <!--On page load-->
         $("#myModal").modal();
-        //<!--Get Started Button-->
+        <!--Get Started Button-->
         $("#btn_getStarted").click(function () {
             $("#myModal").modal();
         })
@@ -92,8 +92,8 @@
                 appendImageSlideShow(str);
             })
     });
-	//<!-- This is how we accomplis the 'Polymorphic' menu --> 
-    //<!--Hide Rest buttons-->
+	<!-- This is how we accomplis the 'Polymorphic' menu --> 
+    <!--Hide Rest buttons-->
     function classActiveHideRestButtons(){
         $("#Objectaccordion").addClass("d-none");
         $("#Objectaccordion").removeClass("d-block");
@@ -112,7 +112,7 @@
         activityBtnState = true;
         sequenceBtnState = true;
     }
-    //<!--Hide Rest buttons-->
+    <!--Hide Rest buttons-->
     function objectActiveHideRestButtons(){
         $("#classaccordion").addClass("d-none");
         $("#classaccordion").removeClass("d-block");
@@ -131,7 +131,7 @@
         activityBtnState = true;
         sequenceBtnState = true;
     }
-    //<!--Hide Rest buttons-->
+    <!--Hide Rest buttons-->
     function useCaseActiveHideRestButtons(){
         $("#Objectaccordion").addClass("d-none");
         $("#Objectaccordion").removeClass("d-block");
@@ -146,7 +146,7 @@
         $("#btnActivity").removeClass("active");
         $("#btnSequence").removeClass("active");
     }
-    //<!--Hide Rest buttons-->
+    <!--Hide Rest buttons-->
     function activityActiveHideRestButtons(){
         $("#Objectaccordion").addClass("d-none");
         $("#Objectaccordion").removeClass("d-block");
@@ -161,7 +161,7 @@
         $("#btnSequence").removeClass("active");
         $("#btnObject").removeClass("active");
     }
-    //<!--Hide Rest buttons-->
+    <!--Hide Rest buttons-->
     function sequenceActiveHideRestButtons(){
         $("#Objectaccordion").addClass("d-none");
         $("#Objectaccordion").removeClass("d-block");
@@ -196,3 +196,124 @@
         $('.carousel-indicators').html(bodyIndicators);/*Add body in slide Show*/
         $('.carousel-inner').html(body);/*Add body in slide Show*/
     }
+	
+/* Canvas Snap to Grid code */ 
+var canvas = new fabric.Canvas('c', { selection: false });
+var grid = 50;
+
+// create grid
+var canvasWidth = 1575;
+var canvasHeight = 900; 
+for (var i = 0; i < (canvasWidth / grid); i++) {
+  canvas.add(new fabric.Line([ i * grid, 0, i * grid, canvasHeight], { stroke: '#ccc', selectable: false }));
+  canvas.add(new fabric.Line([ 0, i * grid, canvasWidth, i * grid], { stroke: '#ccc', selectable: false }))
+}
+
+// Add Objects 
+// Add Rectangle 
+function addRectangle(){
+canvas.add(new fabric.Rect({ 
+  left: 100, 
+  top: 100, 
+  width: 50, 
+  height: 50, 
+  fill: '#faa', 
+  originX: 'left', 
+  originY: 'top',
+  centeredRotation: true,
+  shadow: 'rgba(0,0,0,0.4) 5px 5px 7px'
+}));
+}
+// Add Circle Option 
+function addCircle(){
+canvas.add(new fabric.Circle({ 
+  left: 300, 
+  top: 300, 
+  radius: 50, 
+  fill: '#9f9', 
+  originX: 'left', 
+  originY: 'top',
+  centeredRotation: true,
+  shadow: 'rgba(0,0,0,0.4) 5px 5px 7px'
+}));
+}
+// Add TextBox 
+function addTextBox(){
+var t1 = new fabric.Textbox('MyText', {
+    width: 150,
+    top: 5,
+    left: 5,
+    fontSize: 16,
+    textAlign: 'center',
+    fixedWidth: 150
+});
+// This is to make the text shrink depending on the size of the text and the text box. 
+canvas.on('text:changed', function(opt) {
+  var t1 = opt.target;
+  if (t1.width > t1.fixedWidth) {
+    t1.fontSize *= t1.fixedWidth / (t1.width + 1);
+    t1.width = t1.fixedWidth;
+  }
+});
+canvas.add(t1);	
+}
+
+
+// snap to grid
+canvas.on('object:moving', function(options) { 
+  options.target.set({
+    left: Math.round(options.target.left / grid) * grid,
+    top: Math.round(options.target.top / grid) * grid
+  });
+  
+});
+
+/* Canvas Out of Bounds Code */ 
+canvas.on('object:moving', function (e) {
+        var obj = e.target;
+         // if object is too big ignore
+        if(obj.currentHeight > obj.canvas.height || obj.currentWidth > obj.canvas.width){
+            return;
+        }        
+        obj.setCoords();        
+        // top-left  corner
+        if(obj.getBoundingRect().top < 0 || obj.getBoundingRect().left < 0){
+            obj.top = Math.max(obj.top, obj.top-obj.getBoundingRect().top);
+            obj.left = Math.max(obj.left, obj.left-obj.getBoundingRect().left);
+        }
+        // bot-right corner
+        if(obj.getBoundingRect().top+obj.getBoundingRect().height  > obj.canvas.height || obj.getBoundingRect().left+obj.getBoundingRect().width  > obj.canvas.width){
+            obj.top = Math.min(obj.top, obj.canvas.height-obj.getBoundingRect().height+obj.top-obj.getBoundingRect().top);
+            obj.left = Math.min(obj.left, obj.canvas.width-obj.getBoundingRect().width+obj.left-obj.getBoundingRect().left);
+        }
+});
+
+    var left1 = 0;
+    var top1 = 0 ;
+    var scale1x = 0 ;    
+    var scale1y = 0 ;    
+    var width1 = 0 ;    
+    var height1 = 0 ;
+  canvas.on('object:scaling', function (e){
+    var obj = e.target;
+    obj.setCoords();
+    var brNew = obj.getBoundingRect();
+    
+    if (((brNew.width+brNew.left)>=obj.canvas.width) || ((brNew.height+brNew.top)>=obj.canvas.height) || ((brNew.left<0) || (brNew.top<0))) {
+    obj.left = left1;
+    obj.top=top1;
+    obj.scaleX=scale1x;
+    obj.scaleY=scale1y;
+    obj.width=width1;
+    obj.height=height1;
+  }
+    else{    
+      left1 =obj.left;
+      top1 =obj.top;
+      scale1x = obj.scaleX;
+      scale1y=obj.scaleY;
+      width1=obj.width;
+      height1=obj.height;
+    }
+ });
+ /* Code to prevent shapes from touching */ 

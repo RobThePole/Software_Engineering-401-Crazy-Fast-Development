@@ -9,9 +9,6 @@
 	<link rel="stylesheet" href="External CSS/bootstrap-min.css">
     <!--Custom CSS-->
     <link rel="stylesheet" href="style.css">
-
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/3.6.2/fabric.min.js"></script>
-
     <title>UMLset</title>
 
 </head>
@@ -31,13 +28,10 @@
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <div class="dropdown-divider"></div>
-                <button id="newProject" class="dropdown-item">New</button><br>
+                <a class="dropdown-item" href="#">New</a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="#">Save As</a>
-                <button id="save" class="dropdown-item">Save</button><br>
-                <form>
-                    <input type = "file" id = "fileInputControl" accept = "text/plain" />
-                </form>
+                <a class="dropdown-item" href="#">Save</a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="#">Close</a>
             </div>
@@ -85,13 +79,13 @@
                 <div id="classTabCollapse" class="collapse show" aria-labelledby="classTab"
                 data-parent="#classaccordion">
                 <div class="card-body cardBody">
-                    <button type="button" class="btn btn-outline-secondary leftPanelBtnCls" id = "save"><img
+                    <button  type="button" onclick="addRectangle()" class="btn btn-outline-secondary leftPanelBtnCls"><img
                         src="images/class.png" alt="image">
                     </button>
-                    <button type="button" class="btn btn-outline-secondary leftPanelBtnCls"><img
+                    <button type="button" onclick="addCircle()" class="btn btn-outline-secondary leftPanelBtnCls"><img
                         src="images/class.png" alt="image">
                     </button>
-                    <button type="button" class="btn btn-outline-secondary leftPanelBtnCls"><img
+                    <button type="button" onclick="addTextBox()"class="btn btn-outline-secondary leftPanelBtnCls"><img
                         src="images/class.png" alt="image">
                     </button>
                     <button type="button" class="btn btn-outline-secondary leftPanelBtnCls"><img
@@ -116,12 +110,12 @@
                 </button>
             </h5>
         </div>
-		<!-- Object button pictures ADDED BASIC BUTTONS HERE --> 
+		<!-- Object button pictures --> 
         <div id="objectTabCollapse" class="collapse show" aria-labelledby="objectTab"
         data-parent="#Objectaccordion">
         <div class="card-body cardBody">
             <div class="card-body cardBody">
-                <button type="button" class="btn btn-outline-secondary leftPanelBtnCls" id = "addmore"><img
+                <button type="button" class="btn btn-outline-secondary leftPanelBtnCls"><img
                     src="images/object.png" alt="image">
                 </button>
                 <button type="button" class="btn btn-outline-secondary leftPanelBtnCls"><img
@@ -271,7 +265,7 @@
 </div>
 <!--Left Panel END-->
 
-<!--Right Panel Needs to fix something here?? -->
+<!--Right Panel-->
 <div class="col-md-10">
     <!--Type Buttons-->
     <div class="container mt-2 mb-2">
@@ -293,9 +287,9 @@
             </div>
         </div>
     </div>
-    <!--Canvas Area-->
+ <!-- ***  Canvas Area *** -->
     <div class="card" style="height:95%">
-        <canvas id="c" class="lower-canvas" width="1920" height="1080"></canvas>
+		<canvas id="c" width="1575" height="900"></canvas>
 
     </div>
 </div>
@@ -331,7 +325,7 @@
                             <img src="images/UMLlogo.png" alt="Chicago" width="650" height="400" style="margin-left: 20%;">
                         </div>
                         <div class="carousel-item">
-                            <img src="images/UMLlogo.png" alt="New York" width="650" height="400 style="margin-left: 20%;">
+                            <img src="images/UMLlogo.png" alt="New York" width="650" height="400" style="margin-left: 20%;">
                         </div>
                         
                     </div>
@@ -354,12 +348,13 @@
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script type="text/javascript" src="External JS/jquery-3.2.1.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/3.6.2/fabric.min.js"></script>
+<script type="text/javascript" src="External JS/popper-1.12.9"></script>
 <script type="text/javascript" src="External JS/bootstrap-4.0.js"></script>
 <!-- Main Javascript File --> 
 <script type="text/javascript" src="script.js"></script>
-<!-- Code for load save system and canvas  SHOULD BE MOVED TO SEPERATE FILES LATER --> 
-<script src="test.js"></script>
-<script src="http://cdn.jsdelivr.net/g/filesaver.js"></script>
+<script>
 
+</script>
 </body>
 </html>
