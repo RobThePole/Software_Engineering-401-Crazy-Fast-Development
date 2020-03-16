@@ -1,106 +1,114 @@
     <!--CSS-->
-        .row_margin {
-            margin-right: 0px !important;
-            margin-left: 0px !important;
-        }
+    .row_margin {
+        margin-right: 0px !important;
+        margin-left: 0px !important;
+    }
 
-        html, body {
-            height: 95%;
-            margin: 0;
-            background-color: #fbfbfb;
-        }
+    html, body {
+        height: 95%;
+        margin: 0;
+        background-color: #fbfbfb;
+    }
 
-        .clsTab {
-            padding: 0rem;
-            cursor: pointer;
-        }
+    .clsTab {
+        padding: 0rem;
+        cursor: pointer;
+    }
 
-        .clsTab:hover {
-            background-color: #f3f3f3;
-        }
+    .clsTab:hover {
+        background-color: #f3f3f3;
+    }
 
-        .cardBody {
-            padding: 0.25rem;
-            background-color: #fbfbfb;
-        }
+    .cardBody {
+        padding: 0.25rem;
+        background-color: #fbfbfb;
+    }
 
-        .btn-link {
-            text-decoration: none !important;
-            color: black;
-        }
+    .btn-link {
+        text-decoration: none !important;
+        color: black;
+    }
 
-        .btn-link:hover {
-            color: black !important;
-        }
+    .btn-link:hover {
+        color: black !important;
+    }
 
-        .roundBtn {
-            width: 50px;
-            height: 50px;
-            text-align: center;
-            padding: 16px 0;
-            font-size: 12px;
-            line-height: 1.428571429;
-            border-radius: 25px;
-            margin-left: 10px
-        }
+    .roundBtn {
+        width: 50px;
+        height: 50px;
+        text-align: center;
+        padding: 16px 0;
+        font-size: 12px;
+        line-height: 1.428571429;
+        border-radius: 25px;
+        margin-left: 10px
+    }
 
-        canvas {
-            position: absolute;
-			background: #FFFFF;
-        }
+    canvas {
+        position: absolute;
+        background: #FFFFF;
+    }
 
-        .dropdown-divider {
-            margin: 0rem;
-        }
+    .dropdown-divider {
+        margin: 0rem;
+    }
 
-        .dropdown-menu {
-            padding: 0rem;
-        }
+    .dropdown-menu {
+        padding: 0rem;
+    }
 
-        .dropdown-item:hover {
-            background-color: #e6e8ec;
-        }
+    .dropdown-item:hover {
+        background-color: #e6e8ec;
+    }
 
-        .modal-header {
-			
-            padding: 1rem;
-			background-color: #F2F2F2;
+    .modal-header {
 
-        }
+        padding: 1rem;
+        background-color: #F2F2F2;
 
-        .modal-dialog {
-            max-width: 55%;
-        }
+    }
 
-        .leftPanelBtnCls {
-            padding: 0rem;
-            border-color: #d3eaff;
-        }
+    .modal-dialog {
+        max-width: 55%;
+    }
 
-        .leftPanelBtnCls > img {
-            width: 40px;
-            height: 40px;
-        }
+    .leftPanelBtnCls {
+        padding: 0rem;
+        border-color: #d3eaff;
+    }
+
+    .leftPanelBtnCls > img {
+        width: 40px;
+        height: 40px;
+    }
        /* #btnUseCase:active{
             background-color: #28a745;
-        }*/
-        .carousel-indicators li {
-            background-color: rgba(60, 41, 41, 0.5);
-        }
-        .carousel-indicators .active {
-            background-color: #9c2323;
-        }
-		/* Previous and next arrow properties */ 
+            }*/
+            .carousel-indicators li {
+                background-color: rgba(60, 41, 41, 0.5);
+            }
+            .carousel-indicators .active {
+                background-color: #9c2323;
+            }
+            /* Previous and next arrow properties */ 
 
-		.carousel-control-next:after
-		{
-			content: '>';
-			font-size: 55px;
-			color: black;
-		}
+            .carousel-control-next:after
+            {
+               content: '>';
+               font-size: 55px;
+               color: black;
+           }
 
-		.carousel-control-prev:after {
-		content: '<';
-		font-size: 55px;
-		color: black;
-		}
+           .carousel-control-prev:after {
+              content: '<';
+              font-size: 55px;
+              color: black;
+          }          
+
+          /* Load File */
+          #loadFile{
+            text-decoration:none;
+        }
+        #loadFileInput{
+            display:none
+        }

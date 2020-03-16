@@ -15,7 +15,7 @@
 <body>
     <!--Navigation Bar-->
     <nav class="navbar navbar-expand-lg navbar-light bg-light"
-    style="background-color: #e3f2fd;border-bottom: 1px solid #dadce0;">
+    style="background-color: #e3f2fd;border-bottom: 1px solid #dadce0;padding: 0rem">
     <a class="navbar-brand" href="#"><img src="images/UMLlogo.png" alt="" height="60" width="100"></a>
     <a class="navbar-brand" href="#">UML Editor</a>
 	<!-- Dropdown nav bar menu --> 
@@ -23,15 +23,18 @@
         <ul class="navbar-nav mr-auto pl-5">
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="FilenavbarDropdown" role="button"
-                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                File
-            </a>
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">File</a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">New</a>
+                <a class="dropdown-item" href="#" id="newFile">New</a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Save As</a>
-                <a class="dropdown-item" href="#">Save</a>
+                <!-- <a class="dropdown-item" href="#">Save As</a> -->
+                <a class="dropdown-item" href="#" id="saveFile">Save</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#" id="loadFile">Load</a>
+                <form>
+                    <input type = "file" id = "loadFileInput" accept = ".json" />
+                </form>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="#">Close</a>
             </div>
@@ -88,7 +91,7 @@
                     <button type="button" onclick="addTextBox()"class="btn btn-outline-secondary leftPanelBtnCls"><img
                         src="images/class.png" alt="image">
                     </button>
-                    <button type="button" class="btn btn-outline-secondary leftPanelBtnCls"><img
+                    <button type="button" onclick="addLine()" class="btn btn-outline-secondary leftPanelBtnCls"><img
                         src="images/class.png" alt="image">
                     </button>
                     <button type="button" class="btn btn-outline-secondary leftPanelBtnCls"><img
@@ -217,7 +220,7 @@
         aria-expanded="true" aria-controls="sequenceTabCollapse">
         <h5 class="mb-0">
             <button class="btn btn-link text-info">
-                Sequence
+                State Machine
             </button>
         </h5>
     </div>
@@ -255,6 +258,8 @@
     </button>
     <button class="btn btn-sm mt-2 mb-2 btn-info" type="button" style="">Undo
     </button>
+    <button class="btn btn-sm mt-2 mb-2 btn-danger mr-1" type="button" style="" id="deleteObj">Delete
+    </button>
 </div>
 <div class="row justify-content-md-center">
     <button class="btn btn-lg mt-1 mb-1 btn-success" type="button" style="height: 50px" id="btn_getStarted">Get
@@ -283,13 +288,13 @@
                 <button type="button" class="btn btn-outline-dark" id="btnActivity">Activity</button>
             </div>
             <div class="pl-1">
-                <button type="button" class="btn btn-outline-info" id="btnSequence">Sequence</button>
+                <button type="button" class="btn btn-outline-info" id="btnSequence">State Machine</button>
             </div>
         </div>
     </div>
  <!-- ***  Canvas Area *** -->
-    <div class="card" style="height:95%">
-		<canvas id="c" width="1575" height="900"></canvas>
+    <div class="card" style="">
+		<canvas id="c" style=""></canvas>
 
     </div>
 </div>
@@ -316,26 +321,27 @@
                     </ul>
 
                     <!-- The slideshow -->
-                    <div class="carousel-inner">
+					<!-- text-center to display the image in the center --> 
+                    <div class="carousel-inner text-center">
                         <div class="carousel-item active">
                             <img src="images/UMLlogo.png" alt="Los Angeles" width="650" height="400"
-                            style="margin-left: 20%;">
+                            style="">
                         </div>
                         <div class="carousel-item">
-                            <img src="images/UMLlogo.png" alt="Chicago" width="650" height="400" style="margin-left: 20%;">
+                            <img src="images/UMLlogo.png" alt="Chicago" width="650" height="400" style="">
                         </div>
                         <div class="carousel-item">
-                            <img src="images/UMLlogo.png" alt="New York" width="650" height="400" style="margin-left: 20%;">
+                            <img src="images/UMLlogo.png" alt="New York" width="650" height="400" style="">
                         </div>
                         
                     </div>
 
                     <!-- Left and right controls -->
                     <a class="carousel-control-prev" href="#demo" data-slide="prev">
-                        <span class="carousel-control-prev-icon"></span>
+                        
                     </a>
                     <a class="carousel-control-next" href="#demo" data-slide="next">
-                        <span class="carousel-control-next-icon"></span>
+                        
                     </a>
                 </div>
             </div>
@@ -348,13 +354,25 @@
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script type="text/javascript" src="External JS/jquery-3.2.1.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/3.6.2/fabric.min.js"></script>
-<script type="text/javascript" src="External JS/popper-1.12.9"></script>
+<script type="text/javascript" src="External JS/fabric.min.js"></script>
+<script type="text/javascript" src="External JS/popper-1.12.9.js"></script>
 <script type="text/javascript" src="External JS/bootstrap-4.0.js"></script>
+<script type="text/javascript" src="External JS/fileSaver.js"></script>
+
+
+<script>
+    <!-- $(document).load(function() { -->
+    /* Act on the event */
+    $("#c").attr({
+        /*Get div width height*/
+    width: window.innerWidth - 250,
+    height: window.innerHeight - 150
+    });
+// });
+</script>
 <!-- Main Javascript File --> 
 <script type="text/javascript" src="script.js"></script>
-<script>
 
-</script>
+
 </body>
 </html>
