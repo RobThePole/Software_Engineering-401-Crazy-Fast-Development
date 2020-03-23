@@ -257,6 +257,7 @@ var ct = window.innerHeight;
 
 var canvasWidth = c;
 var canvasHeight = ct;
+
 for (var i = 0; i < (canvasWidth / grid); i++) {
 	canvas.add(new fabric.Line([i * grid, 0, i * grid, canvasHeight], {
 		stroke: '#ccc',
@@ -386,12 +387,14 @@ function addCircle() {
 }
 // Add TextBox 
 function addTextBox() {
-var originalRender = fabric.Textbox.prototype._render;
+	var originalRender = fabric.Textbox.prototype._render;
 fabric.Textbox.prototype._render = function(ctx) {
   originalRender.call(this, ctx);
   //Don't draw border if it is active(selected/ editing mode)
-  if (this.active) return;
-  if(this.showTextBoxBorder){
+  // These if statements make it go away
+  //if (this.active) return;
+  //if(this.showTextBoxBorder)
+  //{
     var w = this.width,
       h = this.height,
       x = -this.width / 2,
@@ -406,26 +409,30 @@ fabric.Textbox.prototype._render = function(ctx) {
     var stroke = ctx.strokeStyle;
     ctx.strokeStyle = this.textboxBorderColor;
     ctx.stroke();
-    ctx.strokeStyle = stroke;
-  }
+	ctx.strokeStyle = stroke;
+
+	
+  //}
 }
 fabric.Textbox.prototype.cacheProperties = fabric.Textbox.prototype.cacheProperties.concat('active');
 
 var text = new fabric.Textbox("Sample Text\n - method()1\n - method()2", {
-  left: 400,
+  left: 50,
   top: 50,
-  width: 150,
-  fontSize: 18,
+  width: 100,
+  fontSize: 12,
   fontFamily: 'Arial',
-  borderColor: 'black',
+  backgroundColor: 'white',
+  borderColor: 'red',
   editingBorderColor: 'blue',
   padding: 2,
-  type: 'text',
-  textAlign: 'center',
-  showTextBoxBorder: true,
-  textboxBorderColor: 'black'
+  textboxBorderColor: 'black',
+  showTextBoxBorder: true
+
 });
 canvas.add(text);
+
+
 }
 
 
