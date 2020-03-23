@@ -93,7 +93,7 @@ $(document).ready(function () {
 	$("#newFile").click(function (event) {
 		// Now just need to add settings and default file name here and new project should be all set
 		// Current default when no objects are on the canvas
-		// canvas.loadFromJSON('{}');
+		canvas.loadFromJSON('{}');
 		// console.log("New project " + JSON.stringify(canvas))
 
 		var objects = canvas.getObjects();
