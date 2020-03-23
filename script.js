@@ -323,37 +323,127 @@ $("#loadFile").on('click', function (e) {
 
 });
 
-// Add Objects 
-var line = new fabric.Line();
+//Add Objects
 // This code adds the line drawing function
-function addLine(){
-    isDown = true;
-canvas.on('mouse:down', function(o){
-  isDown = true;
-  var pointer = canvas.getPointer(o.e);
-  var points = [ pointer.x, pointer.y, pointer.x, pointer.y ];
-  line = new fabric.Line(points, {
-	strokeWidth: 5,
-    fill: 'black',
-    stroke: 'black',
-    originX: 'center',
-    originY: 'center',
-	type: 'line'
-  });
-  canvas.add(line);
-});
+var line = new fabric.Line();
+function addline(){
+isDown = true;
+    canvas.on('mouse:down', function (o) {
+        //if (isAngleDrawing == "1") {
+            canvas.selection = false;
+            isDownAngle = true;
+            var pointer = canvas.getPointer(o.e);
+            var points = [pointer.x, pointer.y, pointer.x, pointer.y];
+ 
+            line = new fabric.Line(points, {
+                strokeWidth: 2,
+                fill: 'red',
+                stroke: 'red',
+                originX: 'center',
+                originY: 'center'
+			
+            });
+            line.line1 = line;
+            canvas.add(line);
+        //}
+    });
+ 
+    canvas.on('mouse:move', function (o) {
+        if (!isDownAngle)
+            return;
+        //if (isAngleDrawing == "1") {
+            var pointer = canvas.getPointer(o.e);
+            line.set({x2: pointer.x, y2: pointer.y});
+            canvas.renderAll();
+        //}
+    });
+ 
+    canvas.on('mouse:up', function (o) {
+        //if (isAngleDrawing == "1") {
+            y11 = line.get('y1');
+            y12 = line.get('y2');
+            x11 = line.get('x1');
+            x12 = line.get('x2');
+			//
+            var dy = y12 - y11;
+            var dx = x12 - x11;
+            var theta = Math.atan2(dy, dx); // range (-PI, PI]
+			//
+            theta *= 180 / Math.PI;
+            line.startAngle = theta;
+			//
+            var angle = countAngle(theta);
+            var angl = parseInt(angle).toString() +'°';
+            var top = line.top
+            var left = line.left;
+			anglexy = theta;
+			
+            var text1 = new fabric.Text(angl, {
+                fontSize: 25,
+                fontFamily: 'Georgia', top: top, left:left,
+                fill: 'red'
+            });
+			
+			tri = new fabric.Triangle({
+			top: y12,
+			left: x12,
+			width: 20, 
+			height: 10,
+			fill: 'white',
+			stroke: 'black',
+			strokeWidth: 1,
+			centeredRotation: true,
+			angle: anglexy + 90,
+			originX: 'center',
+			originY: 'center',
+			evented:false,
+			});
 
-canvas.on('mouse:move', function(o){
-  if (!isDown) return;
-  var pointer = canvas.getPointer(o.e);
-  line.set({ x2: pointer.x, y2: pointer.y });
-  canvas.renderAll();
-});
-
-canvas.on('mouse:up', function(o){
-  isDown = false;
-});
+			//var rect = new fabric.Rect({ 
+			//left: x12, 
+			//top: y12, 
+			//fill: 'white', 
+			//stroke: 'black',
+			//strokeWidth: 1,
+			//width: 20,
+			//height: 20,
+			//angle: theta + 45,
+			//originX: 'center',
+			//originY: 'center',
+			//}); 
+ 
+			canvas.add(tri);
+			//canvas.add(rect);
+			line.lineText = text1;
+            canvas.add(text1);
+            isDownAngle = false;
+            rotateText(line);
+			
+        //}
+	});
+	
+	//canvas.on('mouse:dblclick',function(o) {
+		//canvas.add(tri);
+	//});
+	
+    canvas.on('object:rotating', function (e) {
+        if(typeof e.target.lineText != "undefined"){
+            var newAngle = getCurrentAngle(e);
+            var theta = countAngle(newAngle);
+            theta = parseInt(theta).toString() +'°';
+            e.target.lineText.setText(theta);
+            rotateText(e.target);
+        }
+    });
 }
+ 
+function countAngle(theta){
+    if (theta < 0.0) {
+        theta += 360.0;
+    }
+    return theta;
+};
+
 //Line function end
 
 // Add Rectangle 
