@@ -475,10 +475,22 @@ function addCircle() {
 		shadow: 'rgba(0,0,0,0.4) 5px 5px 7px'
 	}));
 }
-// Add TextBox 
+// UML BOX CODE START
+// Double-click event handler
+const fabricDblClick = function(obj, handler) {
+  return function() {
+    if (obj.clicked) handler(obj);
+    else {
+      obj.clicked = true;
+      setTimeout(function() {
+        obj.clicked = false;
+      }, 500);
+    }
+  };
+};
 function addTextBox() {
-	var originalRender = fabric.Textbox.prototype._render;
-fabric.Textbox.prototype._render = function(ctx) {
+  var originalRender = fabric.Textbox.prototype._render;
+  fabric.Textbox.prototype._render = function(ctx) {
   originalRender.call(this, ctx);
   //Don't draw border if it is active(selected/ editing mode)
   // These if statements make it go away
@@ -506,11 +518,25 @@ fabric.Textbox.prototype._render = function(ctx) {
 }
 fabric.Textbox.prototype.cacheProperties = fabric.Textbox.prototype.cacheProperties.concat('active');
 
-var text = new fabric.Textbox("Sample Text\n - method()1\n - method()2", {
+// ungroup objects in group
+let groupItems = [];
+let ungroup = function(group) {
+  groupItems = group._objects;
+  group._restoreObjectsState();
+  canvas.remove(group);
+  for (var i = 0; i < groupItems.length; i++) {
+    canvas.add(groupItems[i]);
+  }
+  canvas.renderAll();
+};
+
+
+var head = new fabric.Textbox("HEADER", {
   left: 50,
   top: 50,
-  width: 100,
-  fontSize: 12,
+  width: 150,
+  fontSize: 17,
+  textAlign: 'center',
   fontFamily: 'Arial',
   backgroundColor: 'white',
   borderColor: 'red',
@@ -520,10 +546,90 @@ var text = new fabric.Textbox("Sample Text\n - method()1\n - method()2", {
   showTextBoxBorder: true
 
 });
-canvas.add(text);
+var body = new fabric.Textbox("- method() \n - method2() \n - method3()\n", {
+  left: 50,
+  top: 70,
+  width: 150,
+  fontSize: 16,
+  textAlign: 'center',
+  fontFamily: 'Arial',
+  backgroundColor: 'white',
+  borderColor: 'red',
+  editingBorderColor: 'blue',
+  padding: 2,
+  textboxBorderColor: 'black',
+  showTextBoxBorder: true
 
+});
+head.on("editing:exited", () => {
+  var items = [];
+  groupItems.forEach(function(obj) {
+    items.push(obj);
+    canvas.remove(obj);
+  });
+  const newTextGroup = new fabric.Group(items.reverse(), {
+    subTargetCheck: true
+  });
+  canvas.add(newTextGroup);
+  newTextGroup.on(
+    "mousedown",
+    fabricDblClick(newTextGroup, obj => {
+      ungroup(newTextGroup);
+    })
+  );
+});
+body.on("editing:exited", () => {
+  var items = [];
+  groupItems.forEach(function(obj) {
+    items.push(obj);
+    canvas.remove(obj);
+  });
+  const newTextGroup = new fabric.Group(items.reverse(), {
+    subTargetCheck: true
+  });
+  canvas.add(newTextGroup);
+  newTextGroup.on(
+    "mousedown",
+    fabricDblClick(newTextGroup, obj => {
+      ungroup(newTextGroup);
+    })
+  );
+});
+let addGroup = () => {
+  const textGroup = new fabric.Group([body, head], {
+    left: 50,
+    top: 50,
+    subTargetCheck: true
+  });
+  canvas.add(textGroup);
+  textGroup.on(
+    "mousedown",
+    fabricDblClick(textGroup, obj => {
+      if (isTextGroup(obj)) {
+        obj.getObjects().forEach(item => {
+          item.on("mousedown", e => {
+            if (e.target.type === "text") {
+              e.target.enterEditing();
+              e.target.hiddenTextarea.focus();
+            }
+          });
+        });
+      }
+      ungroup(textGroup);
+	  
+    })
+  );
+};
+addGroup();
+
+let isTextGroup = object => {
+  return object.getObjects().every(el => {
+    return el.type === "text";
+  });
+};
 
 }
+// UML Box Ends
 
 
 // snap to grid
