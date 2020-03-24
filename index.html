@@ -82,28 +82,25 @@
                 <div id="classTabCollapse" class="collapse show" aria-labelledby="classTab"
                 data-parent="#classaccordion">
                 <div class="card-body cardBody">
-                    <button  type="button" onclick="addRectangle()" class="btn btn-outline-secondary leftPanelBtnCls"><img
+                    <button  type="button" id="addRectangleButton" class="btn btn-outline-secondary leftPanelBtnCls"><img
                         src="images/SquareC.png" alt="image">
                     </button>
-                    <button type="button" onclick="addCircle()" class="btn btn-outline-secondary leftPanelBtnCls"><img
+                    <button type="button" id = "addCircleButton" class="btn btn-outline-secondary leftPanelBtnCls"><img
                         src="images/CircleC.png" alt="image">
-                    </button>
-                    <button type="button" onclick="addTextBox()"class="btn btn-outline-secondary leftPanelBtnCls"><img
+                    <button type="button" id = "addTextBoxButton"class="btn btn-outline-secondary leftPanelBtnCls"><img
                         src="images/CTextBox.png" alt="image">
-                    </button>
-                    <button type="button" onclick="addLine()" class="btn btn-outline-secondary leftPanelBtnCls"><img
+                    <button type="button" id = "addLineButton" class="btn btn-outline-secondary leftPanelBtnCls"><img
                         src="images/SimpleAssociationC.png" alt="image">
-                    </button>
-                    <button type="button" onclick = "aggregation()" class="btn btn-outline-secondary leftPanelBtnCls"><img
+                    <button type="button" class="btn btn-outline-secondary leftPanelBtnCls"><img
                         src="images/AggregationC.png" alt="image">
                     </button>
-                    <button type="button" onclick ="association()" class="btn btn-outline-secondary leftPanelBtnCls"><img
+                    <button type="button" class="btn btn-outline-secondary leftPanelBtnCls"><img
                         src="images/ArrowC.png" alt="image">
                     </button>
-                    <button type="button" onclick = "composition()" class="btn btn-outline-secondary leftPanelBtnCls"><img
+                    <button type="button" class="btn btn-outline-secondary leftPanelBtnCls"><img
                         src="images/CompositionC.png" alt="image">
                     </button>
-                    <button type="button" onclick = "dependency()" class="btn btn-outline-secondary leftPanelBtnCls"><img
+                    <button type="button" class="btn btn-outline-secondary leftPanelBtnCls"><img
                         src="images/DependencyC.png" alt="image">
                     </button>
                 </div>
@@ -263,9 +260,9 @@
 
 <!--Action Buttons-->
 <div class="row justify-content-md-center">
-    <button class="btn btn-sm mt-2 mb-2 btn-danger mr-1" type="button" style="">Reset
+    <button class="btn btn-sm mt-2 mb-2 btn-danger mr-1" type="button" style="" id = "redo">Redo
     </button>
-    <button class="btn btn-sm mt-2 mb-2 btn-info" type="button" style="">Undo
+    <button class="btn btn-sm mt-2 mb-2 btn-info" type="button" style="" id = "undo">Undo
     </button>
     <button class="btn btn-sm mt-2 mb-2 btn-danger mr-1" type="button" style="" id="deleteObj">Delete
     </button>
@@ -303,7 +300,7 @@
     </div>
  <!-- ***  Canvas Area *** -->
     <div class="card" style="">
-		<canvas id="c" style=""></canvas>
+		<canvas id="canvas" style=""></canvas>
 
     </div>
 </div>
@@ -367,20 +364,7 @@
 <script type="text/javascript" src="External JS/popper-1.12.9.js"></script>
 <script type="text/javascript" src="External JS/bootstrap-4.0.js"></script>
 <script type="text/javascript" src="External JS/fileSaver.js"></script>
-
-
-<script>
-    <!-- $(document).load(function() { -->
-    /* Act on the event */
-    $("#c").attr({
-        /*Get div width height*/
-    width: window.innerWidth - 250,
-    height: window.innerHeight - 150
-    });
-// });
-</script>
-<!-- Main Javascript File --> 
-<script type="text/javascript" src="script.js"></script>
+<script src="fabric_history.js"></script>
 
 
 </body>
