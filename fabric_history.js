@@ -225,7 +225,7 @@ canvas.on('object:scaling', function (e) {
     }
     fabric.Textbox.prototype.cacheProperties = fabric.Textbox.prototype.cacheProperties.concat('active');
     
-    var text = new fabric.Textbox("Sample Text\n - method()1\n - method()2", {
+    var text = new fabric.Textbox("Sample Text\n_______________\n- method()1\n - method()2", {
       left: 50,
       top: 50,
       width: 100,
