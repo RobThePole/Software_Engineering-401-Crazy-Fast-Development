@@ -9,7 +9,7 @@ var canvasDemo = (function()
 
     canvasSize.setAttribute('width', window.innerWidth - 250);
     canvasSize.setAttribute('height', window.innerHeight - 150);
-    var grid =  50;
+    var grid =  25;
     // Creat Grid Start 
     var c = window.innerWidth - 220;
     var ct = window.innerHeight;
@@ -34,8 +34,14 @@ var canvasDemo = (function()
             addRectangleButton      : document.getElementById('addRectangleButton'),
             addCircleButton         : document.getElementById('addCircleButton'),
             addTextBoxButton        : document.getElementById('addTextBoxButton'),
+			addActorButton          : document.getElementById('addActorButton'),
+			addEllipseButton		: document.getElementById('addEllipseButton'),
+			addLabelButton			: document.getElementById('addLabelButton'),
+			addGenArrowButton		: document.getElementById('addGenArrowButton'),
+			addDashedArrowButton	: document.getElementById('addDashedArrowButton'),
+			addComLineButton		: document.getElementById('addComLineButton'),
             // Waiting for Pauls updated code before adding it
-            //addLineButton           : document.getElementById('addLineButton'),
+            addLineButton           : document.getElementById('addLineButton'),
 
       };
       // Should clean up this code later
@@ -159,18 +165,22 @@ canvas.on('object:scaling', function (e) {
     //
     //
     // Add all the differnt objects here
+	// CLASS DIAGRAM OBJECTS
     var addRectangle = function()
     {
        var rect = new fabric.Rect({
-              left   : 100,
+              left   : 300,
               top    : 100,
               fill   : 'red',
-              width  : 50,
-              height : 50,
+              width  : 350,
+              height : 550,
               originX: 'left',
               originY: 'top',
               type: 'rect',
               centeredRotation: true,
+			  stroke: 'black',
+			  strokeWidth: 1,
+	          fill: 'rgba(0,0,0,0)',
               shadow: 'rgba(0,0,0,0.4) 5px 5px 7px'
       });
             canvas.add(rect);
@@ -240,9 +250,171 @@ canvas.on('object:scaling', function (e) {
     
     });
     canvas.add(text);
-    
-    
     }
+	
+	// Add Line Function
+	function addLine(){
+	isDown = true;
+    canvas.on('mouse:down', function (o) {
+        //if (isAngleDrawing == "1") {
+            canvas.selection = false;
+            isDownAngle = true;
+            var pointer = canvas.getPointer(o.e);
+            var points = [pointer.x, pointer.y, pointer.x, pointer.y];
+ 
+            line = new fabric.Line(points, {
+                strokeWidth: 2,
+                fill: 'black',
+                stroke: 'black',
+                originX: 'center',
+                originY: 'center'
+
+            });
+            line.line1 = line;
+            canvas.add(line);
+        //}
+    });
+ 
+    canvas.on('mouse:move', function (o) {
+        if (!isDownAngle)
+            return;
+        //if (isAngleDrawing == "1") {
+            var pointer = canvas.getPointer(o.e);
+            line.set({x2: pointer.x, y2: pointer.y});
+            canvas.renderAll();
+        //}
+    });
+ 
+    canvas.on('mouse:up', function (o) {
+       
+            isDownAngle = false;
+           
+	});
+	}
+	
+	
+	
+	// Class Diagram Objects End
+	
+	// Use Case Objects 
+	
+	// Actor Start
+	var addActor = function(){
+	fabric.Image.fromURL('images/ActorCanvas.png', function(img) {
+    img.scale(0.5).set({
+    left: 150,
+    top: 150,
+    angle: 0,
+	shadow: 'rgba(0,0,0,0.4) 5px 5px 7px'
+	});
+	img.setControlsVisibility({
+    bl: true, // bottom left enable
+	tm: false, // top middle disable
+	ml: false,  // middle left disable
+	mr: false, // middle right disable
+    br: true, // bottom right disable
+    tl: true, // top left disable
+    tr: true, // top right disable
+    mt: false, // middle top Disable
+    mb: false, // middle top Disable
+});
+	canvas.add(img).setActiveObject(img);
+	});
+	}
+	// Actor Ends
+	
+	// Ellipse Starts
+	
+	var addEllipse = function()  {
+	var ellipse = new fabric.Ellipse({
+	left: 150,
+	top: 20,
+	rx: 125,
+	ry: 50,
+	stroke: 'black',
+	strokeWidth: 1,
+	fill: 'rgba(0,0,0,0)',
+	shadow: 'rgba(0,0,0,0.4) 5px 5px 7px'
+	});
+	
+	canvas.add(ellipse);
+	}
+	// Ellipse Ends 
+	
+	// Label Starts 
+	
+	var addLabel = function() {
+		
+	var t1 = new fabric.Textbox('LABEL', {
+    width: 150,
+    top: 5,
+    left: 5,
+    fontSize: 20,
+    textAlign: 'center',
+    fixedWidth: 150,
+	});
+
+	canvas.on('text:changed', function(opt) {
+	var t1 = opt.target;
+	if (t1.width > t1.fixedWidth) {
+    t1.fontSize *= t1.fixedWidth / (t1.width + 1);
+    t1.width = t1.fixedWidth;
+	}
+	});
+
+	canvas.add(t1);
+		
+	}
+	// Label Ends 
+	
+	// Generalization arrow 
+	var addGenArrow = function() {
+	fabric.Image.fromURL('images/ArrowCanvas.png', function(img) {
+    img.scale(0.5).set({
+    left: 150,
+    top: 150,
+    angle: 0
+	});
+	
+	canvas.add(img).setActiveObject(img);
+	});
+				
+	}
+	// Generalization arrow ends
+	
+	// Dash Arrow Start (Include and Extends Arrows)
+	var addDashedArrow = function(){
+		
+	fabric.Image.fromURL('images/DashArrowCanvas.png', function(img) {
+    img.scale(0.5).set({
+    left: 150,
+    top: 150,
+    angle: 0
+	});
+	
+	canvas.add(img).setActiveObject(img);
+	});
+			
+	}
+	
+	// Dash Arrow Ends (Include and Extends Arrows)
+	
+	// Communication Link Line Starts (Include and Extends Arrows)
+	var addComLine = function(){
+		
+	fabric.Image.fromURL('images/CommCanvas.png', function(img) {
+    img.scale(0.5).set({
+    left: 150,
+    top: 150,
+    angle: 0
+	});
+	canvas.add(img).setActiveObject(img);
+	});
+			
+	}
+	
+	// Communication Line Ends (Include and Extends Arrows)
+	
     var  CanvasGrid = function() 
     {
         for (var i = 0; i < (canvasWidth / grid); i++) {
@@ -588,16 +760,29 @@ $("#myModal").modal();
        return {
           addRectangle  : addRectangle,
           addCircle     : addCircle,
+		  addLine		: addLine,
           addTextBox    : addTextBox,
           CanvasGrid    : CanvasGrid,
+		  addActor		: addActor,
+		  addEllipse	: addEllipse,
+		  addLabel		: addLabel,
+		  addGenArrow   : addGenArrow,
+		  addDashedArrow : addDashedArrow,
+		  addComLine	: addComLine,
           deleteList    : deleteList,
           classActiveHideRestButtons : classActiveHideRestButtons,
           undoButton : _config.undoButton,
           redoButton : _config.redoButton,
           addRectangleButton : _config.addRectangleButton,
           addCircleButton   : _config.addCircleButton,
+		  addActorButton    : _config.addActorButton,
+		  addEllipseButton	: _config.addEllipseButton,
+		  addLabelButton 	: _config.addLabelButton,
+		  addGenArrowButton : _config.addGenArrowButton,
+		  addDashedArrowButton : _config.addDashedArrowButton,
+		  addComLineButton	: _config.addComLineButton,
           addTextBoxButton  : _config.addTextBoxButton,
-          //addLineButton     : _config.addLineButton,
+          addLineButton     : _config.addLineButton,
           undo       : undo,
           redo       : redo,
     }
@@ -608,29 +793,51 @@ $("#myModal").modal();
     // Add listeners and functions to those buttons
     canvasDemo.undoButton.addEventListener('click',function(){
           canvasDemo.undo();
-      });
+    });
   
-      canvasDemo.redoButton.addEventListener('click',function(){
+    canvasDemo.redoButton.addEventListener('click',function(){
           canvasDemo.redo();
-      });
-      canvasDemo.addRectangleButton.addEventListener('click',function(){
+    });
+    canvasDemo.addRectangleButton.addEventListener('click',function(){
           canvasDemo.addRectangle()
-      })
-      canvasDemo.addCircleButton.addEventListener('click',function(){
+    });
+    canvasDemo.addCircleButton.addEventListener('click',function(){
         canvasDemo.addCircle()
-    })
+    });
     canvasDemo.addTextBoxButton.addEventListener('click',function(){
         canvasDemo.addTextBox()
-    })
+    });
+	canvasDemo.addActorButton.addEventListener('click',function(){
+        canvasDemo.addActor()
+    });
+	canvasDemo.addEllipseButton.addEventListener('click',function(){
+        canvasDemo.addEllipse()
+    });
+	canvasDemo.addLabelButton.addEventListener('click',function(){
+        canvasDemo.addLabel()
+    });
+	canvasDemo.addGenArrowButton.addEventListener('click',function(){
+        canvasDemo.addGenArrow()
+    });
+	canvasDemo.addDashedArrowButton.addEventListener('click',function(){
+        canvasDemo.addDashedArrow()
+    });
+	canvasDemo.addComLineButton.addEventListener('click',function(){
+        canvasDemo.addComLine()
+    });
+	canvasDemo.addLineButton.addEventListener('click',function(){
+        canvasDemo.addLine()
+    });
     // For now this does not have a function
     canvasDemo.addCircleButton.addEventListener('click',function(){
         canvasDemo.addTextBoxButton
-    })
+    });
     // Add some example of adding here
     canvasDemo.CanvasGrid();
     //canvasDemo.addRectangle();
     //canvasDemo.addTextBox();
     //canvasDemo.addCircle();
+	
 
 
 
