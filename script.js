@@ -23,7 +23,6 @@ var canvasDemo = (function()
       redoStatus              : false,
       undoFinishedStatus      : 1,
       redoFinishedStatus      : 1,
-      count                   : 0,
       undoButton              : document.getElementById('undo'),
       redoButton              : document.getElementById('redo'),
       addRectangleButton      : document.getElementById('addRectangleButton'),
@@ -454,13 +453,14 @@ var canvasDemo = (function()
       if((_config.undoStatus == false && _config.redoStatus == false))
       {
         var jsonData        = canvas.toJSON();   
+ 	var canvasAsJson        = JSON.stringify(jsonData);
         // Make sure the lines do not get added to the undo history
-        if(jsonData.objects[jsonData.objects.length-1].saved == true )
+        if(jsonData.objects[jsonData.objects.length-1].saved == true)
         {
           //This makes sure to start allowing undo to work only after these gridelines are made
-          _config.count = jsonData.objects.length-1;
-          _config.currentStateIndex = jsonData.objects.length-1;
-          _config.canvasState.length = jsonData.objects.length-1;
+	  _config.canvasState[0] = canvasAsJson;
+	  _config.currentStateIndex = 1;
+		return;
         }
         // Need to create a way of keeping objects that have been saved to not undo after loading a file.
 
@@ -492,7 +492,7 @@ var canvasDemo = (function()
     {
         if(_config.undoFinishedStatus)
         {
-            if(_config.currentStateIndex == _config.count)
+            if(_config.currentStateIndex == 0)
             {
               _config.undoStatus = false;
             }
@@ -501,7 +501,7 @@ var canvasDemo = (function()
               if (_config.canvasState.length >= 1) 
               {
                 _config.undoFinishedStatus = 0;
-              if(_config.currentStateIndex != _config.count)
+              if(_config.currentStateIndex != 0)
               {
                 _config.undoStatus = true;
                 canvas.loadFromJSON(_config.canvasState[_config.currentStateIndex-1],function()
@@ -518,7 +518,7 @@ var canvasDemo = (function()
                   _config.undoFinishedStatus = 1;
                 });
               }
-                else if(_config.currentStateIndex == _config.count)
+                else if(_config.currentStateIndex == 0)
                 {
                   canvas.clear();
                   _config.undoFinishedStatus = 1;
@@ -552,7 +552,7 @@ var canvasDemo = (function()
               _config.redoStatus = false;
               _config.currentStateIndex += 1;
 
-              if(_config.currentStateIndex != _config.count)
+              if(_config.currentStateIndex != 0)
               {
                   _config.undoButton.removeAttribute('disabled');
               }
