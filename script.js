@@ -254,8 +254,6 @@ var canvasDemo = (function()
     });
     }
     
-    
-    
     // Class Diagram Objects End
     
     // Use Case Objects 
@@ -389,7 +387,6 @@ var canvasDemo = (function()
           selectable: false,
           evented: false,
           saved: true
-
         }));
         canvas.add(new fabric.Line([0, i * grid, canvasWidth, i * grid], 
         {
@@ -397,7 +394,6 @@ var canvasDemo = (function()
           selectable: false,
           evented: false,
           saved: true
-
         }));
       }
     }
@@ -460,7 +456,6 @@ var canvasDemo = (function()
         {
           // This takes the Lines and save it to the first slot so that it can not be erased.
           _config.canvasState[0] = canvasAsJson;
-          _config.currentStateIndex = 1;
           return;
         }
         else
@@ -469,28 +464,26 @@ var canvasDemo = (function()
           if(_config.loadFile == true)
           {
             _config.canvasState[0] = canvasAsJson;
-            _config.currentStateIndex = 1;
             return;
           }
 
         }
 
-
-          // Need to block _config.currentStateIndex from increasing when new file or load file is called    
-          if(_config.currentStateIndex < _config.canvasState.length-1)
-          {
-            var indexToBeInserted                  = _config.currentStateIndex+1;
-            _config.canvasState[indexToBeInserted] = canvasAsJson;
-            var numberOfElementsToRetain           = indexToBeInserted+1;
-            _config.canvasState                    = _config.canvasState.splice(0,numberOfElementsToRetain);
-          }
-          else
-          {
-            _config.canvasState.push(canvasAsJson);
-          }
-            
+        // Used to store history
+        if(_config.currentStateIndex < _config.canvasState.length-1)
+        {
+          var indexToBeInserted                  = _config.currentStateIndex+1;
+          _config.canvasState[indexToBeInserted] = canvasAsJson;
+          var numberOfElementsToRetain           = indexToBeInserted+1;
+          _config.canvasState                    = _config.canvasState.splice(0,numberOfElementsToRetain);
+        }
+        else
+        {
+          _config.canvasState.push(canvasAsJson);
+        }
+        // Check if redo button should be disabled
         _config.currentStateIndex = _config.canvasState.length-1;
-        if((_config.currentStateIndex == _config.canvasState.length-1) && _config.currentStateIndex != -1)
+        if((_config.currentStateIndex == _config.canvasState.length-1))
         {
         _config.redoButton.disabled= "disabled";
         }
@@ -516,7 +509,8 @@ var canvasDemo = (function()
                 _config.undoStatus = true;
                 canvas.loadFromJSON(_config.canvasState[_config.currentStateIndex-1],function()
                 {
-                  var jsonData = JSON.parse(_config.canvasState[_config.currentStateIndex-1]);
+                  // Random code no use?
+                  //var jsonData = JSON.parse(_config.canvasState[_config.currentStateIndex-1]);
                   canvas.renderAll();
                   _config.undoStatus = false;
                   _config.currentStateIndex -= 1;
@@ -528,14 +522,7 @@ var canvasDemo = (function()
                   _config.undoFinishedStatus = 1;
                 });
               }
-                else if(_config.currentStateIndex == 0)
-                {
-                  canvas.clear();
-                  _config.undoFinishedStatus = 1;
-                  _config.undoButton.disabled= "disabled";
-                  _config.redoButton.removeAttribute('disabled');
-                  _config.currentStateIndex -= 1;
-                }
+                
               }
             }
         }
@@ -545,13 +532,13 @@ var canvasDemo = (function()
     {
       if(_config.redoFinishedStatus)
       {
-        if((_config.currentStateIndex == _config.canvasState.length-1) && _config.currentStateIndex != -1)
+        if(_config.currentStateIndex == _config.canvasState.length-1 )
         {
           _config.redoButton.disabled= "disabled";
         }
         else
         {
-          if (_config.canvasState.length > _config.currentStateIndex && _config.canvasState.length != 0)
+          if (_config.canvasState.length > _config.currentStateIndex)
           {
             _config.redoFinishedStatus = 0;
             _config.redoStatus = true;
@@ -568,7 +555,7 @@ var canvasDemo = (function()
               }
               _config.redoFinishedStatus = 1;
 
-              if((_config.currentStateIndex == _config.canvasState.length-1) && _config.currentStateIndex != -1)
+              if(_config.currentStateIndex == _config.canvasState.length-1)
               {
                 _config.redoButton.disabled= "disabled";
               }
