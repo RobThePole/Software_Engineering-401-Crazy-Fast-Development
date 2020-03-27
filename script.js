@@ -13,6 +13,31 @@ var canvasDemo = (function()
     var canvasHeight =  window.innerWidth - 220;
     
     var canvas = new fabric.Canvas('canvas');
+    
+    // This is used for the custom loading for textbox's might create a cache function
+    var originalRender = fabric.Textbox.prototype._render;
+    fabric.Textbox.prototype._render = function(ctx) {
+      originalRender.call(this, ctx);
+     
+        var w = this.width,
+          h = this.height,
+          x = -this.width / 2,
+          y = -this.height / 2;
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+        ctx.lineTo(x + w, y);
+        ctx.lineTo(x + w, y + h);
+        ctx.lineTo(x, y + h);
+        ctx.lineTo(x, y);
+        ctx.closePath();
+        var stroke = ctx.strokeStyle;
+        ctx.strokeStyle = this.textboxBorderColor;
+        ctx.stroke();
+        ctx.strokeStyle = stroke;
+    
+        fabric.Textbox.prototype.cacheProperties = fabric.Textbox.prototype.cacheProperties.concat('active');
+    }
+    // End of cache system
 
     var _config = 
     {
@@ -23,6 +48,7 @@ var canvasDemo = (function()
       redoStatus              : false,
       undoFinishedStatus      : 1,
       redoFinishedStatus      : 1,
+      loadFile                : false,
       undoButton              : document.getElementById('undo'),
       redoButton              : document.getElementById('redo'),
       addRectangleButton      : document.getElementById('addRectangleButton'),
@@ -164,34 +190,8 @@ var canvasDemo = (function()
     // Go in and find out how to make textboxes work together
     var addTextBox = function(text)
     {
-        var originalRender = fabric.Textbox.prototype._render;
-    fabric.Textbox.prototype._render = function(ctx) {
-      originalRender.call(this, ctx);
-      //Don't draw border if it is active(selected/ editing mode)
-      // These if statements make it go away
-      //if (this.active) return;
-      //if(this.showTextBoxBorder)
-      //{
-        var w = this.width,
-          h = this.height,
-          x = -this.width / 2,
-          y = -this.height / 2;
-        ctx.beginPath();
-        ctx.moveTo(x, y);
-        ctx.lineTo(x + w, y);
-        ctx.lineTo(x + w, y + h);
-        ctx.lineTo(x, y + h);
-        ctx.lineTo(x, y);
-        ctx.closePath();
-        var stroke = ctx.strokeStyle;
-        ctx.strokeStyle = this.textboxBorderColor;
-        ctx.stroke();
-        ctx.strokeStyle = stroke;
-    
-        
-      //}
-    }
-    fabric.Textbox.prototype.cacheProperties = fabric.Textbox.prototype.cacheProperties.concat('active');
+
+
 
     // Add a function to add    \n_______________\n So users do not have to manualy add it
     // But also leave in the ablity for the user to use underscores if they are to lazy to learn where the button is? 
@@ -452,19 +452,29 @@ var canvasDemo = (function()
     {
       if((_config.undoStatus == false && _config.redoStatus == false))
       {
+        // load the data 
         var jsonData        = canvas.toJSON();   
- 	var canvasAsJson        = JSON.stringify(jsonData);
+ 	      var canvasAsJson        = JSON.stringify(jsonData);
         // Make sure the lines do not get added to the undo history
         if(jsonData.objects[jsonData.objects.length-1].saved == true)
         {
-          //This makes sure to start allowing undo to work only after these gridelines are made
-	  _config.canvasState[0] = canvasAsJson;
-	  _config.currentStateIndex = 1;
-		return;
+          // This takes the Lines and save it to the first slot so that it can not be erased.
+          _config.canvasState[0] = canvasAsJson;
+          _config.currentStateIndex = 1;
+          return;
         }
-        // Need to create a way of keeping objects that have been saved to not undo after loading a file.
+        else
+        {
+          // When the file is loaded this will make sure to save all objects from the file 
+          if(_config.loadFile == true)
+          {
+            _config.canvasState[0] = canvasAsJson;
+            _config.currentStateIndex = 1;
+            return;
+          }
 
-        var canvasAsJson        = JSON.stringify(jsonData);
+        }
+
 
           // Need to block _config.currentStateIndex from increasing when new file or load file is called    
           if(_config.currentStateIndex < _config.canvasState.length-1)
@@ -598,7 +608,12 @@ var canvasDemo = (function()
     {
       // Clears all infromation
       canvas.clear();
+      _config.loadFile = true;
+      _config.canvasState =[]
+      _config.currentStateIndex =0
       canvas.loadFromJSON(reader.result);
+      _config.loadFile = false;
+
     }
         reader.readAsText(file);
 
@@ -687,6 +702,9 @@ canvasDemo.addCircleButton.addEventListener('click',function(){
     canvasDemo.addTextBoxButton
 });
     canvasDemo.CanvasGrid();
+   
+
+
     
       // Can be used for setting up basic template
     //canvasDemo.addTextBox();
