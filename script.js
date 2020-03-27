@@ -44,6 +44,7 @@ var canvasDemo = (function()
     {
       var object = event.target;
       canvas.bringToFront(object);
+      
     });
     // These two canvas.on functions record for the UNDO and REDO features
     canvas.on('object:modified', function()
@@ -53,6 +54,7 @@ var canvasDemo = (function()
   
     canvas.on('object:added', function()
     {
+      
       updateCanvasState();
     });
     /* Canvas Out of Bounds Code */
@@ -88,19 +90,7 @@ var canvasDemo = (function()
 	    });
 
     });
-    // Object scale code
-    canvas.on('object:scaling', function(e) {
-      if (e.target != null) {
-        console.log(e.target);
-        var obj = e.target;
-            var height = obj.height * obj.scaleY;
-            var width = obj.width * obj.scaleX;
-            obj.height = height;
-            obj.width = width;
-            obj.scaleX = 1;
-            obj.scaleY = 1;
-      }
-    });
+    
 
     /* Code to prevent shapes from touching */
     var left1 = 0;
@@ -464,7 +454,7 @@ var canvasDemo = (function()
       if((_config.undoStatus == false && _config.redoStatus == false))
       {
         var jsonData        = canvas.toJSON();   
-        // Make sure other lines do not use stroke "#ccc" for other lines
+        // Make sure the lines do not get added to the undo history
         if(jsonData.objects[jsonData.objects.length-1].saved == true )
         {
           //This makes sure to start allowing undo to work only after these gridelines are made
@@ -472,6 +462,7 @@ var canvasDemo = (function()
           _config.currentStateIndex = jsonData.objects.length-1;
           _config.canvasState.length = jsonData.objects.length-1;
         }
+        // Need to create a way of keeping objects that have been saved to not undo after loading a file.
 
         var canvasAsJson        = JSON.stringify(jsonData);
 
@@ -584,10 +575,7 @@ var canvasDemo = (function()
       /* Act on the event */
       // Figure out how to save objects and then
       // Save must have Always ask you where to save files to change name of file
-      //for( i = _config.count; i < _config.canvasState.length; i++)
-      //{
-      //  jsonData.objects[i].saved = true;
-      //}
+     
       var data = JSON.stringify(jsonData );
       
       SaveAsFile(data, "UML_EDITOR_SET_FILE.json", "text/plain;charset=utf-8");
@@ -613,6 +601,7 @@ var canvasDemo = (function()
       canvas.loadFromJSON(reader.result);
     }
         reader.readAsText(file);
+
       });
     });
 
