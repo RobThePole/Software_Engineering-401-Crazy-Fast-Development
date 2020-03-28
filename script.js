@@ -1,4 +1,3 @@
-
 // All the code in canvas can be seperated into it's own class's easier down the line including undo and redo history
 var canvasDemo = (function()
 {
@@ -9,8 +8,9 @@ var canvasDemo = (function()
     canvasSize.setAttribute('width', window.innerWidth - 250);
     canvasSize.setAttribute('height', window.innerHeight - 150);
     var grid =  25;
-    var canvasWidth =  window.innerWidth - 220;
-    var canvasHeight =  window.innerWidth - 220;
+    // Check if this is the correct size
+    var canvasWidth =  window.innerWidth - 250;
+    var canvasHeight =  window.innerHeight - 150;
     
     var canvas = new fabric.Canvas('canvas');
     
@@ -20,9 +20,9 @@ var canvasDemo = (function()
       originalRender.call(this, ctx);
      
         var w = this.width,
-          h = this.height,
-          x = -this.width / 2,
-          y = -this.height / 2;
+            h = this.height,
+            x = -this.width / 2,
+            y = -this.height / 2;
         ctx.beginPath();
         ctx.moveTo(x, y);
         ctx.lineTo(x + w, y);
@@ -65,8 +65,6 @@ var canvasDemo = (function()
 
     };
 
-    
-  
     // Any Object selected get sent to the front of the canvas
     canvas.on('object:selected', function(event) 
     {
@@ -195,9 +193,6 @@ var canvasDemo = (function()
     // Go in and find out how to make textboxes work together
     var addTextBox = function(text)
     {
-
-
-
     // Add a function to add    \n_______________\n So users do not have to manualy add it
     // But also leave in the ablity for the user to use underscores if they are to lazy to learn where the button is? 
       var textbox = new fabric.Textbox("TITLE\n_______________\n - method()1\n - method()2", {
@@ -218,45 +213,62 @@ var canvasDemo = (function()
 
     
     }
-    //
+    // FIX FIX
     // Add Line Function
 	function addLine(){
-    isDown = true;
+    var makeLine = true;
+    line = new fabric.Line([0,0,0,0],
+       {
+      strokeWidth: 2,
+      fill: 'black',
+      stroke: 'black',
+      originX: 'center',
+      originY: 'center'
+
+  });
+   
       canvas.on('mouse:down', function (o) {
-          //if (isAngleDrawing == "1") {
-              canvas.selection = false;
-              isDownAngle = true;
+              //canvas.selection = false;
               var pointer = canvas.getPointer(o.e);
               var points = [pointer.x, pointer.y, pointer.x, pointer.y];
-   
-              line = new fabric.Line(points, {
+              if(isDrawing == true && makeLine)
+              {
+                
+                line = new fabric.Line(points, {
                   strokeWidth: 2,
                   fill: 'black',
                   stroke: 'black',
                   originX: 'center',
-                  originY: 'center'
-  
+                  originY: 'center',
+                     
               });
-              line.line1 = line;
               canvas.add(line);
-          //}
+              
+              }
+              else
+         
+              makeLine = false;
+              line.line1 = line;
       });
    
       canvas.on('mouse:move', function (o) {
-          if (!isDownAngle)
-              return;
-          //if (isAngleDrawing == "1") {
-              var pointer = canvas.getPointer(o.e);
-              line.set({x2: pointer.x, y2: pointer.y});
-              canvas.renderAll();
-          //}
+        if(isDrawing == true )
+        {
+          var pointer = canvas.getPointer(o.e);
+          line.set({x2: pointer.x, y2: pointer.y});
+          canvas.renderAll();
+        }
+              
+          
+      });
+      // Stops user from making more lines
+      canvas.on('mouse:up', function (o) {
+        canvas.selection = true;
+        isDrawing = false;
       });
    
-      canvas.on('mouse:up', function (o) {
-         
-              isDownAngle = false;
-             
-    });
+    
+    
     }
     
     // Class Diagram Objects End
@@ -403,227 +415,6 @@ var canvasDemo = (function()
       }
     }
 
-    /* Name (Type) of objects to delete so we can use the "new" feature */
-    var deleteList = function(listItems) 
-    {
-      if (listItems !== undefined) 
-      {
-        var len = listItems.length;
-        var list = []
-        for (var i = 0; i < len; i += 1) 
-        {
-          var item = listItems[i];
-          if (item.type === "rect") 
-          {
-            list.push(item);
-          }
-          if (item.type === "circle") 
-          {
-            list.push(item);
-          }
-          if (item.type === "text") 
-          {
-            list.push(item);
-          }
-          if (item.type === "line") 
-          {
-            list.push(item);
-          }
-        }
-        len = list.length;
-        for (var i = 0; i < len; i += 1)
-        {
-          canvas.remove(list[i]);
-        }
-      }
-    }
-
-    /*Delete Object Method*/
-    $("#deleteObj").on('click', function (e) {
-      canvas.getActiveObjects().forEach((obj) => {
-        canvas.remove(obj)
-        updateCanvasState();
-      });
-      canvas.discardActiveObject().renderAll()
-    });
-
-
-  
-    var updateCanvasState = function() 
-    {
-      if((_config.undoStatus == false && _config.redoStatus == false))
-      {
-        // load the data 
-        var jsonData        = canvas.toJSON();   
- 	      var canvasAsJson        = JSON.stringify(jsonData);
-        // Make sure the lines do not get added to the undo history
-        if(jsonData.objects[jsonData.objects.length-1].saved == true)
-        {
-          // This takes the Lines and save it to the first slot so that it can not be erased.
-          _config.canvasState[0] = canvasAsJson;
-          return;
-        }
-        // Does not work with images so far need to fiqure out a way to keep this variable true
-        if(_config.loadFile == true )
-        {
-          _config.canvasState[0] = canvasAsJson;
-            return;
-        }
-        // Used to store history
-        if(_config.currentStateIndex < _config.canvasState.length-1)
-        {
-          var indexToBeInserted                  = _config.currentStateIndex+1;
-          _config.canvasState[indexToBeInserted] = canvasAsJson;
-          var numberOfElementsToRetain           = indexToBeInserted+1;
-          _config.canvasState                    = _config.canvasState.splice(0,numberOfElementsToRetain);
-        }
-        else
-        {
-          _config.canvasState.push(canvasAsJson);
-        }
-        // Check if redo button should be disabled
-        _config.currentStateIndex = _config.canvasState.length-1;
-        if((_config.currentStateIndex == _config.canvasState.length-1))
-        {
-        _config.redoButton.disabled= "disabled";
-        }
-      }
-    }
-
-   
-    var undo = function() 
-    {
-        if(_config.undoFinishedStatus)
-        {
-            if(_config.currentStateIndex == 0)
-            {
-              _config.undoStatus = false;
-            }
-            else
-            {
-              if (_config.canvasState.length >= 1) 
-              {
-                _config.undoFinishedStatus = 0;
-              if(_config.currentStateIndex != 0)
-              {
-                _config.undoStatus = true;
-                canvas.loadFromJSON(_config.canvasState[_config.currentStateIndex-1],function()
-                {
-                  // Random code no use?
-                  //var jsonData = JSON.parse(_config.canvasState[_config.currentStateIndex-1]);
-                  canvas.renderAll();
-                  _config.undoStatus = false;
-                  _config.currentStateIndex -= 1;
-                  _config.undoButton.removeAttribute("disabled");
-                    if(_config.currentStateIndex !== _config.canvasState.length-1)
-                    {
-                      _config.redoButton.removeAttribute('disabled');
-                    }
-                  _config.undoFinishedStatus = 1;
-                });
-              }
-                
-              }
-            }
-        }
-    }
-    
-    var redo = function() 
-    {
-      if(_config.redoFinishedStatus)
-      {
-        if(_config.currentStateIndex == _config.canvasState.length-1 )
-        {
-          _config.redoButton.disabled= "disabled";
-        }
-        else
-        {
-          if (_config.canvasState.length > _config.currentStateIndex)
-          {
-            _config.redoFinishedStatus = 0;
-            _config.redoStatus = true;
-            canvas.loadFromJSON(_config.canvasState[_config.currentStateIndex+1],function()
-            {
-              var jsonData = JSON.parse(_config.canvasState[_config.currentStateIndex+1]);
-              canvas.renderAll();
-              _config.redoStatus = false;
-              _config.currentStateIndex += 1;
-
-              if(_config.currentStateIndex != 0)
-              {
-                  _config.undoButton.removeAttribute('disabled');
-              }
-              _config.redoFinishedStatus = 1;
-
-              if(_config.currentStateIndex == _config.canvasState.length-1)
-              {
-                _config.redoButton.disabled= "disabled";
-              }
-            });
-          }
-        }
-      }
-    }
-      // Change these all to variables?
-       /*Save File Method*/
-    $("#saveFile").click(function (event) 
-    {
-      var jsonData = canvas.toJSON(["selectable", "evented"]);
-      /* Act on the event */
-      // Figure out how to save objects and then
-      // Save must have Always ask you where to save files to change name of file
-     
-      var data = JSON.stringify(jsonData );
-      
-      SaveAsFile(data, "UML_EDITOR_SET_FILE.json", "text/plain;charset=utf-8");
-    
-    });
-    
-    /* Load File Method */
-    $("#loadFile").on('click', function (e) 
-    {
-      _config.loadFile = true;
-      e.preventDefault();
-      $("#loadFileInput:hidden").trigger('click');
-      var fileInput = document.getElementById('loadFileInput');
-
-      fileInput.addEventListener('change', function (e) 
-      {
-      var file = fileInput.files[0];
-
-      var reader = new FileReader();
-    reader.onload = function (e) 
-    {
-      // Clears all infromation
-      canvas.clear();
-      _config.loadFile = true;
-      _config.canvasState.splice(1,_config.canvasState.length-1);
-      _config.currentStateIndex =0;
-      canvas.loadFromJSON(reader.result);
-      // Need to delay this turning false 
-      // Or change this to false someone where else
-
-
-    }
-        reader.readAsText(file);
-
-
-
-      });
-
-    });
-
-      /*New File Method*/
-      $("#newFile").click(function (event) 
-      {
-        // Here we can replace with basic template or leave as it is.
-        canvas.loadFromJSON('{}');
-        _config.canvasState.splice(1,_config.canvasState.length-1);
-        _config.currentStateIndex =0
-        CanvasGrid();
-      });
-    
-      
        return {
           addRectangle  : addRectangle,
           addCircle     : addCircle,
@@ -636,7 +427,7 @@ var canvasDemo = (function()
           addDashedArrow : addDashedArrow,
           addComLine	: addComLine,
           CanvasGrid    : CanvasGrid,
-          deleteList    : deleteList,
+          canvas      : canvas,
           _config:    _config,
           undoButton : _config.undoButton,
           redoButton : _config.redoButton,
@@ -650,91 +441,5 @@ var canvasDemo = (function()
           addDashedArrowButton : _config.addDashedArrowButton,
           addComLineButton	: _config.addComLineButton,
           addLineButton     : _config.addLineButton,
-          //classActiveHideRestButtons : classActiveHideRestButtons,
-          undo       : undo,
-          redo       : redo,
               }
     })();
-// Go in and write a new method that includes
-// canvasDemo._config.loadFile = false;
-    canvasDemo.undoButton.addEventListener('click',function(){
-      canvasDemo.undo();
-});
-
-canvasDemo.redoButton.addEventListener('click',function(){
-
-      canvasDemo.redo();
-});
-canvasDemo.addRectangleButton.addEventListener('click',function(){
-    canvasDemo._config.loadFile = false;
-
-      canvasDemo.addRectangle()
-      
-});
-canvasDemo.addCircleButton.addEventListener('click',function(){
-    canvasDemo._config.loadFile = false;
-
-    canvasDemo.addCircle()
-});
-canvasDemo.addTextBoxButton.addEventListener('click',function(){
-    canvasDemo._config.loadFile = false;
-
-    canvasDemo.addTextBox();
-});
-canvasDemo.addActorButton.addEventListener('click',function(){
-    canvasDemo._config.loadFile = false;
-
-    canvasDemo.addActor()
-});
-canvasDemo.addEllipseButton.addEventListener('click',function(){
-    canvasDemo._config.loadFile = false;
-
-    canvasDemo.addEllipse()
-});
-canvasDemo.addLabelButton.addEventListener('click',function(){
-    canvasDemo._config.loadFile = false;
-
-    canvasDemo.addLabel()
-});
-canvasDemo.addGenArrowButton.addEventListener('click',function(){
-    canvasDemo._config.loadFile = false;
-
-    canvasDemo.addGenArrow()
-});
-canvasDemo.addDashedArrowButton.addEventListener('click',function(){
-    canvasDemo._config.loadFile = false;
-
-    canvasDemo.addDashedArrow()
-});
-canvasDemo.addComLineButton.addEventListener('click',function(){
-    canvasDemo._config.loadFile = false;
-
-    canvasDemo.addComLine()
-});
-canvasDemo.addLineButton.addEventListener('click',function(){
-    canvasDemo._config.loadFile = false;
-
-    canvasDemo.addLine()
-});
-// For now this does not have a function
-canvasDemo.addCircleButton.addEventListener('click',function(){
-    canvasDemo.addTextBoxButton
-});
-    canvasDemo.CanvasGrid();
-
-  
-      // Can be used for setting up basic template
-    //canvasDemo.addTextBox();
-
-// Save Function is here need to change so saving can write over file
-function SaveAsFile(t, f, m) 
-{
-	try {
-		var b = new Blob([t], {
-			type: m
-		});
-		saveAs(b, f);
-	} catch (e) {
-		window.open("data:" + m + "," + encodeURIComponent(t), '_blank', '');
-	}
-}
