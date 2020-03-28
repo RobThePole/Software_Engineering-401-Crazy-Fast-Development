@@ -64,6 +64,9 @@ var canvasDemo = (function()
       addLineButton           : document.getElementById('addLineButton'),
 
     };
+
+    
+  
     // Any Object selected get sent to the front of the canvas
     canvas.on('object:selected', function(event) 
     {
@@ -74,14 +77,16 @@ var canvasDemo = (function()
     // These two canvas.on functions record for the UNDO and REDO features
     canvas.on('object:modified', function()
     {
+      _config.loadFile = false;
+        updateCanvasState();
+    });
+    canvas.on('object:added', function()
+    {
+
         updateCanvasState();
     });
   
-    canvas.on('object:added', function()
-    {
-      
-      updateCanvasState();
-    });
+   
     /* Canvas Out of Bounds Code */
     canvas.on('object:moving', function (e) 
     {
@@ -458,17 +463,12 @@ var canvasDemo = (function()
           _config.canvasState[0] = canvasAsJson;
           return;
         }
-        else
+        // Does not work with images so far need to fiqure out a way to keep this variable true
+        if(_config.loadFile == true )
         {
-          // When the file is loaded this will make sure to save all objects from the file 
-          if(_config.loadFile == true)
-          {
-            _config.canvasState[0] = canvasAsJson;
+          _config.canvasState[0] = canvasAsJson;
             return;
-          }
-
         }
-
         // Used to store history
         if(_config.currentStateIndex < _config.canvasState.length-1)
         {
@@ -582,6 +582,7 @@ var canvasDemo = (function()
     /* Load File Method */
     $("#loadFile").on('click', function (e) 
     {
+      _config.loadFile = true;
       e.preventDefault();
       $("#loadFileInput:hidden").trigger('click');
       var fileInput = document.getElementById('loadFileInput');
@@ -596,15 +597,20 @@ var canvasDemo = (function()
       // Clears all infromation
       canvas.clear();
       _config.loadFile = true;
-      _config.canvasState =[];
+      _config.canvasState.splice(1,_config.canvasState.length-1);
       _config.currentStateIndex =0;
       canvas.loadFromJSON(reader.result);
-      _config.loadFile = false;
+      // Need to delay this turning false 
+      // Or change this to false someone where else
+
 
     }
         reader.readAsText(file);
 
+
+
       });
+
     });
 
       /*New File Method*/
@@ -612,7 +618,7 @@ var canvasDemo = (function()
       {
         // Here we can replace with basic template or leave as it is.
         canvas.loadFromJSON('{}');
-        _config.canvasState =[]
+        _config.canvasState.splice(1,_config.canvasState.length-1);
         _config.currentStateIndex =0
         CanvasGrid();
       });
@@ -631,6 +637,7 @@ var canvasDemo = (function()
           addComLine	: addComLine,
           CanvasGrid    : CanvasGrid,
           deleteList    : deleteList,
+          _config:    _config,
           undoButton : _config.undoButton,
           redoButton : _config.redoButton,
           addRectangleButton : _config.addRectangleButton,
@@ -648,42 +655,65 @@ var canvasDemo = (function()
           redo       : redo,
               }
     })();
-  
+// Go in and write a new method that includes
+// canvasDemo._config.loadFile = false;
     canvasDemo.undoButton.addEventListener('click',function(){
       canvasDemo.undo();
 });
 
 canvasDemo.redoButton.addEventListener('click',function(){
+
       canvasDemo.redo();
 });
 canvasDemo.addRectangleButton.addEventListener('click',function(){
+    canvasDemo._config.loadFile = false;
+
       canvasDemo.addRectangle()
+      
 });
 canvasDemo.addCircleButton.addEventListener('click',function(){
+    canvasDemo._config.loadFile = false;
+
     canvasDemo.addCircle()
 });
 canvasDemo.addTextBoxButton.addEventListener('click',function(){
-    canvasDemo.addTextBox()
+    canvasDemo._config.loadFile = false;
+
+    canvasDemo.addTextBox();
 });
 canvasDemo.addActorButton.addEventListener('click',function(){
+    canvasDemo._config.loadFile = false;
+
     canvasDemo.addActor()
 });
 canvasDemo.addEllipseButton.addEventListener('click',function(){
+    canvasDemo._config.loadFile = false;
+
     canvasDemo.addEllipse()
 });
 canvasDemo.addLabelButton.addEventListener('click',function(){
+    canvasDemo._config.loadFile = false;
+
     canvasDemo.addLabel()
 });
 canvasDemo.addGenArrowButton.addEventListener('click',function(){
+    canvasDemo._config.loadFile = false;
+
     canvasDemo.addGenArrow()
 });
 canvasDemo.addDashedArrowButton.addEventListener('click',function(){
+    canvasDemo._config.loadFile = false;
+
     canvasDemo.addDashedArrow()
 });
 canvasDemo.addComLineButton.addEventListener('click',function(){
+    canvasDemo._config.loadFile = false;
+
     canvasDemo.addComLine()
 });
 canvasDemo.addLineButton.addEventListener('click',function(){
+    canvasDemo._config.loadFile = false;
+
     canvasDemo.addLine()
 });
 // For now this does not have a function
@@ -691,10 +721,8 @@ canvasDemo.addCircleButton.addEventListener('click',function(){
     canvasDemo.addTextBoxButton
 });
     canvasDemo.CanvasGrid();
-   
 
-
-    
+  
       // Can be used for setting up basic template
     //canvasDemo.addTextBox();
 
