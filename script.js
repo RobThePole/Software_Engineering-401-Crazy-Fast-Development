@@ -596,8 +596,8 @@ var canvasDemo = (function()
       // Clears all infromation
       canvas.clear();
       _config.loadFile = true;
-      _config.canvasState =[]
-      _config.currentStateIndex =0
+      _config.canvasState =[];
+      _config.currentStateIndex =0;
       canvas.loadFromJSON(reader.result);
       _config.loadFile = false;
 
@@ -612,6 +612,8 @@ var canvasDemo = (function()
       {
         // Here we can replace with basic template or leave as it is.
         canvas.loadFromJSON('{}');
+        _config.canvasState =[]
+        _config.currentStateIndex =0
         CanvasGrid();
       });
     
