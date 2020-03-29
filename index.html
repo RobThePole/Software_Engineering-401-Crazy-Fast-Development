@@ -39,22 +39,7 @@
                 <a class="dropdown-item" href="#">Close</a>
             </div>
         </li>
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="EditnavbarDropdown" role="button"
-            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Edit
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Find</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Edit Data
-                <else></else>
-            </a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Select All</a>
-        </div>
-    </li>
+        
 </ul>
 </div>
 </nav>
@@ -63,8 +48,24 @@
 <!--Main Div-->
 <div class="row row_margin" style="height: 100%;">
     <!--Left Panel-->
+	
     <div class="col-md-2" style="border-right: 2px solid #dadce0 ">
+	<!--Action Buttons-->
+	<div class="row justify-content-md-center">
+		<button class="btn btn-sm mt-2 mb-2 btn-danger mr-1" type="button" style="" id = "redo">Redo
+		</button>
+		<button class="btn btn-sm mt-2 mb-2 btn-info" type="button" style="" id = "undo">Undo
+		</button>
+		<button class="btn btn-sm mt-2 mb-2 btn-danger mr-1" type="button" style="" id="deleteObj">Delete
+		</button>
+	</div>
+	<div class="row justify-content-md-center">
+    <button class="btn btn-lg mt-1 mb-1 btn-success" type="button" style="height: 50px" id="btn_getStarted">Get
+        Started
+		</button>
+	</div>
         <div style="overflow: auto;height: 80%;">
+		
             <h6 class="text-success text-center p-4">Diagram Type</h6>
             <!--Class Accordion-->
             <div id="classaccordion" class="d-none mt-2">
@@ -263,21 +264,6 @@
 </div>
 </div>
 
-
-<!--Action Buttons-->
-<div class="row justify-content-md-center">
-    <button class="btn btn-sm mt-2 mb-2 btn-danger mr-1" type="button" style="" id = "redo">Redo
-    </button>
-    <button class="btn btn-sm mt-2 mb-2 btn-info" type="button" style="" id = "undo">Undo
-    </button>
-    <button class="btn btn-sm mt-2 mb-2 btn-danger mr-1" type="button" style="" id="deleteObj">Delete
-    </button>
-</div>
-<div class="row justify-content-md-center">
-    <button class="btn btn-lg mt-1 mb-1 btn-success" type="button" style="height: 50px" id="btn_getStarted">Get
-        Started
-    </button>
-</div>
 
 </div>
 <!--Left Panel END-->
