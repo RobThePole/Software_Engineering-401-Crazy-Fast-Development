@@ -64,6 +64,26 @@ canvasDemo._config.loadFile = false;
 isDrawing = true;
 canvasDemo.addLine()
 });
+canvasDemo.addAggregationButton.addEventListener('click',function(){
+  canvasDemo._config.loadFile = false;
+
+  canvasDemo.addAggregation()
+});
+canvasDemo.addCompositionButton.addEventListener('click',function(){
+  canvasDemo._config.loadFile = false;
+
+  canvasDemo.addComposition()
+});
+canvasDemo.addDependencyButton.addEventListener('click',function(){
+  canvasDemo._config.loadFile = false;
+
+  canvasDemo.addDependency()
+});
+canvasDemo.addArrowButton.addEventListener('click',function(){
+  canvasDemo._config.loadFile = false;
+
+  canvasDemo.addArrow()
+});
 
 canvasDemo.CanvasGrid();
 // Can be used for setting up basic template
