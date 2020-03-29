@@ -22,7 +22,6 @@ $("#newFile").click(function (event)
 /*Delete Object Method*/
 $("#deleteObj").on('click', function (e) 
 {
-  canvasDemo._config.loadFile = false;
 
   deleteObject();
 });
@@ -53,6 +52,8 @@ var load = function(e)
 }
 var deleteObject = function()
 {
+  canvasDemo._config.loadFile = false;
+
     var selection = canvasDemo.canvas.getActiveObject();
     if (selection.type === 'activeSelection') {
         selection.forEachObject(function(element) {
