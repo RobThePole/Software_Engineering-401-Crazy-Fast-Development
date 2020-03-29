@@ -55,50 +55,57 @@ var canvasDemo = (function()
       addCircleButton         : document.getElementById('addCircleButton'),
       addTextBoxButton        : document.getElementById('addTextBoxButton'),
       addActorButton          : document.getElementById('addActorButton'),
-      addEllipseButton		: document.getElementById('addEllipseButton'),
-      addLabelButton			: document.getElementById('addLabelButton'),
-      addGenArrowButton		: document.getElementById('addGenArrowButton'),
-      addDashedArrowButton	: document.getElementById('addDashedArrowButton'),
-      addComLineButton		: document.getElementById('addComLineButton'),
+      addEllipseButton		    : document.getElementById('addEllipseButton'),
+      addLabelButton			    : document.getElementById('addLabelButton'),
+      addGenArrowButton		    : document.getElementById('addGenArrowButton'),
+      addDashedArrowButton	  : document.getElementById('addDashedArrowButton'),
+      addComLineButton		    : document.getElementById('addComLineButton'),
       addLineButton           : document.getElementById('addLineButton'),
 
     };
     // Makes sure if you mult-select as your first action on a loaded file to set to false
     canvas.on('selection:created',function()
     {
+      //
+      if(_config.loadFile == true)
+      {
       _config.loadFile = false;
       updateCanvasState();
+
+      }
     });
     // Any Object selected get sent to the front of the canvas
     canvas.on('object:selected', function(event) 
     {
       var object = event.target;
       canvas.bringToFront(object);
-      _config.loadFile = false;
-      console.log(_config.currentStateIndex);
-      updateCanvasState();
+      if(_config.loadFile == true)
+      {
+        _config.loadFile = false;
+        updateCanvasState();
+      }
+      
       
     });
     // These two canvas.on functions record for the UNDO and REDO features
     canvas.on('object:modified', function()
     {
-      _config.loadFile = false;
-        updateCanvasState();
+      updateCanvasState();
+      
+      
     });
     canvas.on('object:added', function()
     {
-        
+
         updateCanvasState();
     });
     canvas.on('object:removed',function()
     {
-      _config.loadFile = false;
 
       updateCanvasState();
     });
     
   
-   
     /* Canvas Out of Bounds Code */
     canvas.on('object:moving', function (e) 
     {
@@ -458,3 +465,5 @@ var canvasDemo = (function()
           addLineButton     : _config.addLineButton,
               }
     })();
+
+
