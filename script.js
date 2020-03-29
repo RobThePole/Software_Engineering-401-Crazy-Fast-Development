@@ -84,6 +84,7 @@ var canvasDemo = (function()
     });
     canvas.on('object:removed',function()
     {
+
       updateCanvasState();
     });
   

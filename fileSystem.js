@@ -1,4 +1,8 @@
+// Varibale to make sure first object deleted does not affect undo and redo history
+var deleteObjects = false;
+
 /*Save File Method*/
+
 $("#saveFile").click(function (event) 
 {
   save();
@@ -20,7 +24,11 @@ $("#newFile").click(function (event)
 /*Delete Object Method*/
 $("#deleteObj").on('click', function (e) 
 {
+  canvasDemo._config.loadFile = false;
+
+  deleteObjects = true
   deleteObject();
+  deleteObjects = false;
 });
 var load = function(e)
 {
@@ -102,17 +110,15 @@ var save = function()
   SaveAsFile(data, "UML_EDITOR_SET_FILE.json", "text/plain;charset=utf-8");
 
 };
-// Go in and move this code somewhere else 
-// Or leave it here?
 var updateCanvasState = function() 
 {
   if(canvasDemo._config.undoStatus == false && canvasDemo._config.redoStatus == false)
   {
     // load the data 
     var jsonData        = canvasDemo.canvas.toJSON();   
-       var canvasAsJson        = JSON.stringify(jsonData);
+    var canvasAsJson        = JSON.stringify(jsonData);
     // Make sure the lines do not get added to the undo history
-    if(jsonData.objects[jsonData.objects.length-1].saved == true)
+    if(jsonData.objects[jsonData.objects.length-1].saved == true && deleteObjects != true)
     {
       // This takes the Lines and save it to the first slot so that it can not be erased.
       canvasDemo._config.canvasState[0] = canvasAsJson;
@@ -127,7 +133,6 @@ var updateCanvasState = function()
     // Used to store history
     if(canvasDemo._config.currentStateIndex < canvasDemo._config.canvasState.length-1)
     {
-      console.log("testSS");
       var indexToBeInserted                  = canvasDemo._config.currentStateIndex+1;
       canvasDemo._config.canvasState[indexToBeInserted] = canvasAsJson;
       var numberOfElementsToRetain           = indexToBeInserted+1;
@@ -137,9 +142,10 @@ var updateCanvasState = function()
     {
         canvasDemo._config.canvasState.push(canvasAsJson);
     }
+
     // Check if redo button should be disabled
     canvasDemo._config.currentStateIndex = canvasDemo._config.canvasState.length-1;
-    if((canvasDemo._config.currentStateIndex == canvasDemo._config.canvasState.length-1))
+    if(canvasDemo._config.currentStateIndex == canvasDemo._config.canvasState.length-1)
     {
         canvasDemo._config.redoButton.disabled= "disabled";
     }
@@ -159,7 +165,7 @@ var undo = function()
               if (canvasDemo._config.canvasState.length >= 1) 
               {
                 canvasDemo._config.undoFinishedStatus = 0;
-              if(canvasDemo._config.currentStateIndex != 0)
+              if(canvasDemo._config.currentStateIndex != -1)
               {
                 canvasDemo._config.undoStatus = true;
                 canvasDemo.canvas.loadFromJSON(canvasDemo._config.canvasState[canvasDemo._config.currentStateIndex-1],function()
@@ -170,7 +176,7 @@ var undo = function()
                   canvasDemo._config.undoStatus = false;
                   canvasDemo._config.currentStateIndex -= 1;
                   canvasDemo._config.undoButton.removeAttribute("disabled");
-                    if(canvasDemo._config.currentStateIndex !== canvasDemo._config.canvasState.length-1)
+                    if((canvasDemo._config.currentStateIndex !== canvasDemo._config.canvasState.length-1) )
                     {
                       canvasDemo._config.redoButton.removeAttribute('disabled');
                     }
@@ -187,7 +193,7 @@ var undo = function()
     {
       if(canvasDemo._config.redoFinishedStatus)
       {
-        if(canvasDemo._config.currentStateIndex == canvasDemo._config.canvasState.length-1 )
+        if((canvasDemo._config.currentStateIndex == canvasDemo._config.canvasState.length-1)  )
         {
           canvasDemo._config.redoButton.disabled= "disabled";
         }
