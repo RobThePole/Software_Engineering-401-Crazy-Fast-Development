@@ -1,5 +1,3 @@
-// Varibale to make sure first object deleted does not affect undo and redo history
-var deleteObjects = false;
 
 /*Save File Method*/
 
@@ -26,9 +24,7 @@ $("#deleteObj").on('click', function (e)
 {
   canvasDemo._config.loadFile = false;
 
-  deleteObjects = true
   deleteObject();
-  deleteObjects = false;
 });
 var load = function(e)
 {
@@ -118,7 +114,7 @@ var updateCanvasState = function()
     var jsonData        = canvasDemo.canvas.toJSON();   
     var canvasAsJson        = JSON.stringify(jsonData);
     // Make sure the lines do not get added to the undo history
-    if(jsonData.objects[jsonData.objects.length-1].saved == true && deleteObjects != true)
+    if(jsonData.objects[jsonData.objects.length-1].saved == true)
     {
       // This takes the Lines and save it to the first slot so that it can not be erased.
       canvasDemo._config.canvasState[0] = canvasAsJson;
@@ -142,9 +138,10 @@ var updateCanvasState = function()
     {
         canvasDemo._config.canvasState.push(canvasAsJson);
     }
-
+    console.log(canvasDemo._config.currentStateIndex);
     // Check if redo button should be disabled
     canvasDemo._config.currentStateIndex = canvasDemo._config.canvasState.length-1;
+    console.log(canvasDemo._config.currentStateIndex);
     if(canvasDemo._config.currentStateIndex == canvasDemo._config.canvasState.length-1)
     {
         canvasDemo._config.redoButton.disabled= "disabled";
@@ -154,6 +151,8 @@ var updateCanvasState = function()
 
 var undo = function() 
     {
+      console.log(canvasDemo._config.currentStateIndex + "TEST");
+
         if(canvasDemo._config.undoFinishedStatus)
         {
             if(canvasDemo._config.currentStateIndex == 0)
@@ -167,11 +166,13 @@ var undo = function()
                 canvasDemo._config.undoFinishedStatus = 0;
               if(canvasDemo._config.currentStateIndex != -1)
               {
+
                 canvasDemo._config.undoStatus = true;
                 canvasDemo.canvas.loadFromJSON(canvasDemo._config.canvasState[canvasDemo._config.currentStateIndex-1],function()
                 {
                   // Random code no use?
                   //var jsonData = JSON.parse(_config.canvasState[_config.currentStateIndex-1]);
+
                   canvasDemo.canvas.renderAll();
                   canvasDemo._config.undoStatus = false;
                   canvasDemo._config.currentStateIndex -= 1;
@@ -191,6 +192,8 @@ var undo = function()
     
     var redo = function() 
     {
+      console.log(canvasDemo._config.currentStateIndex);
+
       if(canvasDemo._config.redoFinishedStatus)
       {
         if((canvasDemo._config.currentStateIndex == canvasDemo._config.canvasState.length-1)  )

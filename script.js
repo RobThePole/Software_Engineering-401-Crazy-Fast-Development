@@ -69,6 +69,7 @@ var canvasDemo = (function()
     {
       var object = event.target;
       canvas.bringToFront(object);
+      updateCanvasState();
       
     });
     // These two canvas.on functions record for the UNDO and REDO features
