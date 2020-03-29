@@ -65,7 +65,6 @@ else if (e.ctrlKey && e.which == 67)
     {
 		_clipboard = cloned;
     });
-    canvasDemo.canvas.remove(canvasDemo.canvas.getActiveObject());
     
 }
 else if (e.which == 46)
@@ -74,4 +73,16 @@ else if (e.which == 46)
 }
 
 
+}
+
+function getMouseCoordsX(event)
+{
+  var pointer = canvas.getPointer(event.e);
+  var posX = pointer.x;
+  return posX;
+}
+function getMouseCoordsY(event)
+{
+  var pointer = canvas.getPointer(event.e);
+  var posY = pointer.y;
 }
