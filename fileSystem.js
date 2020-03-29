@@ -1,19 +1,28 @@
 /*Save File Method*/
 $("#saveFile").click(function (event) 
 {
-  var jsonData = canvasDemo.canvas.toJSON(["selectable", "evented"]);
-  /* Act on the event */
-  // Figure out how to save objects and then
-  // Save must have Always ask you where to save files to change name of file
-
-  var data = JSON.stringify(jsonData );
-  
-  SaveAsFile(data, "UML_EDITOR_SET_FILE.json", "text/plain;charset=utf-8");
-
+  save();
 });
+
        
 /* Load File Method */
 $("#loadFile").on('click', function (e) 
+{
+ load(e);
+});
+
+/*New File Method*/
+$("#newFile").click(function (event) 
+{
+ newFile();
+});
+        
+/*Delete Object Method*/
+$("#deleteObj").on('click', function (e) 
+{
+  deleteObject();
+});
+var load = function(e)
 {
   canvasDemo._config.loadFile = true;
   e.preventDefault();
@@ -37,29 +46,37 @@ $("#loadFile").on('click', function (e)
 }
     reader.readAsText(file);
   });
-});
-
-/*New File Method*/
-$("#newFile").click(function (event) 
+}
+var deleteObject = function()
 {
-  // Here we can replace with basic template or leave as it is.
-  canvasDemo.canvas.loadFromJSON('{}');
-  canvasDemo._config.canvasState.splice(1,canvasDemo._config.canvasState.length-1);
-  canvasDemo._config.currentStateIndex =0
-  canvasDemo.CanvasGrid();
-});
+    var selection = canvasDemo.canvas.getActiveObject();
+    if (selection.type === 'activeSelection') {
+        selection.forEachObject(function(element) {
+          
+            console.log(element);
+            canvasDemo.canvas.remove(element);
+            
+        });
+    }
+    else
+    {
+        canvasDemo.canvas.remove(selection);
+
         
-/*Delete Object Method*/
-$("#deleteObj").on('click', function (e) 
-{
-  canvasDemo.canvas.getActiveObjects().forEach((obj) =>
-   {
-    canvasDemo.canvas.remove(obj)
-    updateCanvasState();
-  });
-  canvasDemo.canvas.discardActiveObject().renderAll()
-});
+    }
+    canvasDemo.canvas.discardActiveObject();
+    canvasDemo.canvas.requestRenderAll();
 
+
+}
+var newFile = function()
+{
+ // Here we can replace with basic template or leave as it is.
+ canvasDemo.canvas.loadFromJSON('{}');
+ canvasDemo._config.canvasState.splice(1,canvasDemo._config.canvasState.length-1);
+ canvasDemo._config.currentStateIndex =0
+ canvasDemo.CanvasGrid();
+}
 // Make Save system work
 function SaveAsFile(t, f, m) 
 {
@@ -72,11 +89,24 @@ function SaveAsFile(t, f, m)
 		window.open("data:" + m + "," + encodeURIComponent(t), '_blank', '');
 	}
 }
+
+var save = function()
+{
+  var jsonData = canvasDemo.canvas.toJSON(["selectable", "evented"]);
+  /* Act on the event */
+  // Figure out how to save objects and then
+  // Save must have Always ask you where to save files to change name of file
+
+  var data = JSON.stringify(jsonData );
+  
+  SaveAsFile(data, "UML_EDITOR_SET_FILE.json", "text/plain;charset=utf-8");
+
+};
 // Go in and move this code somewhere else 
 // Or leave it here?
 var updateCanvasState = function() 
 {
-  if((canvasDemo._config.undoStatus == false && canvasDemo._config.redoStatus == false))
+  if(canvasDemo._config.undoStatus == false && canvasDemo._config.redoStatus == false)
   {
     // load the data 
     var jsonData        = canvasDemo.canvas.toJSON();   
@@ -97,10 +127,11 @@ var updateCanvasState = function()
     // Used to store history
     if(canvasDemo._config.currentStateIndex < canvasDemo._config.canvasState.length-1)
     {
+      console.log("testSS");
       var indexToBeInserted                  = canvasDemo._config.currentStateIndex+1;
       canvasDemo._config.canvasState[indexToBeInserted] = canvasAsJson;
       var numberOfElementsToRetain           = indexToBeInserted+1;
-      canvasDemo._config.canvasState                    = canvasDemo._config.canvasState.splice(0,numberOfElementsToRetain);
+      canvasDemo._config.canvasState                    = canvasDemo._config.canvasState.splice(1,numberOfElementsToRetain);
     }
     else
     {
@@ -187,5 +218,3 @@ var undo = function()
         }
       }
     }
-
- 

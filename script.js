@@ -60,7 +60,6 @@ var canvasDemo = (function()
       addGenArrowButton		: document.getElementById('addGenArrowButton'),
       addDashedArrowButton	: document.getElementById('addDashedArrowButton'),
       addComLineButton		: document.getElementById('addComLineButton'),
-      // Waiting for Pauls updated code before adding it
       addLineButton           : document.getElementById('addLineButton'),
 
     };
@@ -82,6 +81,10 @@ var canvasDemo = (function()
     {
 
         updateCanvasState();
+    });
+    canvas.on('object:removed',function()
+    {
+      updateCanvasState();
     });
   
    
@@ -215,6 +218,7 @@ var canvasDemo = (function()
     }
     // FIX FIX
     // Add Line Function
+    // Look into using PAPER.js for lines?
 	function addLine(){
     var makeLine = true;
     line = new fabric.Line([0,0,0,0],
