@@ -50,9 +50,10 @@ var load = function(e)
     reader.readAsText(file);
   });
 }
+// Current task find a way to mult delete from a loaded file without having to move objects around
+// Need to change so you do not have to click on anything else to make sure delte works
 var deleteObject = function()
 {
-  canvasDemo._config.loadFile = false;
 
     var selection = canvasDemo.canvas.getActiveObject();
     if (selection.type === 'activeSelection') {
@@ -125,6 +126,7 @@ var updateCanvasState = function()
     if(canvasDemo._config.loadFile == true )
     {
         canvasDemo._config.canvasState[0] = canvasAsJson;
+        
         return;
     }
     // Used to store history
@@ -139,10 +141,8 @@ var updateCanvasState = function()
     {
         canvasDemo._config.canvasState.push(canvasAsJson);
     }
-    console.log(canvasDemo._config.currentStateIndex);
     // Check if redo button should be disabled
     canvasDemo._config.currentStateIndex = canvasDemo._config.canvasState.length-1;
-    console.log(canvasDemo._config.currentStateIndex);
     if(canvasDemo._config.currentStateIndex == canvasDemo._config.canvasState.length-1)
     {
         canvasDemo._config.redoButton.disabled= "disabled";
@@ -152,7 +152,6 @@ var updateCanvasState = function()
 
 var undo = function() 
     {
-      console.log(canvasDemo._config.currentStateIndex + "TEST");
 
         if(canvasDemo._config.undoFinishedStatus)
         {
@@ -193,7 +192,6 @@ var undo = function()
     
     var redo = function() 
     {
-      console.log(canvasDemo._config.currentStateIndex);
 
       if(canvasDemo._config.redoFinishedStatus)
       {

@@ -63,12 +63,19 @@ var canvasDemo = (function()
       addLineButton           : document.getElementById('addLineButton'),
 
     };
-
+    // Makes sure if you mult-select as your first action on a loaded file to set to false
+    canvas.on('selection:created',function()
+    {
+      _config.loadFile = false;
+      updateCanvasState();
+    });
     // Any Object selected get sent to the front of the canvas
     canvas.on('object:selected', function(event) 
     {
       var object = event.target;
       canvas.bringToFront(object);
+      _config.loadFile = false;
+      console.log(_config.currentStateIndex);
       updateCanvasState();
       
     });
@@ -80,14 +87,16 @@ var canvasDemo = (function()
     });
     canvas.on('object:added', function()
     {
-
+        
         updateCanvasState();
     });
     canvas.on('object:removed',function()
     {
+      _config.loadFile = false;
 
       updateCanvasState();
     });
+    
   
    
     /* Canvas Out of Bounds Code */
