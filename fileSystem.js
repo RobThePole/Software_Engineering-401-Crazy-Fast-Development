@@ -107,7 +107,17 @@ var save = function()
   
   SaveAsFile(data, "UML_EDITOR_SET_FILE.json", "text/plain;charset=utf-8");
 
+   
+  
+
 };
+var exportCanvas = function()
+{
+  canvasDemo.canvas.toCanvasElement().toBlob(function(blob)
+  {
+    saveAs(blob,"test.png");
+  });
+}
 var updateCanvasState = function() 
 {
   if(canvasDemo._config.undoStatus == false && canvasDemo._config.redoStatus == false)
@@ -226,3 +236,4 @@ var undo = function()
         }
       }
     }
+    
