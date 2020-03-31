@@ -19,11 +19,7 @@ canvasDemo._config.loadFile = false;
   canvasDemo.addRectangle()
   
 });
-canvasDemo.addCircleButton.addEventListener('click',function(){
-canvasDemo._config.loadFile = false;
 
-canvasDemo.addCircle()
-});
 canvasDemo.addTextBoxButton.addEventListener('click',function(){
 canvasDemo._config.loadFile = false;
 
