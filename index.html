@@ -46,10 +46,10 @@
 <!--Navigation Bar END-->
 
 <!--Main Div-->
-<div class="row row_margin" style="height: 100%;">
+<div class="row row_margin" style="height: 100%;margin-right: 0px;margin-left: -15px;">
     <!--Left Panel-->
 	
-    <div class="col-md-2" style="border-right: 2px solid #dadce0 ">
+    <div class="col-md-3" id="leftPanel" style="border-right: 2px solid #dadce0; padding-right: 0px; padding-left: 0px; ">
 	<!--Action Buttons-->
 	<div class="row justify-content-md-center">
 		<button class="btn btn-sm mt-2 mb-2 btn-danger mr-1" type="button" style="" id = "redo">Redo
@@ -64,11 +64,11 @@
         Started
 		</button>
 	</div>
-        <div style="overflow: auto;height: 80%;">
+        <div style="overflow: auto;height: 80%; ">
 		
             <h6 class="text-success text-center p-4">Diagram Type</h6>
             <!--Class Accordion-->
-            <div id="classaccordion" class="d-none mt-2">
+            <div id="classaccordion" class="d-none mt-2" style="margin: 25px">
                 <div class="card">
                     <div class="card-header clsTab outline-primary" id="classTab">
                         <h5 class="mb-0">
@@ -83,33 +83,32 @@
                 <div id="classTabCollapse" class="collapse show" aria-labelledby="classTab"
                 data-parent="#classaccordion">
                 <div class="card-body cardBody">
-                    <button  type="button" id="" class="btn btn-outline-secondary leftPanelBtnCls"><img
-                        src="images/SquareC.png" alt="image">
-                    </button>
-                    <button type="button" id = "addCircleButton" class="btn btn-outline-secondary leftPanelBtnCls"><img
-                        src="images/CircleC.png" alt="image">
-                    <button type="button" id = "addTextBoxButton"class="btn btn-outline-secondary leftPanelBtnCls"><img
+                    <button  type="button" id="addTextBoxButton" class="btn btn-outline-secondary leftPanelBtnCls"><img
                         src="images/CTextBox.png" alt="image">
+                    </button>
                     <button type="button" id = "addLineButton" class="btn btn-outline-secondary leftPanelBtnCls"><img
                         src="images/SimpleAssociationC.png" alt="image">
-                    <button type="button"  id = "addAggregationButton"class="btn btn-outline-secondary leftPanelBtnCls"><img
+					</button>
+                    
+                    <button type="button" id = "addAggregationButton" class="btn btn-outline-secondary leftPanelBtnCls"><img
                         src="images/AggregationC.png" alt="image">
-                    </button>
-                    <button type="button" id = "addArrowButton" class="btn btn-outline-secondary leftPanelBtnCls"><img
+					</button>
+                    <button type="button"  id = "addArrowButton"class="btn btn-outline-secondary leftPanelBtnCls"><img
                         src="images/ArrowC.png" alt="image">
                     </button>
-                    <button type="button" id = "addCompositionButton"class="btn btn-outline-secondary leftPanelBtnCls"><img
+                    <button type="button" id = "addCompositionButton" class="btn btn-outline-secondary leftPanelBtnCls"><img
                         src="images/CompositionC.png" alt="image">
                     </button>
-                    <button type="button"  id = "addDependencyButton"class="btn btn-outline-secondary leftPanelBtnCls"><img
+                    <button type="button" id = "addDependencyButton"class="btn btn-outline-secondary leftPanelBtnCls"><img
                         src="images/DependencyC.png" alt="image">
                     </button>
+                   
                 </div>
             </div>
         </div>
     </div>
     <!--Object Accordion-->
-    <div id="Objectaccordion" class="d-none mt-2">
+    <div id="Objectaccordion" class="d-none mt-2" style="margin: 25px">
         <div class="card">
             <div class="card-header clsTab" id="objectTab" data-toggle="collapse"
             data-target="#objectTabCollapse"
@@ -146,7 +145,7 @@
 </div>
 </div>
 <!--Use case Accordion-->
-<div id="usecaseaccordion" class="d-none mt-2">
+<div id="usecaseaccordion" class="d-none mt-2" style="margin: 25px">
     <div class="card">
         <div class="card-header clsTab" id="usecaseTab" data-toggle="collapse"
         data-target="#usecaseTabCollapse"
@@ -189,7 +188,7 @@
 </div>
 </div>
 <!--Activity Accordion-->
-<div id="activityaccordion" class="d-none mt-2">
+<div id="activityaccordion" class="d-none mt-2" style="margin: 25px">
     <div class="card">
         <div class="card-header clsTab" id="activityTab" data-toggle="collapse"
         data-target="#activityTabCollapse"
@@ -226,7 +225,7 @@
 </div>
 </div>
 <!--Sequence Accordion-->
-<div id="sequenceaccordion" class="d-none mt-2">
+<div id="sequenceaccordion" class="d-none mt-2" style="margin: 25px">
     <div class="card">
         <div class="card-header clsTab" id="sequenceTab" data-toggle="collapse"
         data-target="#sequenceTabCollapse"
@@ -269,7 +268,7 @@
 <!--Left Panel END-->
 
 <!--Right Panel-->
-<div class="col-md-10">
+<div class="col-md-9" style="padding-right: 0px;padding-left: 0px;">
     <!--Type Buttons-->
     <div class="container mt-2 mb-2">
         <div class="row justify-content-md-center">
@@ -290,8 +289,8 @@
             </div>
         </div>
     </div>
- <!-- ***  Canvas Area *** -->
-    <div class="card" style="">
+ <!-- ***  Canvas Area *** --> <!--Add new class-->
+    <div class="card canvasCardCss" style="">
 		<canvas id="canvas" style=""></canvas>
 
     </div>

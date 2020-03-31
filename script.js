@@ -5,11 +5,16 @@ var canvasDemo = (function()
 
     // Need to fix some these things
     // Better off writing some resize code for this
-    canvasSize.setAttribute('width', window.innerWidth - 250);
+	
+	var el=document.getElementById('leftPanel');
+
+// alert('Width in pixels: ' +el.clientWidth+'px\n'+
+      // 'Height in pixels: '+el.clientHeight+'px');
+    canvasSize.setAttribute('width', window.innerWidth - el.clientWidth);
     canvasSize.setAttribute('height', window.innerHeight - 150);
     var grid =  25;
     // Check if this is the correct size
-    var canvasWidth =  window.innerWidth - 250;
+    var canvasWidth =  window.innerWidth - el.clientWidth;
     var canvasHeight =  window.innerHeight - 150;
     
     var canvas = new fabric.Canvas('canvas');
@@ -52,7 +57,6 @@ var canvasDemo = (function()
       undoButton              : document.getElementById('undo'),
       redoButton              : document.getElementById('redo'),
       addRectangleButton      : document.getElementById('addRectangleButton'),
-      addCircleButton         : document.getElementById('addCircleButton'),
       addTextBoxButton        : document.getElementById('addTextBoxButton'),
       addActorButton          : document.getElementById('addActorButton'),
       addEllipseButton		    : document.getElementById('addEllipseButton'),
@@ -183,48 +187,35 @@ var canvasDemo = (function()
     var addRectangle = function()
     {
        var rect = new fabric.Rect({
-              left   : 100,
+              left   : 600,
               top    : 100,
-              fill   : 'red',
-              width  : 50,
-              height : 50,
+              width  : 350,
+              height : 600,
               originX: 'left',
               originY: 'top',
-              type: 'rect',
-              centeredRotation: true,
-              shadow: 'rgba(0,0,0,0.4) 5px 5px 7px'
+              stroke: 'black',
+			  strokeWidth: 1,
+			  fill: 'rgba(0,0,0,0)',
+			  shadow: 'rgba(0,0,0,0.4) 5px 5px 7px',
+              centeredRotation: true
+             
       });
             canvas.add(rect);
             canvas.setActiveObject(rect);
             canvas.renderAll();
     }
-    var addCircle = function()
-    {
-       var circle = new fabric.Circle({
-              left   : 300,
-              top    : 300,
-              radius : 50,
-              fill   : 'red',
-              originX: 'left',
-              originY: 'top',
-              type: 'circle',
-              centeredRotation: true,
-              shadow: 'rgba(0,0,0,0.4) 5px 5px 7px'
-      });
-            canvas.add(circle);
-            canvas.setActiveObject(circle);
-            canvas.renderAll();
-    }
+  
     // Go in and find out how to make textboxes work together
     var addTextBox = function(text)
     {
     // Add a function to add    \n_______________\n So users do not have to manualy add it
     // But also leave in the ablity for the user to use underscores if they are to lazy to learn where the button is? 
       var textbox = new fabric.Textbox("TITLE\n_______________\n - method()1\n - method()2", {
-        left: 50,
+        left: 38,
         top: 50,
         width: 100,
-        fontSize: 12,
+		textAlign: 'center',
+        fontSize: 16,
         fontFamily: 'Arial',
         backgroundColor: 'white',
         borderColor: 'red',
@@ -233,6 +224,7 @@ var canvasDemo = (function()
         textboxBorderColor: 'black',
         showTextBoxBorder: true,
       });
+	  
     
     canvas.add(textbox);
 
@@ -243,336 +235,78 @@ var canvasDemo = (function()
     // Look into using PAPER.js for lines?
 // Add Line Functions
 function addLine(){
-	isDown1 = true;
-    canvas.on('mouse:down', function (o) {
-		
-        if (isDown1 == true) {
-            isDownAngle = true;
-            var pointer = canvas.getPointer(o.e);
-            var points = [pointer.x, pointer.y, pointer.x, pointer.y];
- 
-            line = new fabric.Line(points, {
-                strokeWidth: 2,
-                fill: 'black',
-                stroke: 'black',
-                originX: 'center',
-                originY: 'center',
-            });
-            //line.line1 = line;
-            canvas.add(line);
-			//canvas.setActiveObject(line);
-        }
+	fabric.Image.fromURL('images/CommCanvas.png', function(img) {
+      img.scale(0.5).set({
+      left: 122,
+      top: 50,
+	  centeredRotation: true,
+      angle: 0
     });
- 
-    canvas.on('mouse:move', function (o) {
-        if (!isDownAngle)
-            return;
-            var pointer = canvas.getPointer(o.e);
-            line.set({x2: pointer.x, y2: pointer.y});
-            canvas.renderAll();
+    canvas.add(img).setActiveObject(img);
     });
- 
-    canvas.on('mouse:up', function (o) {
-            isDownAngle = false;
-            isDown1 = false;
-	});
 	}
 	
 	
 function addAggregation(){
-isDown2 = true;
-    canvas.on('mouse:down', function (o) {
-        if (isDown2 == true) {
-            
-            isDownAngle = true;			
-            var pointer = canvas.getPointer(o.e);
-            var points = [pointer.x, pointer.y, pointer.x, pointer.y];
- 
-            line = new fabric.Line(points, {
-                strokeWidth: 2,
-                fill: 'black',
-                stroke: 'black',
-                originX: 'center',
-                originY: 'center'
-            });
-            canvas.add(line);
-        }
+	fabric.Image.fromURL('images/ClassOpenDiamond.png', function(img) {
+      img.scale(0.5).set({
+      left: 122,
+      top: 50,
+	  centeredRotation: true,
+      angle: 0
     });
- 
-    canvas.on('mouse:move', function (o) {
-        if (!isDownAngle)
-            return;
-            var pointer = canvas.getPointer(o.e);
-            line.set({x2: pointer.x, y2: pointer.y});
-            canvas.renderAll();
+    
+    canvas.add(img).setActiveObject(img);
     });
- 
-    canvas.on('mouse:up', function (o) {
-		 if (isDown2 == true) {
-            y11 = line.get('y1');
-            y12 = line.get('y2');
-            x11 = line.get('x1');
-            x12 = line.get('x2');
-            var dy = y12 - y11;
-            var dx = x12 - x11;
-            var theta = Math.atan2(dy, dx); // range (-PI, PI]
-            theta *= 180 / Math.PI;
-            line.startAngle = theta;
-            var angle = countAngle(theta);
-            var angl = parseInt(angle).toString() +'°';
-            var top = line.top
-            var left = line.left;
-			
-			var rect = new fabric.Rect({ 
-				left: x12, 
-				top: y12, 
-				fill: 'white', 
-				stroke: 'black',
-				strokeWidth: 1,
-				width: 20,
-				height: 20,
-				angle: theta + 45,
-				originX: 'center',
-				originY: 'center',
-				evented: false,
-			}); 
-			canvas.add(rect);
-			isDown2 = false;
-            isDownAngle = false;
-         }   
-    });	
-}		
-						
-function countAngle(theta){
-    if (theta < 0.0) {
-        theta += 360.0;
-    }
-    return theta;
+
 }
 
 
 
-
 function addArrow(){
-	isDown3 = true;
-    canvas.on('mouse:down', function (o) {
-        if (isDown3 == true) {
-            
-            isDownAngle = true;
-            var pointer = canvas.getPointer(o.e);
-            var points = [pointer.x, pointer.y, pointer.x, pointer.y];
- 
-            line = new fabric.Line(points, {
-                strokeWidth: 2,
-                fill: 'black',
-                stroke: 'black',
-                originX: 'center',
-                originY: 'center'
-            });
-            canvas.add(line);
-        }
+	fabric.Image.fromURL('images/ArrowCanvas.png', function(img) {
+      img.scale(0.5).set({
+      left: 122,
+      top: 50,
+	  centeredRotation: true,
+      angle: 0
     });
- 
-    canvas.on('mouse:move', function (o) {
-        if (!isDownAngle)
-            return;
-            var pointer = canvas.getPointer(o.e);
-            line.set({x2: pointer.x, y2: pointer.y});
-            canvas.renderAll();
+    
+    canvas.add(img).setActiveObject(img);
     });
- 
-    canvas.on('mouse:up', function (o) {
-		if (isDown3 == true) {
-            y11 = line.get('y1');
-            y12 = line.get('y2');
-            x11 = line.get('x1');
-            x12 = line.get('x2');
-            var dy = y12 - y11;
-            var dx = x12 - x11;
-            var theta = Math.atan2(dy, dx); // range (-PI, PI]
-            theta *= 180 / Math.PI;
-            line.startAngle = theta;
-            var angle = countAngle(theta);
-            var angl = parseInt(angle).toString() +'°';
-            var top = line.top
-            var left = line.left;
-			
-			var tri = new fabric.Triangle({
-			top: y12,
-			left: x12,
-			width: 20, 
-			height: 10,
-			fill: 'white',
-			stroke: 'black',
-			strokeWidth: 1,
-			centeredRotation: true,
-			angle: theta + 90,
-			originX: 'center',
-			originY: 'center',
-			evented: false,
-			});
 
-			canvas.add(tri);
-			isDown3 = false;
-            isDownAngle = false;
-        }    
-    });	
-}		
-						
-function countAngle(theta){
-    if (theta < 0.0) {
-        theta += 360.0;
-    }
-    return theta;
 }
 
 
 
 function addComposition(){
-isDown4 =true;
+	fabric.Image.fromURL('images/ClassClosedDiamond.png', function(img) {
+      img.scale(0.5).set({
+      left: 122,
+      top: 50,
+	  centeredRotation: true,
+      angle: 0
+    });
+    
+    canvas.add(img).setActiveObject(img);
+    });
 
-    canvas.on('mouse:down', function (o) {
-        if (isDown4 == true) {
-            
-            isDownAngle = true;			
-            var pointer = canvas.getPointer(o.e);
-            var points = [pointer.x, pointer.y, pointer.x, pointer.y];
- 
-            line = new fabric.Line(points, {
-                strokeWidth: 2,
-                fill: 'black',
-                stroke: 'black',
-                originX: 'center',
-                originY: 'center'
-            });
-            canvas.add(line);
-        }
-    });
- 
-    canvas.on('mouse:move', function (o) {
-        if (!isDownAngle)
-            return;
-            var pointer = canvas.getPointer(o.e);
-            line.set({x2: pointer.x, y2: pointer.y});
-            canvas.renderAll();
-    });
- 
-    canvas.on('mouse:up', function (o) {
-		 if (isDown4 == true) {
-            y11 = line.get('y1');
-            y12 = line.get('y2');
-            x11 = line.get('x1');
-            x12 = line.get('x2');
-            var dy = y12 - y11;
-            var dx = x12 - x11;
-            var theta = Math.atan2(dy, dx); // range (-PI, PI]
-            theta *= 180 / Math.PI;
-            line.startAngle = theta;
-            var angle = countAngle(theta);
-            var angl = parseInt(angle).toString() +'°';
-            var top = line.top
-            var left = line.left;
-			
-			var rect = new fabric.Rect({ 
-				left: x12, 
-				top: y12, 
-				fill: 'black', 
-				stroke: 'black',
-				strokeWidth: 1,
-				width: 20,
-				height: 20,
-				angle: theta + 45,
-				originX: 'center',
-				originY: 'center',
-				evented: false,
-			}); 
-			canvas.add(rect);
-			isDown4 = false;
-            isDownAngle = false;
-         }   
-    });	
-}		
-						
-function countAngle(theta){
-    if (theta < 0.0) {
-        theta += 360.0;
-    }
-    return theta;
 }
 
 	
 
 function addDependency(){
-isDown5 = true;
-    canvas.on('mouse:down', function (o) {
-        if (isDown5 == true) {
-            
-            isDownAngle = true;
-            var pointer = canvas.getPointer(o.e);
-            var points = [pointer.x, pointer.y, pointer.x, pointer.y];
- 
-            line = new fabric.Line(points, {
-                strokeWidth: 2,
-				strokeDashArray: [5, 5],
-                stroke: 'black',
-                originX: 'center',
-                originY: 'center'
-            });
-            canvas.add(line);
-        }
+	fabric.Image.fromURL('images/DashArrowCanvas.png', function(img) {
+      img.scale(0.5).set({
+      left: 122,
+      top: 50,
+	  centeredRotation: true,
+      angle: 0
     });
- 
-    canvas.on('mouse:move', function (o) {
-        if (!isDownAngle)
-            return;
-            var pointer = canvas.getPointer(o.e);
-            line.set({x2: pointer.x, y2: pointer.y});
-            canvas.renderAll();
+    
+    canvas.add(img).setActiveObject(img);
     });
- 
-    canvas.on('mouse:up', function (o) {
-		if (isDown5 == true) {
-            y11 = line.get('y1');
-            y12 = line.get('y2');
-            x11 = line.get('x1');
-            x12 = line.get('x2');
-            var dy = y12 - y11;
-            var dx = x12 - x11;
-            var theta = Math.atan2(dy, dx); // range (-PI, PI]
-            theta *= 180 / Math.PI;
-            line.startAngle = theta;
-            var angle = countAngle(theta);
-            var angl = parseInt(angle).toString() +'°';
-            var top = line.top
-            var left = line.left;
-			
-			var tri = new fabric.Triangle({
-			top: y12,
-			left: x12,
-			width: 20, 
-			height: 10,
-			fill: 'black',
-			stroke: 'black',
-			strokeWidth: 1,
-			centeredRotation: true,
-			angle: theta + 90,
-			originX: 'center',
-			originY: 'center',
-			evented: false,
-			});
 
-			canvas.add(tri);
-			isDown5 = false;
-            isDownAngle = false;
-		}
-    });	
-}		
-						
-function countAngle(theta){
-    if (theta < 0.0) {
-        theta += 360.0;
-    }
-    return theta;
 }
     // Class Diagram Objects End
     
@@ -582,8 +316,9 @@ function countAngle(theta){
     var addActor = function(){
     fabric.Image.fromURL('images/ActorCanvas.png', function(img) {
       img.scale(0.5).set({
-      left: 150,
-      top: 150,
+      left: 122,
+      top: 50,
+	  centeredRotation: true,
       angle: 0,
     shadow: 'rgba(0,0,0,0.4) 5px 5px 7px'
     });
@@ -607,8 +342,8 @@ function countAngle(theta){
     
     var addEllipse = function()  {
     var ellipse = new fabric.Ellipse({
-    left: 150,
-    top: 20,
+    left: 122,
+    top: 50,
     rx: 125,
     ry: 50,
     stroke: 'black',
@@ -626,8 +361,8 @@ function countAngle(theta){
     var addLabel = function() {
       
     var t1 = new fabric.Textbox('LABEL', {
-      width: 150,
-      top: 5,
+      width: 122,
+      top: 50,
       left: 5,
       fontSize: 20,
       textAlign: 'center',
@@ -651,8 +386,9 @@ function countAngle(theta){
     var addGenArrow = function() {
     fabric.Image.fromURL('images/ArrowCanvas.png', function(img) {
       img.scale(0.5).set({
-      left: 150,
-      top: 150,
+      left: 122,
+      top: 50,
+	  centeredRotation: true,
       angle: 0
     });
     
@@ -667,8 +403,9 @@ function countAngle(theta){
       
     fabric.Image.fromURL('images/DashArrowCanvas.png', function(img) {
       img.scale(0.5).set({
-      left: 150,
-      top: 150,
+      left: 122,
+      top: 50,
+	  centeredRotation: true,
       angle: 0
     });
     
@@ -684,43 +421,41 @@ function countAngle(theta){
       
     fabric.Image.fromURL('images/CommCanvas.png', function(img) {
       img.scale(0.5).set({
-      left: 150,
-      top: 150,
+      left: 122,
+      top: 50,
       angle: 0
     });
     canvas.add(img).setActiveObject(img);
     });
         
     }
-    //
+    
 
-
+	// Not needed anymore....
     // CanvasGird should be fixed to allow resizing
-    var  CanvasGrid = function() 
-    {
+    // var  CanvasGrid = function() 
+    // {
                    
-      for (var i = 0; i < (canvasWidth / grid); i++) 
-      {
-        canvas.add(new fabric.Line([i * grid, 0, i * grid, canvasHeight], 
-        {
-          stroke: '#ccc',
-          selectable: false,
-          evented: false,
-          saved: true
-        }));
-        canvas.add(new fabric.Line([0, i * grid, canvasWidth, i * grid], 
-        {
-          stroke: '#ccc',
-          selectable: false,
-          evented: false,
-          saved: true
-        }));
-      }
-    }
+      // for (var i = 0; i < (canvasWidth / grid); i++) 
+      // {
+        // canvas.add(new fabric.Line([i * grid, 0, i * grid, canvasHeight], 
+        // {
+          // selectable: false,
+          // evented: false,
+          // saved: true
+        // }));
+        // canvas.add(new fabric.Line([0, i * grid, canvasWidth, i * grid], 
+        // {
+         
+          // selectable: false,
+          // evented: false,
+          // saved: true
+        // }));
+      // }
+    // }
 
        return {
           addRectangle  : addRectangle,
-          addCircle     : addCircle,
           addLine       : addLine,
           addTextBox    : addTextBox,
           addActor		: addActor,
@@ -729,13 +464,12 @@ function countAngle(theta){
           addGenArrow   : addGenArrow,
           addDashedArrow : addDashedArrow,
           addComLine	: addComLine,
-          CanvasGrid    : CanvasGrid,
+          // CanvasGrid    : CanvasGrid,
           canvas      : canvas,
           _config:    _config,
           undoButton : _config.undoButton,
           redoButton : _config.redoButton,
           addRectangleButton : _config.addRectangleButton,
-          addCircleButton   : _config.addCircleButton,
           addTextBoxButton  : _config.addTextBoxButton,
           addActorButton    : _config.addActorButton,
           addEllipseButton	: _config.addEllipseButton,

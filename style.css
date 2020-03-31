@@ -47,8 +47,23 @@
     canvas {
         position: absolute;
         background: #FFFFF;
+		    background-color: #f6f6f66e;
+    /* background-image: linear-gradient(#434343, #282828); */
     }
-
+.upper-canvas {
+	 background-color: transparent;
+    background-image: linear-gradient(0deg, transparent 24%, RGBA(136,136,140,0.15) 25%, RGBA(136,136,140,0.15) 26%, transparent 27%, transparent 74%, RGBA(136,136,140,0.15) 75%, 
+	RGBA(136,136,140,0.15) 76%, transparent 77%, transparent), 
+	linear-gradient(90deg, transparent 24%, RGBA(136,136,140,0.15) 25%, RGBA(136,136,140,0.15) 26%, transparent 27%, transparent 74%, RGBA(136,136,140,0.15) 75%, 
+	RGBA(136,136,140,0.15) 76%, transparent 77%, transparent);
+  height:100%;
+  background-size:23px 23px;
+}
+.canvasCardCss{
+	margin-left: 2px;    
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+	    border: 0px solid rgba(0, 0, 0, .125);
+	}
     .dropdown-divider {
         margin: 0rem;
     }
