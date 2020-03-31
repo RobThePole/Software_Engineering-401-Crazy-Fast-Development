@@ -25,6 +25,11 @@ $("#deleteObj").on('click', function (e)
 
   deleteObject();
 });
+$("#exportImage").on('click', function (e) 
+{
+
+  exportCanvas();
+});
 var load = function(e)
 {
   canvasDemo._config.loadFile = true;
@@ -81,7 +86,6 @@ var newFile = function()
  canvasDemo.canvas.loadFromJSON('{}');
  canvasDemo._config.canvasState.splice(1,canvasDemo._config.canvasState.length-1);
  canvasDemo._config.currentStateIndex =0
- canvasDemo.CanvasGrid();
 }
 // Make Save system work
 function SaveAsFile(t, f, m) 
@@ -125,20 +129,15 @@ var updateCanvasState = function()
     // load the data 
     var jsonData        = canvasDemo.canvas.toJSON();   
     var canvasAsJson        = JSON.stringify(jsonData);
-    // Make sure the lines do not get added to the undo history
-    if(jsonData.objects[jsonData.objects.length-1].saved == true)
-    {
-      // This takes the Lines and save it to the first slot so that it can not be erased.
-      canvasDemo._config.canvasState[0] = canvasAsJson;
-      return;
-    }
-    // Does not work with images so far need to fiqure out a way to keep this variable true
+    
+    // When you open the program or load a file the first index of the array saves the default version of the file.
     if(canvasDemo._config.loadFile == true )
     {
         canvasDemo._config.canvasState[0] = canvasAsJson;
         
         return;
     }
+    
     // Used to store history
     if(canvasDemo._config.currentStateIndex < canvasDemo._config.canvasState.length-1)
     {

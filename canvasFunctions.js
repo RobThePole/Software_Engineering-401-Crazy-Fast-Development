@@ -80,7 +80,11 @@ canvasDemo.addArrowButton.addEventListener('click',function(){
 
   canvasDemo.addArrow()
 });
+// Used this for start of file to make sure default is part of history
+canvasDemo._config.loadFile = true;
+updateCanvasState();
 
-canvasDemo.CanvasGrid();
+
+//canvasDemo.CanvasGrid();
 // Can be used for setting up basic template
 //canvasDemo.addTextBox();

@@ -10,12 +10,12 @@ var canvasDemo = (function()
 
 // alert('Width in pixels: ' +el.clientWidth+'px\n'+
       // 'Height in pixels: '+el.clientHeight+'px');
+    
+    // NEED To FIND A WAY To AUTO set width and height while resizeing window.
     canvasSize.setAttribute('width', window.innerWidth - el.clientWidth);
     canvasSize.setAttribute('height', window.innerHeight - 150);
     var grid =  25;
     // Check if this is the correct size
-    var canvasWidth =  window.innerWidth - el.clientWidth;
-    var canvasHeight =  window.innerHeight - 150;
     
     var canvas = new fabric.Canvas('canvas');
     
@@ -464,7 +464,6 @@ function addDependency(){
           addGenArrow   : addGenArrow,
           addDashedArrow : addDashedArrow,
           addComLine	: addComLine,
-          // CanvasGrid    : CanvasGrid,
           canvas      : canvas,
           _config:    _config,
           undoButton : _config.undoButton,
@@ -488,15 +487,4 @@ function addDependency(){
 		      addDependencyButton     :  _config.addDependencyButton,
               }
     })();
-
-    /*
-		  addAggregation: addAggregation,
-		  addComposition: addComposition,
-		  addArrow      : addArrow,
-		  addDependency : addDependency,
-		  addAggregationButton    :  _config.addAggregationButton,
-		  addCompositionButton    :  _config.addCompositionButton,
-		  addArrowButton          :  _config.addArrowButton,
-		  addDependencyButton     :  _config.addDependencyButton,
-    */
 
