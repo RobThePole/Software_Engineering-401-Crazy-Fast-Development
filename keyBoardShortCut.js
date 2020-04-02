@@ -27,11 +27,13 @@ else if (e.ctrlKey && e.which == 88)
     canvasDemo.canvas.getActiveObject().clone(function(cloned) 
     {
 		_clipboard = cloned;
-    });
-    canvasDemo.canvas.remove(canvasDemo.canvas.getActiveObject());
+	});
+	deleteObject();
+
 }
 else if (e.ctrlKey && e.which == 86)
 {
+
     console.log("PASTE");
     // clone again, so you can do multiple copies.
 	_clipboard.clone(function(clonedObj) {
@@ -73,16 +75,4 @@ else if (e.which == 46)
 }
 
 
-}
-
-function getMouseCoordsX(event)
-{
-  var pointer = canvas.getPointer(event.e);
-  var posX = pointer.x;
-  return posX;
-}
-function getMouseCoordsY(event)
-{
-  var pointer = canvas.getPointer(event.e);
-  var posY = pointer.y;
 }
