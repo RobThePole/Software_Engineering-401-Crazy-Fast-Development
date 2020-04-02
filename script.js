@@ -14,7 +14,6 @@ var canvasDemo = (function()
     // NEED To FIND A WAY To AUTO set width and height while resizeing window.
     canvasSize.setAttribute('width', window.innerWidth - el.clientWidth);
     canvasSize.setAttribute('height', window.innerHeight - 150);
-    var grid =  25;
     // Check if this is the correct size
     
     var canvas = new fabric.Canvas('canvas');
@@ -138,15 +137,7 @@ var canvasDemo = (function()
       }
     });
 
-    // snap to grid
-    canvas.on('object:moving', function (options) 
-    {
-      options.target.set({
-        left: Math.round(options.target.left / grid) * grid,
-        top: Math.round(options.target.top / grid) * grid
-	    });
-
-    });
+    
     
 
     /* Code to prevent shapes from touching */
@@ -235,6 +226,7 @@ var canvasDemo = (function()
     // Look into using PAPER.js for lines?
 // Add Line Functions
 function addLine(){
+   
 	fabric.Image.fromURL('images/CommCanvas.png', function(img) {
       img.scale(0.5).set({
       left: 122,
@@ -242,6 +234,7 @@ function addLine(){
 	  centeredRotation: true,
       angle: 0
     });
+    
     canvas.add(img).setActiveObject(img);
     });
 	}

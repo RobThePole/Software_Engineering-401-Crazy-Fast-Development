@@ -1,145 +1,149 @@
 
-(function() {
+function easyLine(coords) {
+	
+	function makeLineSegment(coords) {
+	    return new fabric.Line(coords, {
+	        fill: 'red',
+	        stroke: 'red',
+	        strokeWidth: 5,
+	        selectable: true,
+	        hasControls: false,
+	        //hoverCursor: 'pointer'
+	    });
+	}
+	var line = makeLineSegment(coords);
+	canvas.add(line);
+	
+	//use constant so custom clickable line end points are consistent UI size
+	var vertexRadius = 6;
+	
+	function vertex(x, y, line) {
+	    var c = new fabric.Circle({
+	        left: x,
+	        top: y,
+	        strokeWidth: 0.1,
+	        radius: vertexRadius,
+	        fill: '',
+	        stroke: 'red'
+	    });
+	    c.line = line;
+	    c.hasControls = false;
+	    c.hasBorders = true;
+	    return c;
+	}
+	
+	//add vertex points for ends of line
+	var headVertex = vertex(line.get('x1'), line.get('y1'), line),
+		tailVertex = vertex(line.get('x2'), line.get('y2'), line);
+	
+	canvas.add(headVertex, tailVertex);
+	
+	canvas.on('object:moving', function(e) {
+	    var p = e.target;
+	    console.log('--------------------------');
+	    console.log('object:moving');
+	    console.log(e);
+    	
+		//make sure we know where the point is referenced to
+    	move = p.getPointByOrigin('left','top');
+    	console.log('left:',move.x,' top:',move.y);
 
- 
+    	/* trying to deal with easyLines being in groups... beware of dragons
+	    if (p.objects && p.objects.length>0){
+		    //handle when easyLine's are being moved in a group!
+		    $(p.objects).each(function() {
+		    	console.log('\teach');
+		    	updateLocation(move.x, move.y, this);
+		    });
+	    }
+	    else {
+	    */
+	    	console.log('\tsingle');
+	    	updateLocation(move.x, move.y, p);
+	    //}
 
-  function add() {
-    var red = new fabric.Rect({
-      top: 100, left: 0, width: 80, height: 50, fill: 'red' });
-    var blue = new fabric.Rect({
-      top: 0, left: 100, width: 50, height: 70, fill: 'blue' });
-    var green = new fabric.Rect({
-      top: 100, left: 100, width: 60, height: 60, fill: 'green' });
-    canvas.add(red, blue, green);
-  }
+	});
+	
+	function updateLocation(moveX, moveY, p){
+		console.log('\tupdateLocation()');
+		console.log(p);
+	    if (p==line) {
+	    	console.log('\t\tline');
 
-  
+	    	//calculate location of line endpoints to update clickable vertexes on screen
+	    	var x1 = line.x1,
+	    		y1 = line.y1,
+	    		x2 = line.x2,
+	    		y2 = line.y2;
+	    	
+	    	if (x1<x2) { 
+	    		x2 = x2-x1 + moveX;
+	    		x1 = moveX;
+	    	}
+	    	else { 
+	    		x1 = x1-x2 + moveX;
+	    		x2 = moveX;
+	    	}
+	    	
+	    	if (y1<y2) {
+	    		y2 = y2-y1 + moveY;
+	    		y1 = moveY;
+	    	}
+	    	else {
+	    		y1 = y1 - y2 + moveY;
+	    		y2 = moveY;
+	    	}
+	    	
+	    	headVertex.set({
+	    		left: x1, 
+	    		top:  y1
+	    	});
+	    	tailVertex.set({
+	    		left: x2, 
+	    		top:  y2
+	    	});
+	    	
+	    	headVertex.setCoords();
+	    	tailVertex.setCoords();
+	    	//set the actual line the vertexs are attached to... cause.. ??
+	    	headVertex.line.set({
+		        'x1': x1,
+		        'y1': y1
+		    });
+	    	tailVertex.line.set({
+		        'x2': x2,
+		        'y2': y2
+		    });
+	    }
+	    
+	    if (p==headVertex) {
+	    	console.log('\t\thead vertex moving');
+	    	headVertex.line.set({
+		        'x1': p.left,
+		        'y1': p.top
+		    });
+		    //update location of line so selection box is correct
+		    line.setCoords();
+	    }
+	    if (p==tailVertex) {
+	    	console.log('\t\ttail vertex moving');
+	    	tailVertex.line.set({
+		        'x2': p.left,
+		        'y2': p.top
+		    });
+		    //update location of line so selection box is correct
+		    line.setCoords();
+	    }
+	    
+	    if (p==headVertex.line) {
+	    	console.log('\t\thead vertex moving....');
+	    }
+	    if (p==tailVertex.line) {
+	    	console.log('\t\ttail vertex moving....');
+	    }
+	}
 
-  var $ = function(id){return document.getElementById(id)};
-  var canvas = this.__canvas = new fabric.Canvas('c');
-  var red = new fabric.Rect({
-    top: 100, left: 0, width: 80, height: 50, fill: 'red' });
-  var blue = new fabric.Rect({
-    top: 0, left: 100, width: 50, height: 70, fill: 'blue' });
-  var green = new fabric.Rect({
-    top: 100, left: 100, width: 60, height: 60, fill: 'green' });
-  fabric.Object.prototype.transparentCorners = false;
+}
 
-  canvas.add(red, blue, green)
-  var group = $('group'),
-      ungroup = $('ungroup'),
-      multiselect = $('multiselect'),
-      addmore = $('addmore'),
-      discard = $('discard'),
-      save = $('save'),
-      newProject = $('newProject');
-
-      addmore.onclick = add;
-
-      multiselect.onclick = function() {
-        canvas.discardActiveObject();
-        var sel = new fabric.ActiveSelection(canvas.getObjects(), {
-          canvas: canvas,
-        });
-        canvas.setActiveObject(sel);
-        canvas.requestRenderAll();
-      }
-
-      group.onclick = function() {
-        if (!canvas.getActiveObject()) {
-          return;
-        }
-        if (canvas.getActiveObject().type !== 'activeSelection') {
-          return;
-        }
-        canvas.getActiveObject().toGroup();
-        canvas.requestRenderAll();
-      }
-
-      ungroup.onclick = function() {
-        if (!canvas.getActiveObject()) {
-          return;
-        }
-        if (canvas.getActiveObject().type !== 'group') {
-          return;
-        }
-        canvas.getActiveObject().toActiveSelection();
-        canvas.requestRenderAll();
-      }
-
-      discard.onclick = function() 
-      {
-        canvas.discardActiveObject();
-        canvas.requestRenderAll();
-      }
-      
-      // Change this to
-      save.onclick = function()
-      {
-        var data = JSON.stringify(canvas);
-        console.log(data);
-        //localStorage['Test_data'] = data;
-        SaveAsFile(data,"UML_EDITOR_FK_THIS_SAVE.json","text/plain;charset=utf-8");
-
-       
-      
-
-      }
-      // Setup up default values for the data.
-      newProject.onclick = function()
-      {
-        // Now just need to add settings and default file name here and new project should be all set
-        // Current default when no objects are on the canvas
-        canvas.loadFromJSON('{}');
-        console.log("New project " + JSON.stringify(canvas))
-
-        
-
-      }
-
- 
-})();
-
-
-  // File load code is here
-  // If you load this test.js by accident does same thing not sure why tested with other files does not happen besides teh JSON file which should work
-  // Test to see if this code will work in differnet file later just kind of tried
-  $(document).ready(function()
-  {
-      $("#fileInputControl").on("change",fileInputControlChangeEventHandler);
-  });
-    function fileInputControlChangeEventHandler(event)
-    {
-        let fileInputControl = event.target;
-        let files = fileInputControl.files;
-    
-        let firstFile = files[0];
-    
-        let fileReader = new FileReader();
-    
-        fileReader.onload = function(event)
-        {
-            // Used just to get access to canvas might need to clean this up
-            // Spent to much time CODEING get back to it later
-            var canvas = this.__canvas = new fabric.Canvas('c');
-
-            let fileContents = event.target.result;
-            canvas.loadFromJSON(fileContents);
-            console.log(JSON.stringify(JSON.stringify(fileContents)));
-                    
-        }
-    
-    
-        fileReader.readAsText(firstFile);
-    }
-
-
-    // Save Function is here need to change so saving can write over file
-    function SaveAsFile(t,f,m) {
-      try {
-          var b = new Blob([t],{type:m});
-          saveAs(b, f);
-      } catch (e) {
-          window.open("data:"+m+"," + encodeURIComponent(t), '_blank','');
-      }
-  }
+easyLine([250, 250, 300, 350]);
+easyLine([450, 250, 500, 300]);
