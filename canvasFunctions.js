@@ -23,7 +23,7 @@ canvasDemo._config.loadFile = false;
 canvasDemo.addTextBoxButton.addEventListener('click',function(){
 canvasDemo._config.loadFile = false;
 
-canvasDemo.addTextBox();
+canvasDemo.addTextBox("TITLE\n_______________\n - method()1\n - method()2\n_______________\n - method()1");
 });
 canvasDemo.addActorButton.addEventListener('click',function(){
 canvasDemo._config.loadFile = false;
@@ -57,7 +57,6 @@ canvasDemo.addComLine()
 });
 canvasDemo.addLineButton.addEventListener('click',function(){
 canvasDemo._config.loadFile = false;
-isDrawing = true;
 canvasDemo.addLine()
 });
 canvasDemo.addAggregationButton.addEventListener('click',function(){

@@ -201,7 +201,7 @@ var canvasDemo = (function()
     {
     // Add a function to add    \n_______________\n So users do not have to manualy add it
     // But also leave in the ablity for the user to use underscores if they are to lazy to learn where the button is? 
-      var textbox = new fabric.Textbox("TITLE\n_______________\n - method()1\n - method()2", {
+      var textbox = new fabric.Textbox(text, {
         left: 38,
         top: 50,
         width: 100,
