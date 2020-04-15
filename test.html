@@ -3,164 +3,151 @@
   <script type="text/javascript" src="External JS/jquery-3.2.1.js"></script>
   <script type="text/javascript" src="External JS/fabric.min.js"></script>
   <script type="text/javascript" src="External JS/fileSaver.js"></script>
-  
+
   
 </head>
 <body>
 <canvas id="c" width="800" height="600"></canvas>
 <input id="b" type="button" value="Save as Image" />
 <script>
-var canvas = new fabric.Canvas('c');
+
+const canvas = new fabric.Canvas("c", {stateful: true})
 
 
-function easyLine(coords) {
-	
-	function makeLineSegment(coords) {
-	    return new fabric.Line(coords, {
-	        fill: 'red',
-	        stroke: 'red',
-	        strokeWidth: 5,
-	        selectable: true,
-	        hasControls: false,
-	        //hoverCursor: 'pointer'
-	    });
-	}
-	var line = makeLineSegment(coords);
-	canvas.add(line);
-	
-	//use constant so custom clickable line end points are consistent UI size
-	var vertexRadius = 6;
-	
-	function vertex(x, y, line) {
-	    var c = new fabric.Circle({
-	        left: x,
-	        top: y,
-	        strokeWidth: 0.1,
-	        radius: vertexRadius,
-	        fill: '',
-	        stroke: 'red'
-	    });
-	    c.line = line;
-	    c.hasControls = false;
-	    c.hasBorders = true;
-	    return c;
-	}
-	
-	//add vertex points for ends of line
-	var headVertex = vertex(line.get('x1'), line.get('y1'), line),
-		tailVertex = vertex(line.get('x2'), line.get('y2'), line);
-	
-	canvas.add(headVertex, tailVertex);
-	
-	canvas.on('object:moving', function(e) {
-	    var p = e.target;
-	    console.log('--------------------------');
-	    console.log('object:moving');
-	    console.log(e);
-    	
-		//make sure we know where the point is referenced to
-    	move = p.getPointByOrigin('left','top');
-    	console.log('left:',move.x,' top:',move.y);
+fabric.RotatingLine = fabric.util.createClass(fabric.Line, {
+  minLength: 50, // we need to set this thing in px now
+  
+  initialize: function (points, options) {
+    const a = new fabric.Point(points[0], points[1])
+    const b = new fabric.Point(points[2], points[3])
+    // find this line's vector
+    const vectorB = b.subtract(a)
+    // find angle between line's vector and x axis
+    let angleRad = Math.atan2(vectorB.y, vectorB.x)
+    if (angleRad < 0) {
+      angleRad = 2 * Math.PI + angleRad
+    }
+    const angleDeg = fabric.util.radiansToDegrees(angleRad)
+    // find initial horizontal position by rotating the tip back
+    const c = fabric.util.rotatePoint(b.clone(), a, -angleRad)
+    options = options || {}
+    // finally, initialize using transform points to make a horizontal line
+    this.callSuper('initialize', [a.x, a.y, c.x, c.y], {
+      noScaleCache: false, // false to force cache update while scaling (doesn't redraw parts of line otherwise)
+      selectable: true,
+      evented: true, // true because you want to select line on click
+      //minScaleLimit: 0.25, // has no effect now because we're resetting scale on each scale event
+      lockRotation: false,
+      hasRotatingPoint: false, // to disable rotation control
+      centeredRotation: false,
+      centeredScaling: false,
+      
+      originX: "left",    // origin of rotation/transformation.      
+      originY: "bottom",    // origin of rotation/transformation.
+      
+      //lockMovementX: true,
+      //lockMovementY: true,
+      lockScalingFlip: true,
+      lockScalingX: false,
+      lockScalingY: false,
+      lockSkewingX: false,
+      lockSkewingY: false,
+      lockUniScaling: true,
+      ...options,
+      angle: angleDeg // note that we use the calculated angle no matter what
+    })
+    
+    this.setControlsVisibility({
+        tr: false,
+        tl: false,
+        mt: true, // middle top disable
+        mb: false, // midle bottom
+        ml: false, // middle left
+        mr: false, // I think you get it
+    })
+    
+    this.on('scaling', function (e) {
+	  // rotate to the pointer's x,y
 
-    	/* trying to deal with easyLines being in groups... beware of dragons
-	    if (p.objects && p.objects.length>0){
-		    //handle when easyLine's are being moved in a group!
-		    $(p.objects).each(function() {
-		    	console.log('\teach');
-		    	updateLocation(move.x, move.y, this);
-		    });
-	    }
-	    else {
-	    */
-	    	console.log('\tsingle');
-	    	updateLocation(move.x, move.y, p);
-	    //}
+	  console.log(e.transform.corner);
+	  if(e.transform.corner == "bl")
+	  {
+		
+		this.canvas._rotateObject(e.pointer.x, e.pointer.y)
+		this.set({left: this.x1, top: this.y1})
 
-	});
-	
-	function updateLocation(moveX, moveY, p){
-		console.log('\tupdateLocation()');
-		console.log(p);
-	    if (p==line) {
-	    	console.log('\t\tline');
+		const xOffset = (this.x2 - this.x1) * this.scaleX
+      const newLength = Math.max(this.minLength, xOffset)
 
-	    	//calculate location of line endpoints to update clickable vertexes on screen
-	    	var x1 = line.x1,
-	    		y1 = line.y1,
-	    		x2 = line.x2,
-	    		y2 = line.y2;
-	    	
-	    	if (x1<x2) { 
-	    		x2 = x2-x1 + moveX;
-	    		x1 = moveX;
-	    	}
-	    	else { 
-	    		x1 = x1-x2 + moveX;
-	    		x2 = moveX;
-	    	}
-	    	
-	    	if (y1<y2) {
-	    		y2 = y2-y1 + moveY;
-	    		y1 = moveY;
-	    	}
-	    	else {
-	    		y1 = y1 - y2 + moveY;
-	    		y2 = moveY;
-	    	}
-	    	
-	    	headVertex.set({
-	    		left: x1, 
-	    		top:  y1
-	    	});
-	    	tailVertex.set({
-	    		left: x2, 
-	    		top:  y2
-	    	});
-	    	
-	    	headVertex.setCoords();
-	    	tailVertex.setCoords();
-	    	//set the actual line the vertexs are attached to... cause.. ??
-	    	headVertex.line.set({
-		        'x1': x1,
-		        'y1': y1
-		    });
-	    	tailVertex.line.set({
-		        'x2': x2,
-		        'y2': y2
-		    });
-	    }
-	    
-	    if (p==headVertex) {
-	    	console.log('\t\thead vertex moving');
-	    	headVertex.line.set({
-		        'x1': p.left,
-		        'y1': p.top
-		    });
-		    //update location of line so selection box is correct
-		    line.setCoords();
-	    }
-	    if (p==tailVertex) {
-	    	console.log('\t\ttail vertex moving');
-	    	tailVertex.line.set({
-		        'x2': p.left,
-		        'y2': p.top
-		    });
-		    //update location of line so selection box is correct
-		    line.setCoords();
-	    }
-	    
-	    if (p==headVertex.line) {
-	    	console.log('\t\thead vertex moving....');
-	    }
-	    if (p==tailVertex.line) {
-	    	console.log('\t\ttail vertex moving....');
-	    }
-	}
+		this.set({
+        scaleX: 1,
+		scaleY: 1,
+		x1: this.x2 + newLength
+      })
 
-}
 
-easyLine([250, 250, 300, 350]);
-easyLine([450, 250, 500, 300]);
+
+	  }
+	  else if ( e.transform.corner == "br")
+	  {
+		this.canvas._rotateObject(e.pointer.x, e.pointer.y)
+      // while _rotateObject() tries to keep left/top at initial value,
+      // it sometimes fails because of rounding errors (?)
+      // so we need to do it manually again
+      this.set({left: this.x1, top: this.y1})
+      // calculate new length before resetting scale
+      const xOffset = (this.x2 - this.x1) * this.scaleX
+      const newLength = Math.max(this.minLength, xOffset)
+      // reset scaleX/scaleY and set new x coord for the tip point
+      this.set({
+        scaleX: 1,
+        scaleY: 1,
+        x2: this.x1 + newLength
+      })
+
+	  }
+
+    })
+  }
+})
+
+													   // Last value is the rotating point
+const line1 = new fabric.RotatingLine([ 200, 250, 330, 200 ], {
+  fill: 'red',
+  stroke: 'red',
+  strokeWidth: 3,
+});
+
+
+
+canvas.add(line1)
+
+// Disables group selection.
+canvas.on('selection:created', (e) => {
+  if(e.target.type === 'activeSelection') {
+    canvas.discardActiveObject();
+  } else {
+    //do nothing
+  }
+})
+
+// Keeps objects inside canvas. undos move/rotate/scale out of canvas.
+canvas.on('object:modified', function (options) {
+    let obj = options.target;
+    let boundingRect = obj.getBoundingRect(true);
+    if (boundingRect.left < 0
+        || boundingRect.top < 0
+        || boundingRect.left + boundingRect.width > canvas.getWidth()
+        || boundingRect.top + boundingRect.height > canvas.getHeight()) {
+        obj.top = obj._stateProperties.top;
+        obj.left = obj._stateProperties.left;
+        obj.angle = obj._stateProperties.angle;
+        obj.scaleX = obj._stateProperties.scaleX;
+        obj.scaleY = obj._stateProperties.scaleY;
+        obj.setCoords();
+        obj.saveState();
+    }
+});
 </script>
 
 </body>

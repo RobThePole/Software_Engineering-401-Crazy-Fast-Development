@@ -231,9 +231,53 @@ function addLine(){
       img.scale(0.5).set({
       left: 122,
       top: 50,
+      minLength: 50,
 	  centeredRotation: true,
-      angle: 0
+      angle: 0,
+
     });
+
+    img.setControlsVisibility({
+      tr: false,
+      tl: false,
+      bl: false,
+      br: false,
+      mt: false, // middle top disable
+      mb: false, // midle bottom
+  })
+    
+    img.on('scaling', function (e) {
+      // rotate to the pointer's x,y
+      if(e.transform.corner == "ml")
+      {
+        console.log(e.transform.offsetX);
+        img.canvas._rotateObject(e.pointer.x, e.pointer.y)
+        img.set({left: e.pointer.x - 10, top: e.pointer.y - 25})
+
+        img.set({
+          scaleX: .5,
+          scaleY: .5
+        })
+ 
+      }
+      else if(e.transform.corner == "mr")
+      {
+        img.canvas._rotateObject(e.pointer.x, e.pointer.y)
+        // while _rotateObject() tries to keep left/top at initial value,
+        // it sometimes fails because of rounding errors (?)
+        // so we need to do it manually again
+        img.set({right: e.pointer.x + 10, top: e.pointer.y + 25})
+        // calculate new length before resetting scale
+        // reset scaleX/scaleY and set new x coord for the tip point
+        img.set({
+          scaleX: .5,
+          scaleY: .5,
+        })
+      
+      }
+    })
+      // Current Control of the line is based off the 
+      
     
     canvas.add(img).setActiveObject(img);
     });
