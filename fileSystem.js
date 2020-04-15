@@ -32,7 +32,6 @@ $("#exportImage").on('click', function (e)
 });
 var load = function(e)
 {
-  canvasDemo._config.loadFile = true;
   e.preventDefault();
   $("#loadFileInput:hidden").trigger('click');
   var fileInput = document.getElementById('loadFileInput');
@@ -102,7 +101,7 @@ function SaveAsFile(t, f, m)
 
 var save = function()
 {
-  var jsonData = canvasDemo.canvas.toJSON(["selectable", "evented"]);
+  var jsonData = canvasDemo.canvas.toJSON(['_controlsVisibility']);
   /* Act on the event */
   // Figure out how to save objects and then
   // Save must have Always ask you where to save files to change name of file
@@ -127,7 +126,7 @@ var updateCanvasState = function()
   if(canvasDemo._config.undoStatus == false && canvasDemo._config.redoStatus == false)
   {
     // load the data 
-    var jsonData        = canvasDemo.canvas.toJSON();   
+    var jsonData        = canvasDemo.canvas.toJSON(['_controlsVisibility']);   
     var canvasAsJson        = JSON.stringify(jsonData);
     
     // When you open the program or load a file the first index of the array saves the default version of the file.
