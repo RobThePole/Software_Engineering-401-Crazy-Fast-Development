@@ -191,6 +191,7 @@ var canvasDemo = (function()
               centeredRotation: true
              
       });
+	  
             canvas.add(rect);
             canvas.setActiveObject(rect);
             canvas.renderAll();
@@ -216,7 +217,13 @@ var canvasDemo = (function()
         showTextBoxBorder: true,
       });
 	  
-    
+	textbox.setControlsVisibility({
+	  mt: false,
+	  mb: false,
+      mr: false,
+      ml: false,
+    })
+
     canvas.add(textbox);
 
     
@@ -230,9 +237,10 @@ function addLine(){
 	fabric.Image.fromURL('images/CommCanvas.png', function(img) {
       img.scale(0.5).set({
       left: 122,
-      top: 50,
+      top: 5,
       minLength: 50,
-	  centeredRotation: true,
+	  centeredRotation: false,
+	  rightRotation: true,
       angle: 0,
 
     });
@@ -242,6 +250,8 @@ function addLine(){
       tl: false,
       bl: false,
       br: false,
+	  mr: false,
+	  ml: false,
       mt: false, // middle top disable
       mb: false, // midle bottom
   })
@@ -293,8 +303,17 @@ function addAggregation(){
       angle: 0
     });
     
+	img.setControlsVisibility({
+	  mt: false,
+	  mb: false,
+      mr: false,
+      ml: false,
+    })
+
+	
     canvas.add(img).setActiveObject(img);
     });
+	
 
 }
 
@@ -308,7 +327,12 @@ function addArrow(){
 	  centeredRotation: true,
       angle: 0
     });
-    
+    img.setControlsVisibility({
+	  mt: false,
+	  mb: false,
+      mr: false,
+      ml: false,
+    })
     canvas.add(img).setActiveObject(img);
     });
 
@@ -324,7 +348,12 @@ function addComposition(){
 	  centeredRotation: true,
       angle: 0
     });
-    
+    img.setControlsVisibility({
+	  mt: false,
+	  mb: false,
+      mr: false,
+      ml: false,
+    })
     canvas.add(img).setActiveObject(img);
     });
 
@@ -340,7 +369,12 @@ function addDependency(){
 	  centeredRotation: true,
       angle: 0
     });
-    
+    img.setControlsVisibility({
+	  mt: false,
+	  mb: false,
+      mr: false,
+      ml: false,
+    })
     canvas.add(img).setActiveObject(img);
     });
 
@@ -389,6 +423,13 @@ function addDependency(){
     shadow: 'rgba(0,0,0,0.4) 5px 5px 7px'
     });
     
+	ellipse.setControlsVisibility({
+	  mt: false,
+	  mb: false,
+      mr: false,
+      ml: false,
+    })
+	
     canvas.add(ellipse);
     }
     // Ellipse Ends 
@@ -414,6 +455,13 @@ function addDependency(){
     }
     });
   
+	t1.setControlsVisibility({
+	  mt: false,
+	  mb: false,
+      mr: false,
+      ml: false,
+    })
+  
     canvas.add(t1);
       
     }
@@ -428,7 +476,12 @@ function addDependency(){
 	  centeredRotation: true,
       angle: 0
     });
-    
+    img.setControlsVisibility({
+	  mt: false,
+	  mb: false,
+      mr: false,
+      ml: false,
+    })
     canvas.add(img).setActiveObject(img);
     });
           
@@ -445,7 +498,12 @@ function addDependency(){
 	  centeredRotation: true,
       angle: 0
     });
-    
+    img.setControlsVisibility({
+	  mt: false,
+	  mb: false,
+      mr: false,
+      ml: false,
+    })
     canvas.add(img).setActiveObject(img);
     });
         
@@ -462,6 +520,14 @@ function addDependency(){
       top: 50,
       angle: 0
     });
+	
+	img.setControlsVisibility({
+	  mt: false,
+	  mb: false,
+      mr: false,
+      ml: false,
+    })
+	
     canvas.add(img).setActiveObject(img);
     });
         
