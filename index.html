@@ -36,38 +36,39 @@
                     <input type = "file" id = "loadFileInput" accept = ".json" />
                 </form>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Close</a>
+                <a class="dropdown-item" id = "exportImage" href="#">Export</a>
             </div>
         </li>
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="EditnavbarDropdown" role="button"
-            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Edit
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Find</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Edit Data
-                <else></else>
-            </a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Select All</a>
-        </div>
-    </li>
+        
 </ul>
 </div>
 </nav>
 <!--Navigation Bar END-->
 
 <!--Main Div-->
-<div class="row row_margin" style="height: 100%;">
+<div class="row row_margin" style="height: 100%;margin-right: 0px;margin-left: -15px;">
     <!--Left Panel-->
-    <div class="col-md-2" style="border-right: 2px solid #dadce0 ">
-        <div style="overflow: auto;height: 80%;">
+	
+    <div class="col-md-2" id="leftPanel" style="border-right: 2px solid #dadce0; padding-right: 0px; padding-left: 0px; ">
+	<!--Action Buttons-->
+	<div class="row justify-content-md-center">
+		<button class="btn btn-sm mt-2 mb-2 btn-danger mr-1" type="button" style="" id = "redo">Redo
+		</button>
+		<button class="btn btn-sm mt-2 mb-2 btn-info" type="button" style="" id = "undo">Undo
+		</button>
+		<button class="btn btn-sm mt-2 mb-2 btn-danger mr-1" type="button" style="" id="deleteObj">Delete
+		</button>
+	</div>
+	<div class="row justify-content-md-center">
+    <button class="btn btn-lg mt-1 mb-1 btn-success" type="button" style="height: 50px" id="btn_getStarted">Get
+        Started
+		</button>
+	</div>
+        <div style="overflow: auto;height: 80%; ">
+		
             <h6 class="text-success text-center p-4">Diagram Type</h6>
             <!--Class Accordion-->
-            <div id="classaccordion" class="d-none mt-2">
+            <div id="classaccordion" class="d-none mt-2" style="margin: 25px">
                 <div class="card">
                     <div class="card-header clsTab outline-primary" id="classTab">
                         <h5 class="mb-0">
@@ -82,27 +83,32 @@
                 <div id="classTabCollapse" class="collapse show" aria-labelledby="classTab"
                 data-parent="#classaccordion">
                 <div class="card-body cardBody">
-                    <button  type="button" onclick="addRectangle()" class="btn btn-outline-secondary leftPanelBtnCls"><img
-                        src="images/class.png" alt="image">
+                    <button  type="button" id="addTextBoxButton" class="btn btn-outline-secondary leftPanelBtnCls"><img
+                        src="images/CTextBox.png" alt="image">
                     </button>
-                    <button type="button" onclick="addCircle()" class="btn btn-outline-secondary leftPanelBtnCls"><img
-                        src="images/class.png" alt="image">
+                    <button type="button" id = "addLineButton" class="btn btn-outline-secondary leftPanelBtnCls"><img
+                        src="images/SimpleAssociationC.png" alt="image">
+					</button>
+                    
+                    <button type="button" id = "addAggregationButton" class="btn btn-outline-secondary leftPanelBtnCls"><img
+                        src="images/AggregationC.png" alt="image">
+					</button>
+                    <button type="button"  id = "addArrowButton"class="btn btn-outline-secondary leftPanelBtnCls"><img
+                        src="images/ArrowC.png" alt="image">
                     </button>
-                    <button type="button" onclick="addTextBox()"class="btn btn-outline-secondary leftPanelBtnCls"><img
-                        src="images/class.png" alt="image">
+                    <button type="button" id = "addCompositionButton" class="btn btn-outline-secondary leftPanelBtnCls"><img
+                        src="images/CompositionC.png" alt="image">
                     </button>
-                    <button type="button" onclick="addLine()" class="btn btn-outline-secondary leftPanelBtnCls"><img
-                        src="images/class.png" alt="image">
+                    <button type="button" id = "addDependencyButton"class="btn btn-outline-secondary leftPanelBtnCls"><img
+                        src="images/DependencyC.png" alt="image">
                     </button>
-                    <button type="button" class="btn btn-outline-secondary leftPanelBtnCls"><img
-                        src="images/class.png" alt="image">
-                    </button>
+                   
                 </div>
             </div>
         </div>
     </div>
     <!--Object Accordion-->
-    <div id="Objectaccordion" class="d-none mt-2">
+    <div id="Objectaccordion" class="d-none mt-2" style="margin: 25px">
         <div class="card">
             <div class="card-header clsTab" id="objectTab" data-toggle="collapse"
             data-target="#objectTabCollapse"
@@ -139,7 +145,7 @@
 </div>
 </div>
 <!--Use case Accordion-->
-<div id="usecaseaccordion" class="d-none mt-2">
+<div id="usecaseaccordion" class="d-none mt-2" style="margin: 25px">
     <div class="card">
         <div class="card-header clsTab" id="usecaseTab" data-toggle="collapse"
         data-target="#usecaseTabCollapse"
@@ -155,20 +161,26 @@
     data-parent="#usecaseaccordion">
     <div class="card-body cardBody">
         <div class="card-body cardBody">
-            <button type="button" class="btn btn-outline-secondary leftPanelBtnCls"><img
-                src="images/use.png" alt="image">
+            <button type="button" id = "addActorButton"class="btn btn-outline-secondary leftPanelBtnCls"><img
+                src="images/ActorU.png" alt="image">
             </button>
-            <button type="button" class="btn btn-outline-secondary leftPanelBtnCls"><img
-                src="images/use.png" alt="image">
+            <button type="button" id = "addEllipseButton" class="btn btn-outline-secondary leftPanelBtnCls"><img
+                src="images/UseCaseU.png" alt="image">
             </button>
-            <button type="button" class="btn btn-outline-secondary leftPanelBtnCls"><img
-                src="images/use.png" alt="image">
+            <button type="button" id = "addLabelButton" class="btn btn-outline-secondary leftPanelBtnCls"><img
+                src="images/LabelU.png" alt="image">
             </button>
-            <button type="button" class="btn btn-outline-secondary leftPanelBtnCls"><img
-                src="images/use.png" alt="image">
+            <button type="button" id = "addRectangleButton" class="btn btn-outline-secondary leftPanelBtnCls"><img
+                src="images/SystemU.png" alt="image">
             </button>
-            <button type="button" class="btn btn-outline-secondary leftPanelBtnCls"><img
-                src="images/use.png" alt="image">
+            <button type="button" id ="addGenArrowButton" class="btn btn-outline-secondary leftPanelBtnCls"><img
+                src="images/GenArrowU.png" alt="image">
+            </button>
+			<button type="button" id ="addDashedArrowButton"  class="btn btn-outline-secondary leftPanelBtnCls"><img
+                src="images/DashArrowU.png" alt="image">
+            </button>
+			<button type="button"  id ="addComLineButton" class="btn btn-outline-secondary leftPanelBtnCls"><img
+                src="images/CommLinkU.png" alt="image">
             </button>
         </div>
     </div>
@@ -176,7 +188,7 @@
 </div>
 </div>
 <!--Activity Accordion-->
-<div id="activityaccordion" class="d-none mt-2">
+<div id="activityaccordion" class="d-none mt-2" style="margin: 25px">
     <div class="card">
         <div class="card-header clsTab" id="activityTab" data-toggle="collapse"
         data-target="#activityTabCollapse"
@@ -213,7 +225,7 @@
 </div>
 </div>
 <!--Sequence Accordion-->
-<div id="sequenceaccordion" class="d-none mt-2">
+<div id="sequenceaccordion" class="d-none mt-2" style="margin: 25px">
     <div class="card">
         <div class="card-header clsTab" id="sequenceTab" data-toggle="collapse"
         data-target="#sequenceTabCollapse"
@@ -252,26 +264,11 @@
 </div>
 
 
-<!--Action Buttons-->
-<div class="row justify-content-md-center">
-    <button class="btn btn-sm mt-2 mb-2 btn-danger mr-1" type="button" style="">Reset
-    </button>
-    <button class="btn btn-sm mt-2 mb-2 btn-info" type="button" style="">Undo
-    </button>
-    <button class="btn btn-sm mt-2 mb-2 btn-danger mr-1" type="button" style="" id="deleteObj">Delete
-    </button>
-</div>
-<div class="row justify-content-md-center">
-    <button class="btn btn-lg mt-1 mb-1 btn-success" type="button" style="height: 50px" id="btn_getStarted">Get
-        Started
-    </button>
-</div>
-
 </div>
 <!--Left Panel END-->
 
 <!--Right Panel-->
-<div class="col-md-10">
+<div class="col-md-10" style="padding-right: 0px;padding-left: 0px;">
     <!--Type Buttons-->
     <div class="container mt-2 mb-2">
         <div class="row justify-content-md-center">
@@ -292,9 +289,9 @@
             </div>
         </div>
     </div>
- <!-- ***  Canvas Area *** -->
-    <div class="card" style="">
-		<canvas id="c" style=""></canvas>
+ <!-- ***  Canvas Area *** --> <!--Add new class-->
+    <div class="card canvasCardCss" style="">
+		<canvas id="canvas" style=""></canvas>
 
     </div>
 </div>
@@ -359,19 +356,12 @@
 <script type="text/javascript" src="External JS/bootstrap-4.0.js"></script>
 <script type="text/javascript" src="External JS/fileSaver.js"></script>
 
+<script src="script.js"></script>
+<script src="poly.js"></script>
+<script src="fileSystem.js"></script>
+<script src="canvasFunctions.js"></script>
+<script src="keyBoardShortCut.js"></script>
 
-<script>
-    <!-- $(document).load(function() { -->
-    /* Act on the event */
-    $("#c").attr({
-        /*Get div width height*/
-    width: window.innerWidth - 250,
-    height: window.innerHeight - 150
-    });
-// });
-</script>
-<!-- Main Javascript File --> 
-<script type="text/javascript" src="script.js"></script>
 
 
 </body>
