@@ -41,6 +41,7 @@ var canvasDemo = (function()
     
         fabric.Textbox.prototype.cacheProperties = fabric.Textbox.prototype.cacheProperties.concat('active');
     }
+    
     // End of cache system
 
     var _config = 
@@ -60,6 +61,7 @@ var canvasDemo = (function()
       addActorButton          : document.getElementById('addActorButton'),
       addEllipseButton		    : document.getElementById('addEllipseButton'),
       addLabelButton			    : document.getElementById('addLabelButton'),
+      addLabelButtonObject			    : document.getElementById('addLabelButtonObject'),
       addGenArrowButton		    : document.getElementById('addGenArrowButton'),
       addDashedArrowButton	  : document.getElementById('addDashedArrowButton'),
       addComLineButton		    : document.getElementById('addComLineButton'),
@@ -67,7 +69,14 @@ var canvasDemo = (function()
 			addAggregationButton    : document.getElementById('addAggregationButton'),
       addArrowButton          : document.getElementById('addArrowButton'),
 			addCompositionButton    : document.getElementById('addCompositionButton'),
-      addDependencyButton          : document.getElementById('addDependencyButton'),
+      addDependencyButton     : document.getElementById('addDependencyButton'),
+      addTextBoxButtonObject        : document.getElementById('addTextBoxButtonObject'),
+      addLineButtonObject           : document.getElementById('addLineButtonObject'),
+			addAggregationButtonObject    : document.getElementById('addAggregationButtonObject'),
+      addArrowButtonObject          : document.getElementById('addArrowButtonObject'),
+			addCompositionButtonObject    : document.getElementById('addCompositionButtonObject'),
+      addDependencyButtonObject     : document.getElementById('addDependencyButtonObject'),
+
 
     };
     // Makes sure if you mult-select as your first action on a loaded file to set to false
@@ -191,7 +200,6 @@ var canvasDemo = (function()
               centeredRotation: true
              
       });
-	  
             canvas.add(rect);
             canvas.setActiveObject(rect);
             canvas.renderAll();
@@ -217,13 +225,7 @@ var canvasDemo = (function()
         showTextBoxBorder: true,
       });
 	  
-	textbox.setControlsVisibility({
-	  mt: false,
-	  mb: false,
-      mr: false,
-      ml: false,
-    })
-
+    
     canvas.add(textbox);
 
     
@@ -237,10 +239,9 @@ function addLine(){
 	fabric.Image.fromURL('images/CommCanvas.png', function(img) {
       img.scale(0.5).set({
       left: 122,
-      top: 5,
+      top: 50,
       minLength: 50,
-	  centeredRotation: false,
-	  rightRotation: true,
+	  centeredRotation: true,
       angle: 0,
 
     });
@@ -250,42 +251,40 @@ function addLine(){
       tl: false,
       bl: false,
       br: false,
-	  mr: false,
-	  ml: false,
       mt: false, // middle top disable
       mb: false, // midle bottom
   })
     
-    img.on('scaling', function (e) {
-      // rotate to the pointer's x,y
-      if(e.transform.corner == "ml")
-      {
-        console.log(e.transform.offsetX);
-        img.canvas._rotateObject(e.pointer.x, e.pointer.y)
-        img.set({left: e.pointer.x - 10, top: e.pointer.y - 25})
+    // img.on('scaling', function (e) {
+    //   // rotate to the pointer's x,y
+    //   if(e.transform.corner == "ml")
+    //   {
+    //     console.log(e.transform.offsetX);
+    //     img.canvas._rotateObject(e.pointer.x, e.pointer.y)
+    //     img.set({left: e.pointer.x - 10, top: e.pointer.y - 25})
 
-        img.set({
-          scaleX: .5,
-          scaleY: .5
-        })
+    //     img.set({
+    //       scaleX: .5,
+    //       scaleY: .5
+    //     })
  
-      }
-      else if(e.transform.corner == "mr")
-      {
-        img.canvas._rotateObject(e.pointer.x, e.pointer.y)
-        // while _rotateObject() tries to keep left/top at initial value,
-        // it sometimes fails because of rounding errors (?)
-        // so we need to do it manually again
-        img.set({right: e.pointer.x + 10, top: e.pointer.y + 25})
-        // calculate new length before resetting scale
-        // reset scaleX/scaleY and set new x coord for the tip point
-        img.set({
-          scaleX: .5,
-          scaleY: .5,
-        })
+    //   }
+    //   else if(e.transform.corner == "mr")
+    //   {
+    //     img.canvas._rotateObject(e.pointer.x, e.pointer.y)
+    //     // while _rotateObject() tries to keep left/top at initial value,
+    //     // it sometimes fails because of rounding errors (?)
+    //     // so we need to do it manually again
+    //     img.set({right: e.pointer.x + 10, top: e.pointer.y + 25})
+    //     // calculate new length before resetting scale
+    //     // reset scaleX/scaleY and set new x coord for the tip point
+    //     img.set({
+    //       scaleX: .5,
+    //       scaleY: .5,
+    //     })
       
-      }
-    })
+    //   }
+    //})
       // Current Control of the line is based off the 
       
     
@@ -303,17 +302,8 @@ function addAggregation(){
       angle: 0
     });
     
-	img.setControlsVisibility({
-	  mt: false,
-	  mb: false,
-      mr: false,
-      ml: false,
-    })
-
-	
     canvas.add(img).setActiveObject(img);
     });
-	
 
 }
 
@@ -327,12 +317,7 @@ function addArrow(){
 	  centeredRotation: true,
       angle: 0
     });
-    img.setControlsVisibility({
-	  mt: false,
-	  mb: false,
-      mr: false,
-      ml: false,
-    })
+    
     canvas.add(img).setActiveObject(img);
     });
 
@@ -348,12 +333,7 @@ function addComposition(){
 	  centeredRotation: true,
       angle: 0
     });
-    img.setControlsVisibility({
-	  mt: false,
-	  mb: false,
-      mr: false,
-      ml: false,
-    })
+    
     canvas.add(img).setActiveObject(img);
     });
 
@@ -369,12 +349,7 @@ function addDependency(){
 	  centeredRotation: true,
       angle: 0
     });
-    img.setControlsVisibility({
-	  mt: false,
-	  mb: false,
-      mr: false,
-      ml: false,
-    })
+    
     canvas.add(img).setActiveObject(img);
     });
 
@@ -423,22 +398,15 @@ function addDependency(){
     shadow: 'rgba(0,0,0,0.4) 5px 5px 7px'
     });
     
-	ellipse.setControlsVisibility({
-	  mt: false,
-	  mb: false,
-      mr: false,
-      ml: false,
-    })
-	
     canvas.add(ellipse);
     }
     // Ellipse Ends 
     
     // Label Starts 
     
-    var addLabel = function() {
+    var addLabel = function(text) {
       
-    var t1 = new fabric.Textbox('LABEL', {
+    var t1 = new fabric.Textbox(text, {
       width: 122,
       top: 50,
       left: 5,
@@ -455,13 +423,6 @@ function addDependency(){
     }
     });
   
-	t1.setControlsVisibility({
-	  mt: false,
-	  mb: false,
-      mr: false,
-      ml: false,
-    })
-  
     canvas.add(t1);
       
     }
@@ -476,12 +437,7 @@ function addDependency(){
 	  centeredRotation: true,
       angle: 0
     });
-    img.setControlsVisibility({
-	  mt: false,
-	  mb: false,
-      mr: false,
-      ml: false,
-    })
+    
     canvas.add(img).setActiveObject(img);
     });
           
@@ -498,12 +454,7 @@ function addDependency(){
 	  centeredRotation: true,
       angle: 0
     });
-    img.setControlsVisibility({
-	  mt: false,
-	  mb: false,
-      mr: false,
-      ml: false,
-    })
+    
     canvas.add(img).setActiveObject(img);
     });
         
@@ -520,14 +471,6 @@ function addDependency(){
       top: 50,
       angle: 0
     });
-	
-	img.setControlsVisibility({
-	  mt: false,
-	  mb: false,
-      mr: false,
-      ml: false,
-    })
-	
     canvas.add(img).setActiveObject(img);
     });
         
@@ -573,9 +516,11 @@ function addDependency(){
           redoButton : _config.redoButton,
           addRectangleButton : _config.addRectangleButton,
           addTextBoxButton  : _config.addTextBoxButton,
+          addTextBoxButtonObject  : _config.addTextBoxButtonObject,
           addActorButton    : _config.addActorButton,
           addEllipseButton	: _config.addEllipseButton,
           addLabelButton 	: _config.addLabelButton,
+          addLabelButtonObject 	: _config.addLabelButtonObject,
           addGenArrowButton : _config.addGenArrowButton,
           addDashedArrowButton : _config.addDashedArrowButton,
           addComLineButton	: _config.addComLineButton,
@@ -587,7 +532,13 @@ function addDependency(){
 		      addAggregationButton    :  _config.addAggregationButton,
 		      addCompositionButton    :  _config.addCompositionButton,
 		      addArrowButton          :  _config.addArrowButton,
-		      addDependencyButton     :  _config.addDependencyButton,
+          addDependencyButton     :  _config.addDependencyButton,
+          addLineButtonObject: _config.addLineButtonObject,
+		      addAggregationButtonObject    :  _config.addAggregationButtonObject,
+		      addCompositionButtonObject    :  _config.addCompositionButtonObject,
+		      addArrowButtonObject          :  _config.addArrowButtonObject,
+		      addDependencyButtonObject     :  _config.addDependencyButtonObject,
               }
     })();
 
+  

@@ -25,6 +25,11 @@ canvasDemo._config.loadFile = false;
 
 canvasDemo.addTextBox("TITLE\n_______________\n - method()1\n - method()2\n_______________\n - method()1");
 });
+canvasDemo.addTextBoxButtonObject.addEventListener('click',function(){
+  canvasDemo._config.loadFile = false;
+  
+  canvasDemo.addTextBox("TITLE\n_______________\n - method()1");
+  });
 canvasDemo.addActorButton.addEventListener('click',function(){
 canvasDemo._config.loadFile = false;
 
@@ -38,8 +43,13 @@ canvasDemo.addEllipse()
 canvasDemo.addLabelButton.addEventListener('click',function(){
 canvasDemo._config.loadFile = false;
 
-canvasDemo.addLabel()
+canvasDemo.addLabel("LABEL")
 });
+canvasDemo.addLabelButtonObject.addEventListener('click',function(){
+  canvasDemo._config.loadFile = false;
+  
+  canvasDemo.addLabel("Object")
+  });
 canvasDemo.addGenArrowButton.addEventListener('click',function(){
 canvasDemo._config.loadFile = false;
 
@@ -79,9 +89,38 @@ canvasDemo.addArrowButton.addEventListener('click',function(){
 
   canvasDemo.addArrow()
 });
+
+//
+canvasDemo.addLineButtonObject.addEventListener('click',function(){
+  canvasDemo._config.loadFile = false;
+  canvasDemo.addLine()
+  });
+  canvasDemo.addAggregationButtonObject.addEventListener('click',function(){
+    canvasDemo._config.loadFile = false;
+  
+    canvasDemo.addAggregation()
+  });
+  canvasDemo.addCompositionButtonObject.addEventListener('click',function(){
+    canvasDemo._config.loadFile = false;
+  
+    canvasDemo.addComposition()
+  });
+  canvasDemo.addDependencyButtonObject.addEventListener('click',function(){
+    canvasDemo._config.loadFile = false;
+  
+    canvasDemo.addDependency()
+  });
+  canvasDemo.addArrowButtonObject.addEventListener('click',function(){
+    canvasDemo._config.loadFile = false;
+  
+    canvasDemo.addArrow()
+  });
+
+
 // Used this for start of file to make sure default is part of history
 canvasDemo._config.loadFile = true;
 updateCanvasState();
+
 
 
 //canvasDemo.CanvasGrid();
