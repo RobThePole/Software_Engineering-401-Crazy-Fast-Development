@@ -23,12 +23,12 @@ canvasDemo._config.loadFile = false;
 canvasDemo.addTextBoxButton.addEventListener('click',function(){
 canvasDemo._config.loadFile = false;
 
-canvasDemo.addTextBox("TITLE\n_______________\n - method()1\n - method()2\n_______________\n - method()1");
+canvasDemo.addTextBox("TITLE\n______________________\n - method()1\n - method()2\n______________________\n - method()1");
 });
 canvasDemo.addTextBoxButtonObject.addEventListener('click',function(){
   canvasDemo._config.loadFile = false;
   
-  canvasDemo.addTextBox("TITLE\n_______________\n - method()1");
+  canvasDemo.addTextBox("TITLE\n______________________\n - method()1");
   });
 canvasDemo.addActorButton.addEventListener('click',function(){
 canvasDemo._config.loadFile = false;

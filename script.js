@@ -213,7 +213,7 @@ var canvasDemo = (function()
       var textbox = new fabric.Textbox(text, {
         left: 38,
         top: 50,
-        width: 100,
+        width: 200,
 		textAlign: 'center',
         fontSize: 16,
         fontFamily: 'Arial',
