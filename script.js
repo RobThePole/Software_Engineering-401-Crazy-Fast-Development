@@ -190,7 +190,7 @@ var canvasDemo = (function()
               left   : 600,
               top    : 100,
               width  : 350,
-              height : 600,
+              height : 500,
               originX: 'left',
               originY: 'top',
               stroke: 'black',
