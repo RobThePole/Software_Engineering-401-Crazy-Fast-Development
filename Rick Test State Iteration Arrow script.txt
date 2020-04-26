@@ -1,0 +1,56 @@
+//
+// * * * * * * * START html script for iteration / self transition * * * * * * *
+//
+<div class="arrow">
+    <div class="circle"></div>
+    <div class="triangle"></div>
+</div>
+//
+// * * * * * * * END html script for iteration / self transition * * * * * * *
+//
+// * * * * * * * START css script for iteration / self transition * * * * * * *
+//
+.arrow 
+{
+    position: relative;
+    padding: 20px;
+    width: 100px;
+    height: 100px;
+}
+.circle 
+{
+    position: absolute;
+    box-sizing: border-box;
+    height: 100px;
+    width: 100px;
+    border: 15px solid #000;
+    border-radius: 75%;
+    -webkit-clip-path: inset( 0 50% 0 0 );
+    clip-path: inset( 0 15% 0 0 );
+}
+.triangle 
+{
+    position: absolute;
+    width: 35px;
+    height: 30px;
+    background: #000;
+    margin-top: -6px;
+    margin-left: 38px;
+    -webkit-clip-path: polygon( 50% 0, 0% 100%, 100% 100% );
+    clip-path: polygon( 50% 0, 0% 100%, 100% 100% );
+    -moz-transform: rotate( 90deg );
+    -webkit-transform: rotate( 90deg );
+    -o-transform: rotate( 90deg );
+    -ms-transform: rotate( 90deg );
+    transform: rotate( 90deg );
+}
+// arrow rotattion
+.arrow:hover 
+{
+    -webkit-transform: rotate( 360deg );
+    -ms-transform: rotate( 360deg );
+    transform: rotate( 360deg );
+    transition: all 1.2s;
+}
+//
+// * * * * * * * START css script for iteration / self transition * * * * * * *
